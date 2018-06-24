@@ -29,73 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevComponents.DotNetBar.Charts.ChartXy chartXy1 = new DevComponents.DotNetBar.Charts.ChartXy();
-            DevComponents.DotNetBar.Charts.AxisStripe axisStripe1 = new DevComponents.DotNetBar.Charts.AxisStripe();
-            DevComponents.DotNetBar.Charts.Style.Background background1 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background2 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background3 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Padding padding1 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.Style.Background background4 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.ChartSeries chartSeries1 = new DevComponents.DotNetBar.Charts.ChartSeries();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint1 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint2 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint3 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint4 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint5 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint6 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint7 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint8 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint9 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint10 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint11 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint12 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint13 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint14 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint15 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint16 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint17 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint18 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint19 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint20 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint21 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint22 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint23 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint24 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint25 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint26 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint27 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint28 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint29 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint30 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.SeriesPoint seriesPoint31 = new DevComponents.DotNetBar.Charts.SeriesPoint();
-            DevComponents.DotNetBar.Charts.Style.Background background5 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background6 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.BorderColor borderColor1 = new DevComponents.DotNetBar.Charts.Style.BorderColor();
-            DevComponents.DotNetBar.Charts.Style.Thickness thickness1 = new DevComponents.DotNetBar.Charts.Style.Thickness();
-            DevComponents.DotNetBar.Charts.Style.Padding padding2 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.Style.Background background7 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.BorderColor borderColor2 = new DevComponents.DotNetBar.Charts.Style.BorderColor();
-            DevComponents.DotNetBar.Charts.Style.Thickness thickness2 = new DevComponents.DotNetBar.Charts.Style.Thickness();
-            DevComponents.DotNetBar.Charts.Style.Padding padding3 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.Style.Background background8 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.BorderColor borderColor3 = new DevComponents.DotNetBar.Charts.Style.BorderColor();
-            DevComponents.DotNetBar.Charts.Style.Thickness thickness3 = new DevComponents.DotNetBar.Charts.Style.Thickness();
-            DevComponents.DotNetBar.Charts.Style.Padding padding4 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.Style.Padding padding5 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.ChartTitle chartTitle1 = new DevComponents.DotNetBar.Charts.ChartTitle();
-            DevComponents.DotNetBar.Charts.Style.Background background9 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.BorderColor borderColor4 = new DevComponents.DotNetBar.Charts.Style.BorderColor();
-            DevComponents.DotNetBar.Charts.Style.BorderPattern borderPattern1 = new DevComponents.DotNetBar.Charts.Style.BorderPattern();
-            DevComponents.DotNetBar.Charts.Style.Padding padding6 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.Style.Padding padding7 = new DevComponents.DotNetBar.Charts.Style.Padding();
-            DevComponents.DotNetBar.Charts.Style.Background background10 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background11 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background12 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background13 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background14 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background15 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background16 = new DevComponents.DotNetBar.Charts.Style.Background();
-            DevComponents.DotNetBar.Charts.Style.Background background17 = new DevComponents.DotNetBar.Charts.Style.Background();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.oriDataPanel = new DevComponents.DotNetBar.PanelEx();
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
@@ -109,9 +43,8 @@
             this.rcvRichTextBox = new DevComponents.DotNetBar.Controls.RichTextBoxEx();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.sideNav1 = new DevComponents.DotNetBar.Controls.SideNav();
-            this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
-            this.chartControl1 = new DevComponents.DotNetBar.Charts.ChartControl();
+            this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.detectNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.fullChartNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.sideNavPanel5 = new DevComponents.DotNetBar.Controls.SideNavPanel();
@@ -131,7 +64,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ipTextBox)).BeginInit();
             this.groupPanel1.SuspendLayout();
             this.sideNav1.SuspendLayout();
-            this.lenthFFTNavPanel.SuspendLayout();
             this.sideNavPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -236,7 +168,7 @@
             this.startBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.startBtn.TabIndex = 6;
             this.startBtn.Text = "启动";
-            this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
+            this.startBtn.Click += new System.EventHandler(this.StartBtn_Click);
             // 
             // labelX3
             // 
@@ -348,9 +280,9 @@
             // 
             // sideNav1
             // 
+            this.sideNav1.Controls.Add(this.lenthFFTNavPanel);
             this.sideNav1.Controls.Add(this.lenthPosNavPanel);
             this.sideNav1.Controls.Add(this.detectNavPanel);
-            this.sideNav1.Controls.Add(this.lenthFFTNavPanel);
             this.sideNav1.Controls.Add(this.fullChartNavPanel);
             this.sideNav1.Controls.Add(this.sideNavPanel5);
             this.sideNav1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -370,6 +302,15 @@
             this.sideNav1.TabIndex = 9;
             this.sideNav1.Text = "sideNav1";
             // 
+            // lenthFFTNavPanel
+            // 
+            this.lenthFFTNavPanel.AllowDrop = true;
+            this.lenthFFTNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lenthFFTNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.lenthFFTNavPanel.Name = "lenthFFTNavPanel";
+            this.lenthFFTNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.lenthFFTNavPanel.TabIndex = 6;
+            // 
             // lenthPosNavPanel
             // 
             this.lenthPosNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -377,361 +318,7 @@
             this.lenthPosNavPanel.Name = "lenthPosNavPanel";
             this.lenthPosNavPanel.Size = new System.Drawing.Size(706, 528);
             this.lenthPosNavPanel.TabIndex = 10;
-            // 
-            // lenthFFTNavPanel
-            // 
-            this.lenthFFTNavPanel.AllowDrop = true;
-            this.lenthFFTNavPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lenthFFTNavPanel.AutoScroll = true;
-            this.lenthFFTNavPanel.Controls.Add(this.chartControl1);
-            this.lenthFFTNavPanel.Location = new System.Drawing.Point(123, 38);
-            this.lenthFFTNavPanel.Name = "lenthFFTNavPanel";
-            this.lenthFFTNavPanel.Size = new System.Drawing.Size(706, 528);
-            this.lenthFFTNavPanel.TabIndex = 6;
-            this.lenthFFTNavPanel.Visible = false;
-            // 
-            // chartControl1
-            // 
-            this.chartControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chartControl1.BackColor = System.Drawing.Color.White;
-            chartXy1.AxisX.AxisFarMargin = 10;
-            chartXy1.AxisX.AxisMargins = 0;
-            chartXy1.AxisX.AxisNearMargin = 10;
-            background1.BackFillType = DevComponents.DotNetBar.Charts.Style.BackFillType.Auto;
-            background1.Color1 = System.Drawing.Color.Black;
-            axisStripe1.AxisStripeVisualStyle.Background = background1;
-            axisStripe1.ChartLegendItemVisualStyles.Default.AllowWrap = DevComponents.DotNetBar.Charts.Style.Tbool.True;
-            axisStripe1.ChartLegendItemVisualStyles.Default.TextColor = System.Drawing.Color.SteelBlue;
-            axisStripe1.CheckedInLegend = false;
-            axisStripe1.LegendText = "黑色背景";
-            axisStripe1.MaxValue = 9D;
-            axisStripe1.MinValue = 0D;
-            axisStripe1.Name = "blackstripe";
-            chartXy1.AxisX.AxisStripes.Add(axisStripe1);
-            background2.Color1 = System.Drawing.Color.Moccasin;
-            background2.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(20)))));
-            chartXy1.AxisX.ChartAxisVisualStyle.AlternateBackground = background2;
-            chartXy1.AxisX.GridSpacing = 1D;
-            chartXy1.AxisX.MajorGridLines.GridLinesVisualStyle.LineColor = System.Drawing.Color.Gainsboro;
-            chartXy1.AxisX.MajorGridLines.Visible = false;
-            chartXy1.AxisX.MajorTickmarks.ChartTickmarkVisualStyle.TickmarkAlignment = DevComponents.DotNetBar.Charts.Style.LineAlignment.Near;
-            chartXy1.AxisX.MajorTickmarks.LabelSkip = 1;
-            chartXy1.AxisX.MinGridInterval = 20;
-            chartXy1.AxisX.MinorGridLines.GridLinesVisualStyle.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartXy1.AxisX.MinorTickmarks.TickmarkCount = 0;
-            chartXy1.AxisX.Title.ChartTitleVisualStyle.Alignment = DevComponents.DotNetBar.Charts.Style.Alignment.BottomCenter;
-            chartXy1.AxisX.Title.ChartTitleVisualStyle.TextColor = System.Drawing.Color.Navy;
-            chartXy1.AxisX.Title.Name = null;
-            chartXy1.AxisX.Title.Text = "频率/256";
-            chartXy1.AxisX.UseAlternateBackground = true;
-            chartXy1.AxisY.AxisAlignment = DevComponents.DotNetBar.Charts.AxisAlignment.Far;
-            chartXy1.AxisY.AxisFarMargin = -5;
-            chartXy1.AxisY.AxisMargins = -5;
-            background3.Color1 = System.Drawing.Color.SeaShell;
-            background3.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(30)))));
-            chartXy1.AxisY.ChartAxisVisualStyle.AlternateBackground = background3;
-            chartXy1.AxisY.GridSpacing = 10D;
-            chartXy1.AxisY.MajorGridLines.GridLinesVisualStyle.LineColor = System.Drawing.Color.Gainsboro;
-            chartXy1.AxisY.MinGridInterval = 5;
-            chartXy1.AxisY.MinorGridLines.GridLinesVisualStyle.LineColor = System.Drawing.Color.WhiteSmoke;
-            chartXy1.AxisY.MinorTickmarks.TickmarkCount = 0;
-            chartXy1.AxisY.Title.ChartTitleVisualStyle.Alignment = DevComponents.DotNetBar.Charts.Style.Alignment.MiddleCenter;
-            chartXy1.AxisY.Title.ChartTitleVisualStyle.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            padding1.Bottom = 4;
-            padding1.Right = 4;
-            chartXy1.AxisY.Title.ChartTitleVisualStyle.Padding = padding1;
-            chartXy1.AxisY.Title.ChartTitleVisualStyle.TextColor = System.Drawing.Color.Navy;
-            chartXy1.AxisY.Title.Name = null;
-            chartXy1.AxisY.Title.Text = "FFT值";
-            chartXy1.AxisY.UseAutoMinGridInterval = false;
-            chartXy1.ChartCrosshair.CrosshairLabelMode = DevComponents.DotNetBar.Charts.CrosshairLabelMode.NearestSeries;
-            background4.Color1 = System.Drawing.Color.White;
-            chartXy1.ChartCrosshair.CrosshairVisualStyle.Background = background4;
-            chartXy1.ChartCrosshair.CrosshairVisualStyle.ValueXLineStyle.LinePattern = DevComponents.DotNetBar.Charts.Style.LinePattern.Dot;
-            chartXy1.ChartCrosshair.CrosshairVisualStyle.ValueYLineStyle.LinePattern = DevComponents.DotNetBar.Charts.Style.LinePattern.Dot;
-            chartXy1.ChartCrosshair.HighlightPoints = true;
-            chartXy1.ChartCrosshair.ShowCrosshairLabels = true;
-            chartXy1.ChartCrosshair.ShowValueXLabels = true;
-            chartXy1.ChartCrosshair.ShowValueXLine = true;
-            chartXy1.ChartCrosshair.ShowValueYLabels = true;
-            chartXy1.ChartCrosshair.ShowValueYLine = true;
-            chartXy1.ChartLineDisplayMode = ((DevComponents.DotNetBar.Charts.ChartLineDisplayMode)((DevComponents.DotNetBar.Charts.ChartLineDisplayMode.DisplayPoints | DevComponents.DotNetBar.Charts.ChartLineDisplayMode.DisplaySpline)));
-            chartSeries1.ChartSeriesVisualStyle.LineStyle.LinePattern = DevComponents.DotNetBar.Charts.Style.LinePattern.Dot;
-            chartSeries1.ChartSeriesVisualStyle.LineStyle.LineWidth = 5;
-            chartSeries1.CrosshairHighlightPoints = DevComponents.DotNetBar.Charts.Style.Tbool.True;
-            chartSeries1.EmptyValues = null;
-            chartSeries1.Name = "距离FFT曲线";
-            seriesPoint1.ValueX = 0D;
-            seriesPoint1.ValueY = new object[] {
-        ((object)(36D))};
-            seriesPoint2.ValueX = 1D;
-            seriesPoint2.ValueY = new object[] {
-        ((object)(38D))};
-            seriesPoint3.ValueX = 2D;
-            seriesPoint3.ValueY = new object[] {
-        ((object)(44D))};
-            seriesPoint4.ValueX = 3D;
-            seriesPoint4.ValueY = new object[] {
-        ((object)(23D))};
-            seriesPoint5.ValueX = 4D;
-            seriesPoint5.ValueY = new object[] {
-        ((object)(2D))};
-            seriesPoint6.ValueX = 5D;
-            seriesPoint6.ValueY = new object[] {
-        ((object)(46D))};
-            seriesPoint7.ValueX = 6D;
-            seriesPoint7.ValueY = new object[] {
-        ((object)(33D))};
-            seriesPoint8.ValueX = 7D;
-            seriesPoint8.ValueY = new object[] {
-        ((object)(38D))};
-            seriesPoint9.ValueX = 8D;
-            seriesPoint9.ValueY = new object[] {
-        ((object)(21D))};
-            seriesPoint10.ValueX = 10D;
-            seriesPoint10.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint11.ValueX = 11D;
-            seriesPoint11.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint12.ValueX = 12D;
-            seriesPoint12.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint13.ValueX = 13D;
-            seriesPoint13.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint14.ValueX = 14D;
-            seriesPoint14.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint15.ValueX = 15D;
-            seriesPoint15.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint16.ValueX = 16D;
-            seriesPoint16.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint17.ValueX = 17D;
-            seriesPoint17.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint18.ValueX = 18D;
-            seriesPoint18.ValueY = new object[] {
-        ((object)(38D))};
-            seriesPoint19.ValueX = 19D;
-            seriesPoint19.ValueY = new object[] {
-        ((object)(2D))};
-            seriesPoint20.ValueX = 20D;
-            seriesPoint20.ValueY = new object[] {
-        ((object)(44D))};
-            seriesPoint21.ValueX = 21D;
-            seriesPoint21.ValueY = new object[] {
-        ((object)(38D))};
-            seriesPoint22.ValueX = 22D;
-            seriesPoint22.ValueY = new object[] {
-        ((object)(36D))};
-            seriesPoint23.ValueX = 23D;
-            seriesPoint23.ValueY = new object[] {
-        ((object)(23D))};
-            seriesPoint24.ValueX = 24D;
-            seriesPoint24.ValueY = new object[] {
-        ((object)(33D))};
-            seriesPoint25.ValueX = 26D;
-            seriesPoint25.ValueY = new object[] {
-        ((object)(46D))};
-            seriesPoint26.ValueX = 27D;
-            seriesPoint26.ValueY = new object[] {
-        ((object)(2D))};
-            seriesPoint27.ValueX = 29D;
-            seriesPoint27.ValueY = new object[] {
-        ((object)(19D))};
-            seriesPoint28.ValueX = 30D;
-            seriesPoint28.ValueY = new object[] {
-        ((object)(38D))};
-            seriesPoint29.ValueX = 32D;
-            seriesPoint29.ValueY = new object[] {
-        ((object)(23D))};
-            seriesPoint30.ValueX = 33D;
-            seriesPoint30.ValueY = new object[] {
-        ((object)(44D))};
-            seriesPoint31.ValueX = 34D;
-            seriesPoint31.ValueY = new object[] {
-        ((object)(38D))};
-            chartSeries1.SeriesPoints.Add(seriesPoint1);
-            chartSeries1.SeriesPoints.Add(seriesPoint2);
-            chartSeries1.SeriesPoints.Add(seriesPoint3);
-            chartSeries1.SeriesPoints.Add(seriesPoint4);
-            chartSeries1.SeriesPoints.Add(seriesPoint5);
-            chartSeries1.SeriesPoints.Add(seriesPoint6);
-            chartSeries1.SeriesPoints.Add(seriesPoint7);
-            chartSeries1.SeriesPoints.Add(seriesPoint8);
-            chartSeries1.SeriesPoints.Add(seriesPoint9);
-            chartSeries1.SeriesPoints.Add(seriesPoint10);
-            chartSeries1.SeriesPoints.Add(seriesPoint11);
-            chartSeries1.SeriesPoints.Add(seriesPoint12);
-            chartSeries1.SeriesPoints.Add(seriesPoint13);
-            chartSeries1.SeriesPoints.Add(seriesPoint14);
-            chartSeries1.SeriesPoints.Add(seriesPoint15);
-            chartSeries1.SeriesPoints.Add(seriesPoint16);
-            chartSeries1.SeriesPoints.Add(seriesPoint17);
-            chartSeries1.SeriesPoints.Add(seriesPoint18);
-            chartSeries1.SeriesPoints.Add(seriesPoint19);
-            chartSeries1.SeriesPoints.Add(seriesPoint20);
-            chartSeries1.SeriesPoints.Add(seriesPoint21);
-            chartSeries1.SeriesPoints.Add(seriesPoint22);
-            chartSeries1.SeriesPoints.Add(seriesPoint23);
-            chartSeries1.SeriesPoints.Add(seriesPoint24);
-            chartSeries1.SeriesPoints.Add(seriesPoint25);
-            chartSeries1.SeriesPoints.Add(seriesPoint26);
-            chartSeries1.SeriesPoints.Add(seriesPoint27);
-            chartSeries1.SeriesPoints.Add(seriesPoint28);
-            chartSeries1.SeriesPoints.Add(seriesPoint29);
-            chartSeries1.SeriesPoints.Add(seriesPoint30);
-            chartSeries1.SeriesPoints.Add(seriesPoint31);
-            chartSeries1.SeriesType = DevComponents.DotNetBar.Charts.SeriesType.Line;
-            chartXy1.ChartSeries.Add(chartSeries1);
-            background5.Color1 = System.Drawing.Color.Gold;
-            chartXy1.ChartSeriesVisualStyle.MarkerHighlightVisualStyle.Background = background5;
-            chartXy1.ChartSeriesVisualStyle.MarkerHighlightVisualStyle.Size = new System.Drawing.Size(15, 15);
-            chartXy1.ChartSeriesVisualStyle.MarkerHighlightVisualStyle.Type = DevComponents.DotNetBar.Charts.PointMarkerType.Ellipse;
-            chartXy1.ChartSeriesVisualStyle.SplineStyle.LineColor = System.Drawing.Color.Lime;
-            chartXy1.ChartSeriesVisualStyle.SplineStyle.LinePattern = DevComponents.DotNetBar.Charts.Style.LinePattern.Solid;
-            chartXy1.ChartSeriesVisualStyle.SplineStyle.LineWidth = 2;
-            background6.Color1 = System.Drawing.Color.White;
-            chartXy1.ChartVisualStyle.Background = background6;
-            borderColor1.Bottom = System.Drawing.Color.Black;
-            borderColor1.Left = System.Drawing.Color.Black;
-            borderColor1.Right = System.Drawing.Color.Black;
-            borderColor1.Top = System.Drawing.Color.Black;
-            chartXy1.ChartVisualStyle.BorderColor = borderColor1;
-            thickness1.Bottom = 1;
-            thickness1.Left = 1;
-            thickness1.Right = 1;
-            thickness1.Top = 1;
-            chartXy1.ChartVisualStyle.BorderThickness = thickness1;
-            padding2.Bottom = 6;
-            padding2.Left = 6;
-            padding2.Right = 6;
-            padding2.Top = 6;
-            chartXy1.ChartVisualStyle.Padding = padding2;
-            background7.Color1 = System.Drawing.Color.White;
-            chartXy1.ContainerVisualStyles.Default.Background = background7;
-            borderColor2.Bottom = System.Drawing.Color.DimGray;
-            borderColor2.Left = System.Drawing.Color.DimGray;
-            borderColor2.Right = System.Drawing.Color.DimGray;
-            borderColor2.Top = System.Drawing.Color.DimGray;
-            chartXy1.ContainerVisualStyles.Default.BorderColor = borderColor2;
-            thickness2.Bottom = 1;
-            thickness2.Left = 1;
-            thickness2.Right = 1;
-            thickness2.Top = 1;
-            chartXy1.ContainerVisualStyles.Default.BorderThickness = thickness2;
-            chartXy1.ContainerVisualStyles.Default.DropShadow.Enabled = DevComponents.DotNetBar.Charts.Style.Tbool.True;
-            padding3.Bottom = 6;
-            padding3.Left = 6;
-            padding3.Right = 6;
-            padding3.Top = 6;
-            chartXy1.ContainerVisualStyles.Default.Padding = padding3;
-            chartXy1.Legend.Alignment = DevComponents.DotNetBar.Charts.Style.Alignment.TopRight;
-            chartXy1.Legend.AlignVerticalItems = true;
-            background8.Color1 = System.Drawing.Color.White;
-            background8.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(200)))));
-            chartXy1.Legend.ChartLegendVisualStyles.Default.Background = background8;
-            borderColor3.Bottom = System.Drawing.Color.Black;
-            borderColor3.Left = System.Drawing.Color.Black;
-            borderColor3.Right = System.Drawing.Color.Black;
-            borderColor3.Top = System.Drawing.Color.Black;
-            chartXy1.Legend.ChartLegendVisualStyles.Default.BorderColor = borderColor3;
-            thickness3.Bottom = 1;
-            thickness3.Left = 1;
-            thickness3.Right = 1;
-            thickness3.Top = 1;
-            chartXy1.Legend.ChartLegendVisualStyles.Default.BorderThickness = thickness3;
-            padding4.Bottom = 8;
-            padding4.Left = 8;
-            padding4.Right = 8;
-            padding4.Top = 8;
-            chartXy1.Legend.ChartLegendVisualStyles.Default.Margin = padding4;
-            padding5.Bottom = 4;
-            padding5.Left = 4;
-            padding5.Right = 4;
-            padding5.Top = 4;
-            chartXy1.Legend.ChartLegendVisualStyles.Default.Padding = padding5;
-            chartXy1.Legend.Direction = DevComponents.DotNetBar.Charts.Direction.LeftToRight;
-            chartXy1.Legend.MaxHorizontalPct = 60D;
-            chartXy1.Legend.Placement = DevComponents.DotNetBar.Charts.Placement.Inside;
-            chartXy1.Legend.ShowCheckBoxes = true;
-            chartXy1.Legend.Visible = true;
-            chartXy1.Name = "ChartXy1";
-            chartTitle1.ChartTitleVisualStyle.Alignment = DevComponents.DotNetBar.Charts.Style.Alignment.MiddleCenter;
-            background9.BackFillType = DevComponents.DotNetBar.Charts.Style.BackFillType.None;
-            background9.Color1 = System.Drawing.Color.Transparent;
-            background9.Color2 = System.Drawing.Color.Transparent;
-            chartTitle1.ChartTitleVisualStyle.Background = background9;
-            borderColor4.Bottom = System.Drawing.Color.Transparent;
-            borderColor4.Left = System.Drawing.Color.Transparent;
-            borderColor4.Right = System.Drawing.Color.Transparent;
-            borderColor4.Top = System.Drawing.Color.Transparent;
-            chartTitle1.ChartTitleVisualStyle.BorderColor = borderColor4;
-            borderPattern1.Bottom = DevComponents.DotNetBar.Charts.Style.LinePattern.None;
-            borderPattern1.Left = DevComponents.DotNetBar.Charts.Style.LinePattern.None;
-            borderPattern1.Right = DevComponents.DotNetBar.Charts.Style.LinePattern.None;
-            borderPattern1.Top = DevComponents.DotNetBar.Charts.Style.LinePattern.None;
-            chartTitle1.ChartTitleVisualStyle.BorderPattern = borderPattern1;
-            chartTitle1.ChartTitleVisualStyle.DropShadow.Enabled = DevComponents.DotNetBar.Charts.Style.Tbool.True;
-            chartTitle1.ChartTitleVisualStyle.DropShadow.ShadowColor = System.Drawing.Color.DimGray;
-            chartTitle1.ChartTitleVisualStyle.EnableImageScroll = DevComponents.DotNetBar.Charts.Style.Tbool.True;
-            chartTitle1.ChartTitleVisualStyle.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            padding6.Bottom = 1;
-            padding6.Left = 1;
-            padding6.Right = 1;
-            padding6.Top = 1;
-            chartTitle1.ChartTitleVisualStyle.Margin = padding6;
-            chartTitle1.ChartTitleVisualStyle.MaxLineCount = 1;
-            padding7.Bottom = 2;
-            padding7.Left = 2;
-            padding7.Right = 2;
-            padding7.Top = 2;
-            chartTitle1.ChartTitleVisualStyle.Padding = padding7;
-            chartTitle1.ChartTitleVisualStyle.Stretch = DevComponents.DotNetBar.Charts.Style.Tbool.False;
-            chartTitle1.ChartTitleVisualStyle.SymbolDef.SymbolSet = DevComponents.DotNetBar.eSymbolSet.Material;
-            chartTitle1.ChartTitleVisualStyle.TextColor = System.Drawing.Color.Black;
-            chartTitle1.Name = "lenthFFTTitle";
-            chartTitle1.RotateDegrees = DevComponents.DotNetBar.Charts.Style.RotateDegrees.Auto;
-            chartTitle1.Text = "距离FFT数据图";
-            chartTitle1.XyAlignment = DevComponents.DotNetBar.Charts.XyAlignment.Top;
-            chartXy1.Titles.Add(chartTitle1);
-            this.chartControl1.ChartPanel.ChartContainers.Add(chartXy1);
-            this.chartControl1.ChartPanel.Legend.Visible = false;
-            this.chartControl1.ChartPanel.Name = "PrimaryPanel";
-            background10.Color1 = System.Drawing.Color.AliceBlue;
-            this.chartControl1.DefaultVisualStyles.HScrollBarVisualStyles.MouseOver.ArrowBackground = background10;
-            background11.Color1 = System.Drawing.Color.AliceBlue;
-            this.chartControl1.DefaultVisualStyles.HScrollBarVisualStyles.MouseOver.ThumbBackground = background11;
-            background12.Color1 = System.Drawing.Color.White;
-            this.chartControl1.DefaultVisualStyles.HScrollBarVisualStyles.SelectedMouseOver.ArrowBackground = background12;
-            background13.Color1 = System.Drawing.Color.White;
-            this.chartControl1.DefaultVisualStyles.HScrollBarVisualStyles.SelectedMouseOver.ThumbBackground = background13;
-            background14.Color1 = System.Drawing.Color.AliceBlue;
-            this.chartControl1.DefaultVisualStyles.VScrollBarVisualStyles.MouseOver.ArrowBackground = background14;
-            background15.Color1 = System.Drawing.Color.AliceBlue;
-            this.chartControl1.DefaultVisualStyles.VScrollBarVisualStyles.MouseOver.ThumbBackground = background15;
-            background16.Color1 = System.Drawing.Color.White;
-            this.chartControl1.DefaultVisualStyles.VScrollBarVisualStyles.SelectedMouseOver.ArrowBackground = background16;
-            background17.Color1 = System.Drawing.Color.White;
-            this.chartControl1.DefaultVisualStyles.VScrollBarVisualStyles.SelectedMouseOver.ThumbBackground = background17;
-            this.chartControl1.ForeColor = System.Drawing.Color.Black;
-            this.chartControl1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
-            this.chartControl1.Location = new System.Drawing.Point(10, 15);
-            this.chartControl1.MinimumSize = new System.Drawing.Size(480, 320);
-            this.chartControl1.Name = "chartControl1";
-            this.chartControl1.Padding = new System.Windows.Forms.Padding(5);
-            this.chartControl1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.chartControl1.Size = new System.Drawing.Size(680, 460);
-            this.chartControl1.TabIndex = 0;
-            this.chartControl1.Text = "chartControl1";
-            this.chartControl1.Visible = false;
+            this.lenthPosNavPanel.Visible = false;
             // 
             // detectNavPanel
             // 
@@ -788,7 +375,7 @@
             this.comboBoxEx1.Size = new System.Drawing.Size(269, 34);
             this.comboBoxEx1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.comboBoxEx1.TabIndex = 0;
-            this.comboBoxEx1.SelectedIndexChanged += new System.EventHandler(this.comboBoxEx1_SelectedIndexChanged);
+            this.comboBoxEx1.SelectedIndexChanged += new System.EventHandler(this.ComboBoxEx1_SelectedIndexChanged);
             // 
             // sideNavItem1
             // 
@@ -827,19 +414,19 @@
             // 
             // LenthFFTNav
             // 
+            this.LenthFFTNav.Checked = true;
             this.LenthFFTNav.Name = "LenthFFTNav";
             this.LenthFFTNav.Panel = this.lenthFFTNavPanel;
             this.LenthFFTNav.Symbol = "";
-            this.LenthFFTNav.Text = "距离方位图";
-            this.LenthFFTNav.Visible = false;
+            this.LenthFFTNav.Text = "距离FFT图";
             // 
             // LenthPosNav
             // 
-            this.LenthPosNav.Checked = true;
             this.LenthPosNav.Name = "LenthPosNav";
             this.LenthPosNav.Panel = this.lenthPosNavPanel;
             this.LenthPosNav.Symbol = "";
-            this.LenthPosNav.Text = "距离FFT图";
+            this.LenthPosNav.Text = "距离方位图";
+            this.LenthPosNav.Visible = false;
             // 
             // detectNav
             // 
@@ -892,7 +479,7 @@
             this.expandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007;
             this.expandableSplitter1.TabIndex = 10;
             this.expandableSplitter1.TabStop = false;
-            this.expandableSplitter1.ExpandedChanged += new DevComponents.DotNetBar.ExpandChangeEventHandler(this.expandableSplitter1_ExpandedChanged);
+            this.expandableSplitter1.ExpandedChanged += new DevComponents.DotNetBar.ExpandChangeEventHandler(this.ExpandableSplitter1_ExpandedChanged);
             // 
             // MainForm
             // 
@@ -903,6 +490,7 @@
             this.Controls.Add(this.sideNav1);
             this.Controls.Add(this.oriDataPanel);
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "DataSplineShow";
             this.oriDataPanel.ResumeLayout(false);
@@ -911,7 +499,6 @@
             this.groupPanel1.ResumeLayout(false);
             this.sideNav1.ResumeLayout(false);
             this.sideNav1.PerformLayout();
-            this.lenthFFTNavPanel.ResumeLayout(false);
             this.sideNavPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -947,7 +534,6 @@
         private DevComponents.DotNetBar.Controls.SideNavItem setMentNav;
         private DevComponents.DotNetBar.LabelX labelX4;
         private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
-        private DevComponents.DotNetBar.Charts.ChartControl chartControl1;
     }
 }
 
