@@ -27,8 +27,6 @@ namespace DataSplineShow
         private Thread tcpRcvThread = null;
         private bool   isStarted = false;
 
-
-
         //定义一个1M的内存缓冲区，用于临时性存储接收到的消息  
         byte[] arrRecvmsg = new byte[1024 * 1024];
         ArrayList arrRecvmsglist = new ArrayList(0);
@@ -47,11 +45,13 @@ namespace DataSplineShow
         private Int32[] lenthFFT1value = new Int32[iPointNum];
         private Int32[] lenthFFT2value = new Int32[iPointNum];
 
-        private EventWaitHandle ReadyEvent;
+        //private EventWaitHandle ReadyEvent;
 
         private bool no_debug_output = false;
 
         private Thread LenthFFTDrawThread;
+
+        private InDataProcess AllInDataProcess = null;
 
         #endregion
 
@@ -73,13 +73,13 @@ namespace DataSplineShow
 
             ResumeLayout(false);
 
-            ReadyEvent = new EventWaitHandle(false, EventResetMode.ManualReset, "READY");
+            //ReadyEvent = new EventWaitHandle(false, EventResetMode.ManualReset, "READY");
 
             LenthFFTDrawThread = new Thread(LenthFFTDrawThreadFunction);
             LenthFFTDrawThread.Start();
 
-            //InDataProcess test = new InDataProcess();
-            //test.InDataProcessWork();
+            AllInDataProcess = new InDataProcess();
+
         }
 
         private void ComboBoxEx1_SelectedIndexChanged(object sender, EventArgs e)
@@ -499,7 +499,6 @@ namespace DataSplineShow
             int index, head_index, lenthFFT2HeadIndex;
             for (index = 0; index < arrRecvmsglist.Count; index++)
             {
-                bool update_flag = false;
                 head_index = arrRecvmsglist.IndexOf(lenthFFT1PacketHead[0]);
 
                 if( head_index + LeastPacketLenth > arrRecvmsglist.Count )
@@ -516,14 +515,13 @@ namespace DataSplineShow
                          lenthFFT1Data[LeastPacketLenth - 2] == lenthFFTPacketTail[0] &&
                          lenthFFT1Data[LeastPacketLenth - 1] == lenthFFTPacketTail[1])
                     {
+                        LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
                         for (int i = 0; i < iPointNum; i++)
                         {
-                            lenthFFT1value[i] = (Int32)((lenthFFT1Data[2 + i * 2]) | (Int32)(lenthFFT1Data[2 + i * 2 + 1] << 8));
+                            lenthFFT1DrawData.InDataArray[i] = (Int32)((lenthFFT1Data[2 + i * 2]) | (Int32)(lenthFFT1Data[2 + i * 2 + 1] << 8));
                         }
-
-                        Console.WriteLine("lenthfft1 draw");
-                        update_flag = true;
-
+                        AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
+                        
                         if (no_debug_output == false)
                         {
                             for (int i = 0; i < iPointNum + 2; i++)
@@ -559,13 +557,12 @@ namespace DataSplineShow
                          lenthFFT2Data[LeastPacketLenth - 2] == lenthFFTPacketTail[0] &&
                          lenthFFT2Data[LeastPacketLenth - 1] == lenthFFTPacketTail[1])
                     {
+                        LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
                         for (int i = 0; i < iPointNum; i++)
                         {
-                            lenthFFT2value[i] = (Int32)((lenthFFT2Data[2 + i * 2]) | (Int32)(lenthFFT2Data[2 + i * 2 + 1] << 8));
+                            lenthFFT2DrawData.InDataArray[i] = (Int32)((lenthFFT2Data[2 + i * 2]) | (Int32)(lenthFFT2Data[2 + i * 2 + 1] << 8));
                         }
-
-                        update_flag = true;
-                        Console.WriteLine("lenthfft2 draw");
+                        AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
 
                         if (no_debug_output == false)
                         {
@@ -584,16 +581,6 @@ namespace DataSplineShow
                             arrRecvmsglist.RemoveAt(0);
                         else
                             arrRecvmsglist.RemoveRange(0, lenthFFT2HeadIndex);
-                    }
-                }
-
-                if (true == update_flag)
-                {
-                    ReadyEvent.Set();
-
-                    if (no_debug_output == true)
-                    {
-                        Thread.Sleep(10);
                     }
                 }
             }
@@ -617,13 +604,16 @@ namespace DataSplineShow
             lenthFFT2Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
             lenthFFT2Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
 
+            LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
+            LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
             for (int i = 0; i < iPointNum; i++)
             {
-                lenthFFT1value[i] = (Int32)((lenthFFT1Data[2 + i * 2]) | (Int32)(lenthFFT1Data[2 + i * 2 + 1] << 8));
-                lenthFFT2value[i] = (Int32)((lenthFFT2Data[2 + i * 2]) | (Int32)(lenthFFT2Data[2 + i * 2 + 1] << 8));
+                lenthFFT1DrawData.InDataArray[i] = (Int32)((lenthFFT1Data[2 + i * 2]) | (Int32)(lenthFFT1Data[2 + i * 2 + 1] << 8));
+                lenthFFT2DrawData.InDataArray[i] = (Int32)((lenthFFT2Data[2 + i * 2]) | (Int32)(lenthFFT2Data[2 + i * 2 + 1] << 8));
             }
-            ReadyEvent.Set();
-            
+            AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
+            AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
+
             for (int i = 0; i < iPointNum + 2; i++)
             {
                 AppendColorText2RichBox(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
@@ -659,49 +649,68 @@ namespace DataSplineShow
             }));
         }
 
+        public void DrawSplineBaseRcvData()
+        {
+            ChartXy localChartXy = LenthFFTChartControl.ChartPanel.ChartContainers[0] as ChartXy;
+
+            LenthFFTPacket outLenthFFT1Pkt = AllInDataProcess.DeQueueLenthFFT1Pkt();
+            if (outLenthFFT1Pkt != null)
+            {
+                SeriesPoint[] lenthFFT1DrawData = new SeriesPoint[iPointNum - 1];
+                SeriesPoint[] lenthFFT1AverageDrawData = new SeriesPoint[iPointNum - 1];
+                for (int i = 0; i < iPointNum - 1; i++)
+                {
+                    double xPointValue = (300000 / iPointNum) * i;
+                    lenthFFT1DrawData[i] = new SeriesPoint(xPointValue, outLenthFFT1Pkt.InDataArray[i]);
+                    lenthFFT1AverageDrawData[i] = new SeriesPoint(xPointValue, outLenthFFT1Pkt.InDataArray[iPointNum - 1]);
+                }
+                Console.WriteLine("lenthFFT1 draw, data[0] = " + outLenthFFT1Pkt.InDataArray[iPointNum - 1]);
+
+                ChartSeries lenthFF1ChartSeries = localChartXy.ChartSeries["lenthFFT1"];
+                ChartSeries lenthFFT1AverageChartSeries = localChartXy.ChartSeries["lenthFFT1Average"];
+                this.Invoke((EventHandler)(delegate
+                {
+                    lenthFF1ChartSeries.SeriesPoints.Clear();
+                    lenthFFT1AverageChartSeries.SeriesPoints.Clear();
+
+                    lenthFF1ChartSeries.SeriesPoints.AddRange(lenthFFT1DrawData);
+                    lenthFFT1AverageChartSeries.SeriesPoints.AddRange(lenthFFT1AverageDrawData);
+                }));
+            }
+
+            LenthFFTPacket outLenthFFT2Pkt = AllInDataProcess.DeQueueLenthFFT2Pkt();
+            if (outLenthFFT2Pkt != null)
+            {
+                SeriesPoint[] lenthFFT2DrawData = new SeriesPoint[iPointNum - 1];
+                SeriesPoint[] lenthFFT2AverageDrawData = new SeriesPoint[iPointNum - 1];
+                for (int i = 0; i < iPointNum - 1; i++)
+                {
+                    double xPointValue = (300000 / iPointNum) * i;
+                    lenthFFT2DrawData[i] = new SeriesPoint(xPointValue, outLenthFFT2Pkt.InDataArray[i]);
+                    lenthFFT2AverageDrawData[i] = new SeriesPoint(xPointValue, outLenthFFT2Pkt.InDataArray[iPointNum - 1]);
+                }
+                Console.WriteLine("lenthFFT1 draw, data[0] = " + outLenthFFT2Pkt.InDataArray[iPointNum - 1]);
+
+                ChartSeries lenthFF2ChartSeries = localChartXy.ChartSeries["lenthFFT2"];
+                ChartSeries lenthFFT2AverageChartSeries = localChartXy.ChartSeries["lenthFFT2Average"];
+                this.Invoke((EventHandler)(delegate
+                {
+                    lenthFF2ChartSeries.SeriesPoints.Clear();
+                    lenthFFT2AverageChartSeries.SeriesPoints.Clear();
+
+                    lenthFF2ChartSeries.SeriesPoints.AddRange(lenthFFT2DrawData);
+                    lenthFFT2AverageChartSeries.SeriesPoints.AddRange(lenthFFT2AverageDrawData);
+                }));
+            }
+
+        }
+
         private void LenthFFTDrawThreadFunction()
         {
             while (true)
             {
-                if ( ReadyEvent.WaitOne(500) )
-                {
-                    SeriesPoint[] lenthFFT1DrawData = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT1AverageDrawPoint = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT2DrawData = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT2AverageDrawPoint = new SeriesPoint[iPointNum - 1];
-
-                    for (int i = 0; i < iPointNum - 1; i++)
-                    {
-                        double xPointValue = (300000 / iPointNum) * i;
-                        //lenthPosChartSeries.SeriesPoints.Add(new SeriesPoint(xPointValue, 20*Math.Log10(drawData[i])));
-                        lenthFFT1DrawData[i] = new SeriesPoint(xPointValue, lenthFFT1value[i]);
-                        lenthFFT1AverageDrawPoint[i] = new SeriesPoint(xPointValue, lenthFFT1value[iPointNum - 1]);
-                        lenthFFT2DrawData[i] = new SeriesPoint(xPointValue, lenthFFT2value[i]);
-                        lenthFFT2AverageDrawPoint[i] = new SeriesPoint(xPointValue, lenthFFT2value[iPointNum - 1]);
-
-                    }
-
-                    ChartXy localChartXy = LenthFFTChartControl.ChartPanel.ChartContainers[0] as ChartXy;
-
-                    ChartSeries lenthFF1ChartSeries = localChartXy.ChartSeries["lenthFFT1"];
-                    ChartSeries lenthFFT1AverageChartSeries = localChartXy.ChartSeries["lenthFFT1Average"];
-                    ChartSeries lenthFF2ChartSeries = localChartXy.ChartSeries["lenthFFT2"];
-                    ChartSeries lenthFFT2AverageChartSeries = localChartXy.ChartSeries["lenthFFT2Average"];
-
-                    this.Invoke((EventHandler)(delegate
-                    {
-                        lenthFF1ChartSeries.SeriesPoints.Clear();
-                        lenthFFT1AverageChartSeries.SeriesPoints.Clear();
-                        lenthFF2ChartSeries.SeriesPoints.Clear();
-                        lenthFFT2AverageChartSeries.SeriesPoints.Clear();
-
-                        lenthFF1ChartSeries.SeriesPoints.AddRange(lenthFFT1DrawData);
-                        lenthFFT1AverageChartSeries.SeriesPoints.AddRange(lenthFFT1AverageDrawPoint);
-                        lenthFF2ChartSeries.SeriesPoints.AddRange(lenthFFT2DrawData);
-                        lenthFFT2AverageChartSeries.SeriesPoints.AddRange(lenthFFT2AverageDrawPoint);
-                    }));
-                    ReadyEvent.Reset();
-                }
+                DrawSplineBaseRcvData();
+                Thread.Sleep(20);
             }
             
         }
