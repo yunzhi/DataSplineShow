@@ -43,9 +43,9 @@
             this.rcvRichTextBox = new DevComponents.DotNetBar.Controls.RichTextBoxEx();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.sideNav1 = new DevComponents.DotNetBar.Controls.SideNav();
-            this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
-            this.detectNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
+            this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
+            this.lenthSpeedNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.fullChartNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.sideNavPanel5 = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.labelX4 = new DevComponents.DotNetBar.LabelX();
@@ -56,7 +56,7 @@
             this.separator2 = new DevComponents.DotNetBar.Separator();
             this.LenthFFTNav = new DevComponents.DotNetBar.Controls.SideNavItem();
             this.LenthPosNav = new DevComponents.DotNetBar.Controls.SideNavItem();
-            this.detectNav = new DevComponents.DotNetBar.Controls.SideNavItem();
+            this.lenthSpeedNav = new DevComponents.DotNetBar.Controls.SideNavItem();
             this.setMentNav = new DevComponents.DotNetBar.Controls.SideNavItem();
             this.expandableSplitter1 = new DevComponents.DotNetBar.ExpandableSplitter();
             this.oriDataPanel.SuspendLayout();
@@ -282,7 +282,7 @@
             // 
             this.sideNav1.Controls.Add(this.lenthFFTNavPanel);
             this.sideNav1.Controls.Add(this.lenthPosNavPanel);
-            this.sideNav1.Controls.Add(this.detectNavPanel);
+            this.sideNav1.Controls.Add(this.lenthSpeedNavPanel);
             this.sideNav1.Controls.Add(this.fullChartNavPanel);
             this.sideNav1.Controls.Add(this.sideNavPanel5);
             this.sideNav1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -293,7 +293,7 @@
             this.separator2,
             this.LenthFFTNav,
             this.LenthPosNav,
-            this.detectNav,
+            this.lenthSpeedNav,
             this.setMentNav});
             this.sideNav1.Location = new System.Drawing.Point(0, 0);
             this.sideNav1.Name = "sideNav1";
@@ -301,6 +301,16 @@
             this.sideNav1.Size = new System.Drawing.Size(834, 567);
             this.sideNav1.TabIndex = 9;
             this.sideNav1.Text = "sideNav1";
+            // 
+            // lenthPosNavPanel
+            // 
+            this.lenthPosNavPanel.AllowDrop = true;
+            this.lenthPosNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lenthPosNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.lenthPosNavPanel.Name = "lenthPosNavPanel";
+            this.lenthPosNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.lenthPosNavPanel.TabIndex = 10;
+            this.lenthPosNavPanel.Visible = false;
             // 
             // lenthFFTNavPanel
             // 
@@ -311,30 +321,22 @@
             this.lenthFFTNavPanel.Size = new System.Drawing.Size(707, 527);
             this.lenthFFTNavPanel.TabIndex = 6;
             // 
-            // lenthPosNavPanel
+            // lenthSpeedNavPanel
             // 
-            this.lenthPosNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lenthPosNavPanel.Location = new System.Drawing.Point(123, 38);
-            this.lenthPosNavPanel.Name = "lenthPosNavPanel";
-            this.lenthPosNavPanel.Size = new System.Drawing.Size(706, 528);
-            this.lenthPosNavPanel.TabIndex = 10;
-            this.lenthPosNavPanel.Visible = false;
-            // 
-            // detectNavPanel
-            // 
-            this.detectNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.detectNavPanel.Location = new System.Drawing.Point(123, 38);
-            this.detectNavPanel.Name = "detectNavPanel";
-            this.detectNavPanel.Size = new System.Drawing.Size(706, 528);
-            this.detectNavPanel.TabIndex = 14;
-            this.detectNavPanel.Visible = false;
+            this.lenthSpeedNavPanel.AllowDrop = true;
+            this.lenthSpeedNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lenthSpeedNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.lenthSpeedNavPanel.Name = "lenthSpeedNavPanel";
+            this.lenthSpeedNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.lenthSpeedNavPanel.TabIndex = 14;
+            this.lenthSpeedNavPanel.Visible = false;
             // 
             // fullChartNavPanel
             // 
             this.fullChartNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fullChartNavPanel.Location = new System.Drawing.Point(123, 38);
+            this.fullChartNavPanel.Location = new System.Drawing.Point(122, 39);
             this.fullChartNavPanel.Name = "fullChartNavPanel";
-            this.fullChartNavPanel.Size = new System.Drawing.Size(706, 528);
+            this.fullChartNavPanel.Size = new System.Drawing.Size(707, 527);
             this.fullChartNavPanel.TabIndex = 2;
             this.fullChartNavPanel.Visible = false;
             // 
@@ -426,15 +428,13 @@
             this.LenthPosNav.Panel = this.lenthPosNavPanel;
             this.LenthPosNav.Symbol = "";
             this.LenthPosNav.Text = "距离方位图";
-            this.LenthPosNav.Visible = false;
             // 
-            // detectNav
+            // lenthSpeedNav
             // 
-            this.detectNav.Name = "detectNav";
-            this.detectNav.Panel = this.detectNavPanel;
-            this.detectNav.Symbol = "";
-            this.detectNav.Text = "检测信息图";
-            this.detectNav.Visible = false;
+            this.lenthSpeedNav.Name = "lenthSpeedNav";
+            this.lenthSpeedNav.Panel = this.lenthSpeedNavPanel;
+            this.lenthSpeedNav.Symbol = "";
+            this.lenthSpeedNav.Text = "距离速度图";
             // 
             // setMentNav
             // 
@@ -524,12 +524,12 @@
         private DevComponents.DotNetBar.Controls.RichTextBoxEx rcvRichTextBox;
         private DevComponents.DotNetBar.ButtonX TestBtn;
         private DevComponents.DotNetBar.Separator separator2;
-        private DevComponents.DotNetBar.Controls.SideNavPanel detectNavPanel;
+        private DevComponents.DotNetBar.Controls.SideNavPanel lenthSpeedNavPanel;
         private DevComponents.DotNetBar.Controls.SideNavPanel lenthPosNavPanel;
         private DevComponents.DotNetBar.Controls.SideNavPanel lenthFFTNavPanel;
         private DevComponents.DotNetBar.Controls.SideNavItem LenthFFTNav;
         private DevComponents.DotNetBar.Controls.SideNavItem LenthPosNav;
-        private DevComponents.DotNetBar.Controls.SideNavItem detectNav;
+        private DevComponents.DotNetBar.Controls.SideNavItem lenthSpeedNav;
         private DevComponents.DotNetBar.Controls.SideNavPanel sideNavPanel5;
         private DevComponents.DotNetBar.Controls.SideNavItem setMentNav;
         private DevComponents.DotNetBar.LabelX labelX4;

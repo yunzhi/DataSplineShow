@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LenthSpeedChartControlDisplay.cs" />
+    <Compile Include="LenthPosChartControlDisplay.cs" />
+    <Compile Include="LenthFFTChartControlDisplay.cs" />
     <Compile Include="InDataProcess.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

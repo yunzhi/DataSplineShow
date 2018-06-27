@@ -8,15 +8,17 @@ namespace DataSplineShow
 {
     class InDataProcess
     {
-        static Int16 DATATYPE_LENTH_FFT1 = 1;
-        static Int16 DATATYPE_LENTH_FFT2 = 2;
-        static Int16 DATATYPE_LENTH_POS = 3;
-        static Int16 DATATYPE_LENTH_SPEED = 4;
+        public const Int16 DATATYPE_LENTH_FFT1 = 1;
+        public const Int16 DATATYPE_LENTH_FFT2 = 2;
+        public const Int16 DATATYPE_LENTH_POS = 3;
+        public const Int16 DATATYPE_LENTH_SPEED = 4;
+        public const Int16 DATATYPE_TARGET_POS = 5;
 
         readonly static object lenthFFT1Locker = new object();
         readonly static object lenthFFT2Locker = new object();
         readonly static object lenthPosLocker = new object();
         readonly static object lenthSpeedLocker = new object();
+        readonly static object targetPosLocker = new object();
 
         // 入队数据
         public void EnQueueLenthFFT1Pkt(LenthFFTPacket rcvData)
@@ -34,9 +36,14 @@ namespace DataSplineShow
             LenthPosSpeedPktToQueue(rcvData, DATATYPE_LENTH_POS);
         }
 
-        public void EnQueueLenthSpeedPkt(LenthFFTPacket rcvData)
+        public void EnQueueLenthSpeedPkt(DistancePosSpeedPacket rcvData)
         {
-            LenthFFTPktToQueue(rcvData, DATATYPE_LENTH_SPEED);
+            LenthPosSpeedPktToQueue(rcvData, DATATYPE_LENTH_SPEED);
+        }
+
+        public void EnQueueTargetPosPkt(TargetPosPacket rcvData)
+        {
+            TargetPosPktToQueue(rcvData, DATATYPE_TARGET_POS);
         }
 
         // 取出数据
@@ -60,6 +67,11 @@ namespace DataSplineShow
             return OutLenthPosSpeedPktFromQueue(DATATYPE_LENTH_SPEED);
         }
 
+        public TargetPosPacket DeQueueTargetPosPkt()
+        {
+            return OutTargetPosPktFromQueue(DATATYPE_TARGET_POS);
+        }
+
         public void LenthFFTPktToQueue(LenthFFTPacket rcvData, Int16 type)
         {
             Action< LenthFFTPacket, Int16> lenthFFTPktProduce = LenthFFTProduct;
@@ -72,6 +84,13 @@ namespace DataSplineShow
             lenthPosSpeedPktProduce.Invoke(rcvData, type);
         }
 
+        public void TargetPosPktToQueue(TargetPosPacket rcvData, Int16 type)
+        {
+            Action<TargetPosPacket, Int16> targetPosPktProduce = TargetPosProduct;
+            targetPosPktProduce.Invoke(rcvData, type);
+        }
+
+
         public LenthFFTPacket OutLenthFFTPktFromQueue(Int16 type)
         {
             Func<Int16, LenthFFTPacket> LenthFFTPktConsume = LenthFFTPktDeQueue;
@@ -82,6 +101,12 @@ namespace DataSplineShow
         {
             Func<Int16, DistancePosSpeedPacket> LenthPosSpeedPktConsume = LenthPosSpeedPktDeQueue;
             return LenthPosSpeedPktConsume(type);
+        }
+
+        public TargetPosPacket OutTargetPosPktFromQueue(Int16 type)
+        {
+            Func<Int16, TargetPosPacket> TargetPosPktConsume = TargetPosPktDeQueue;
+            return TargetPosPktConsume(type);
         }
 
         /// <summary>
@@ -188,17 +213,62 @@ namespace DataSplineShow
             return null;
         }
 
+        /// <summary>
+        /// 生产
+        /// </summary>
+        /// <param name="name"></param>
+        void TargetPosProduct(TargetPosPacket TargetPosData, Int16 type)
+        {
+            lock (targetPosLocker)
+            {
+                if (type == DATATYPE_TARGET_POS)
+                {
+                    lock (targetPosLocker)
+                    {
+                        new RcvDataProducer(TargetPosContainer.targetPosContainer).Produce(TargetPosData);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 消费
+        /// </summary>
+        /// <param name="name"></param>
+        public TargetPosPacket TargetPosPktDeQueue(Int16 type)
+        {
+            if (type == DATATYPE_TARGET_POS)
+            {
+                lock (lenthPosLocker)
+                {
+                    if (TargetPosContainer.targetPosContainer.Count > 0)
+                    {
+                        return new RcvDataConsume(TargetPosContainer.targetPosContainer).ConsumeTargetPosPtkMethod();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
     }
 
     public class LenthFFTPacket
     {
-        public static Int32 iPointNum = 257;
+        public const Int32 iPointNum = 257;
         public Int32[] InDataArray = new Int32[iPointNum];
     }
 
     public class DistancePosSpeedPacket
     {
-        public static Int32 iPointCnt = 12;
+        public const Int32 iPointCnt = 24;
+        public Int32[] InDataArray = new Int32[iPointCnt];
+    }
+
+    public class TargetPosPacket
+    {
+        public const Int32 iPointCnt = 12;
         public Int32[] InDataArray = new Int32[iPointCnt];
     }
 
@@ -222,6 +292,10 @@ namespace DataSplineShow
         public static Queue<DistancePosSpeedPacket> distanceSpeedContainer = new Queue<DistancePosSpeedPacket>();
     }
 
+    public static class TargetPosContainer
+    {
+        public static Queue<TargetPosPacket> targetPosContainer = new Queue<TargetPosPacket>();
+    }
     /// <summary>
     /// 生产者
     /// </summary>
@@ -229,6 +303,7 @@ namespace DataSplineShow
     {
         Queue<LenthFFTPacket> LenthFFTProducerContainer;
         Queue<DistancePosSpeedPacket> DistancePosSpeedProducerContainer;
+        Queue<TargetPosPacket> TargetPosProducerContainer;
 
         public RcvDataProducer(Queue<LenthFFTPacket> container)
         {
@@ -240,6 +315,11 @@ namespace DataSplineShow
             this.DistancePosSpeedProducerContainer = container;
         }
 
+        public RcvDataProducer(Queue<TargetPosPacket> container)
+        {
+            this.TargetPosProducerContainer = container;
+        }
+
         public void Produce(LenthFFTPacket lenthFFTData)
         {
             LenthFFTProducerContainer.Enqueue(lenthFFTData);
@@ -248,6 +328,11 @@ namespace DataSplineShow
         public void Produce(DistancePosSpeedPacket DistancePosSpeedData)
         {
             DistancePosSpeedProducerContainer.Enqueue(DistancePosSpeedData);
+        }
+
+        public void Produce(TargetPosPacket TargetPosData)
+        {
+            TargetPosProducerContainer.Enqueue(TargetPosData);
         }
     }
 
@@ -258,6 +343,7 @@ namespace DataSplineShow
     {
         Queue<LenthFFTPacket> LenthFFTConsumerContainer;
         Queue<DistancePosSpeedPacket> DistancePosSpeedConsumerContainer;
+        Queue<TargetPosPacket> TargetPosProducerContainer;
 
         public RcvDataConsume(Queue<LenthFFTPacket> container)
         {
@@ -269,6 +355,11 @@ namespace DataSplineShow
             this.DistancePosSpeedConsumerContainer = container;
         }
 
+        public RcvDataConsume(Queue<TargetPosPacket> container)
+        {
+            this.TargetPosProducerContainer = container;
+        }
+
         public LenthFFTPacket ConsumeMethod()
         {
             return LenthFFTConsumerContainer.Dequeue();
@@ -277,6 +368,11 @@ namespace DataSplineShow
         public DistancePosSpeedPacket ConsumePosPtkMethod()
         {
             return DistancePosSpeedConsumerContainer.Dequeue();
+        }
+
+        public TargetPosPacket ConsumeTargetPosPtkMethod()
+        {
+            return TargetPosProducerContainer.Dequeue();
         }
     }
 }
