@@ -306,9 +306,9 @@
             // 
             this.lenthFFTNavPanel.AllowDrop = true;
             this.lenthFFTNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lenthFFTNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.lenthFFTNavPanel.Location = new System.Drawing.Point(123, 38);
             this.lenthFFTNavPanel.Name = "lenthFFTNavPanel";
-            this.lenthFFTNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.lenthFFTNavPanel.Size = new System.Drawing.Size(706, 528);
             this.lenthFFTNavPanel.TabIndex = 6;
             // 
             // lenthPosNavPanel

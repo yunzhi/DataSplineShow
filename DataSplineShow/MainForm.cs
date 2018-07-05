@@ -40,8 +40,8 @@ namespace DataSplineShow
         private byte[] lenthPosPacketTail = new byte[2] { 0xEA, 0xEA };
         private byte[] targetPosPacketTail = new byte[2] { 0xEC, 0xEC };
 
-        private const int LeastPacketLenth = 518; // 256*2 + 1*2 + 4
-        private const int iPointNum        = 257; //256 + 1
+        private const int LeastPacketLenth = 4102; // 256*2 + 1*2 + 4
+        private const int iPointNum        = 2049; //256 + 1
 
         private const int LeastLenthSpeedPosPktLenth = 52; // 12*4 + 4
         private const int LeastTargetPosPktLenth = 16; // 12+4
@@ -219,11 +219,14 @@ namespace DataSplineShow
                         
                         if (no_debug_output == false)
                         {
+                            StringBuilder strDebugFFT1Out = new StringBuilder();
                             for (int i = 0; i < iPointNum + 2; i++)
                             {
-                                AppendColorText2RichBox(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
+                                strDebugFFT1Out.AppendFormat("{0:X2} {1:X2} ", lenthFFT1Data[i * 2], lenthFFT1Data[i * 2 + 1]);
                             }
-                            AppendColorText2RichBox("\r\n\r\n");
+                            strDebugFFT1Out.Append("\r\n\r\n");
+                            AppendColorText2RichBox(strDebugFFT1Out.ToString());
+                            strDebugFFT1Out.Clear();
                         }
 
                         arrRecvmsglist.RemoveRange(0, head_index + LeastPacketLenth);
@@ -261,11 +264,14 @@ namespace DataSplineShow
 
                         if (no_debug_output == false)
                         {
+                            StringBuilder strDebugFFT2Out = new StringBuilder();
                             for (int i = 0; i < iPointNum + 2; i++)
                             {
-                                AppendColorText2RichBox(lenthFFT2Data[i * 2].ToString("X2") + " " + lenthFFT2Data[i * 2 + 1].ToString("X2") + " ");
+                                strDebugFFT2Out.AppendFormat("{0:X2} {1:X2} ", lenthFFT2Data[i * 2], lenthFFT2Data[i * 2 + 1]);
                             }
-                            AppendColorText2RichBox("\r\n\r\n");
+                            strDebugFFT2Out.Append("\r\n\r\n");
+                            AppendColorText2RichBox(strDebugFFT2Out.ToString());
+                            strDebugFFT2Out.Clear();
                         }
 
                         arrRecvmsglist.RemoveRange(0, lenthFFT2HeadIndex + LeastPacketLenth);
@@ -301,11 +307,14 @@ namespace DataSplineShow
 
                         if (no_debug_output == false)
                         {
-                            for (int i = 0; i < iPointNum + 4; i++)
+                            StringBuilder strDebugTargetPosOut = new StringBuilder();
+                            foreach (byte element in targetPosData)
                             {
-                                AppendColorText2RichBox(targetPosData[i].ToString("X2") + " ");
+                                strDebugTargetPosOut.AppendFormat("{0:X2} ", element);
                             }
-                            AppendColorText2RichBox("\r\n\r\n");
+                            strDebugTargetPosOut.Append("\r\n\r\n");
+                            AppendColorText2RichBox(strDebugTargetPosOut.ToString());
+                            strDebugTargetPosOut.Clear();
                         }
 
                         arrRecvmsglist.RemoveRange(0, targetPosHeadIndex + LeastTargetPosPktLenth);
@@ -342,11 +351,14 @@ namespace DataSplineShow
 
                         if (no_debug_output == false)
                         {
+                            StringBuilder strDebugSpeedOut = new StringBuilder();
                             for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
                             {
-                                AppendColorText2RichBox(lenthSpeedData[i * 2].ToString("X2") + " " + lenthSpeedData[i * 2 + 1].ToString("X2") + " ");
+                                strDebugSpeedOut.AppendFormat("{0:X2} {1:X2} ", lenthSpeedData[i * 2], lenthSpeedData[i * 2 + 1]);
                             }
-                            AppendColorText2RichBox("\r\n\r\n");
+                            strDebugSpeedOut.AppendFormat("\r\n\r\n");
+                            AppendColorText2RichBox(strDebugSpeedOut.ToString());
+                            strDebugSpeedOut.Clear();
                         }
 
                         arrRecvmsglist.RemoveRange(0, lenthSpeedHeadIndex + LeastLenthSpeedPosPktLenth);
@@ -383,11 +395,14 @@ namespace DataSplineShow
 
                         if (no_debug_output == false)
                         {
+                            StringBuilder strDebugPosOut = new StringBuilder();
                             for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
                             {
-                                AppendColorText2RichBox(lenthPosData[i * 2].ToString("X2") + " " +lenthPosData[i * 2 + 1].ToString("X2") + " ");
+                                strDebugPosOut.AppendFormat("{0:X2} {1:X2} ", lenthPosData[i * 2], lenthPosData[i * 2 + 1]);
                             }
-                            AppendColorText2RichBox("\r\n\r\n");
+                            strDebugPosOut.AppendFormat("\r\n\r\n");
+                            AppendColorText2RichBox(strDebugPosOut.ToString());
+                            strDebugPosOut.Clear();
                         }
 
                         arrRecvmsglist.RemoveRange(0, lenthPosHeadIndex + LeastLenthSpeedPosPktLenth);
@@ -464,35 +479,44 @@ namespace DataSplineShow
                 lenthPosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
             }
 
+            StringBuilder strDebugFFT1Out = new StringBuilder();
+            StringBuilder strDebugFFT2Out = new StringBuilder();
             for (int i = 0; i < iPointNum + 2; i++)
             {
-                AppendColorText2RichBox(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
+                strDebugFFT1Out.AppendFormat("{0:X2} {1:X2} ", lenthFFT1Data[i * 2], lenthFFT1Data[i * 2 + 1]);
+                strDebugFFT2Out.AppendFormat("{0:X2} {1:X2} ", lenthFFT2Data[i * 2], lenthFFT2Data[i * 2 + 1]);
             }
-            AppendColorText2RichBox("\r\n\r\n");
+            strDebugFFT1Out.Append("\r\n\r\n");
+            strDebugFFT2Out.Append("\r\n\r\n");
+            AppendColorText2RichBox(strDebugFFT1Out.ToString());
+            strDebugFFT1Out.Clear();
+            AppendColorText2RichBox(strDebugFFT2Out.ToString());
+            strDebugFFT2Out.Clear();
 
-            for (int i = 0; i < iPointNum + 2; i++)
+            StringBuilder strDebugTargetPosOut = new StringBuilder();
+            foreach( byte element in targetPosData)
             {
-                AppendColorText2RichBox(lenthFFT2Data[i * 2].ToString("X2") + " " + lenthFFT2Data[i * 2 + 1].ToString("X2") + " ");
+                strDebugTargetPosOut.AppendFormat("{0:X2} ", element);
             }
-            AppendColorText2RichBox("\r\n\r\n");
-
-            for (int i = 0; i < TargetPosPacket.iPointCnt + 4; i++)
-            {
-                AppendColorText2RichBox(targetPosData[i].ToString("X2") + " ");
-            }
-            AppendColorText2RichBox("\r\n\r\n");
-
+            strDebugTargetPosOut.Append("\r\n\r\n");
+            AppendColorText2RichBox(strDebugTargetPosOut.ToString());
+            
+            StringBuilder strDebugSpeedOut = new StringBuilder();
             for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
             {
-                AppendColorText2RichBox(lenthSpeedData[i * 2].ToString("X2") + " " + lenthSpeedData[i * 2 + 1].ToString("X2") + " ");
+                strDebugSpeedOut.AppendFormat("{0:X2} {1:X2} ", lenthSpeedData[i * 2], lenthSpeedData[i * 2 + 1]);
             }
-            AppendColorText2RichBox("\r\n\r\n");
+            strDebugSpeedOut.AppendFormat("\r\n\r\n");
+            AppendColorText2RichBox(strDebugSpeedOut.ToString());
 
+            StringBuilder strDebugPosOut = new StringBuilder();
             for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
             {
-                AppendColorText2RichBox(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
+                strDebugPosOut.AppendFormat("{0:X2} {1:X2} ", lenthPosData[i * 2], lenthPosData[i * 2 + 1]);
             }
-            AppendColorText2RichBox("\r\n\r\n");
+            strDebugPosOut.AppendFormat("\r\n\r\n");
+            AppendColorText2RichBox(strDebugPosOut.ToString());
+
 
             AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
             AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);

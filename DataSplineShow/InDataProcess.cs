@@ -256,7 +256,7 @@ namespace DataSplineShow
 
     public class LenthFFTPacket
     {
-        public const Int32 iPointNum = 257;
+        public const Int32 iPointNum = 2049;
         public UInt16[] InDataArray = new UInt16[iPointNum];
     }
 
