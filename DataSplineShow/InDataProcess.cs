@@ -257,19 +257,19 @@ namespace DataSplineShow
     public class LenthFFTPacket
     {
         public const Int32 iPointNum = 257;
-        public Int32[] InDataArray = new Int32[iPointNum];
+        public UInt16[] InDataArray = new UInt16[iPointNum];
     }
 
     public class DistancePosSpeedPacket
     {
         public const Int32 iPointCnt = 24;
-        public Int32[] InDataArray = new Int32[iPointCnt];
+        public Int16[] InDataArray = new Int16[iPointCnt];
     }
 
     public class TargetPosPacket
     {
         public const Int32 iPointCnt = 12;
-        public Int32[] InDataArray = new Int32[iPointCnt];
+        public Int16[] InDataArray = new Int16[iPointCnt];
     }
 
     public static class LenthFFT1Container

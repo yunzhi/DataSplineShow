@@ -57,8 +57,6 @@ namespace DataSplineShow
         private bool no_debug_output = false;
 
         private Thread LenthFFTDrawThread;
-        private Thread LenthSpeedDrawThread;
-        private Thread LenthPosDrawThread;
 
         private InDataProcess AllInDataProcess = null;
 
@@ -79,17 +77,13 @@ namespace DataSplineShow
             sideNav1.EnableClose = false;
 
             LenthFFTPosSpeedNavInit();
-
-            this.LenthFFTNav.CheckedChanged += LenthFFTNav_CheckedChanged;
-            this.lenthSpeedNav.CheckedChanged += LenthSpeedNav_CheckedChanged;
-            this.LenthPosNav.CheckedChanged += LenthPosNav_CheckedChanged; ;
-
+            
             ResumeLayout(false);
             
             AllInDataProcess = new InDataProcess();
 
-            LenthFFTNav_CheckedChanged(null, null);
-
+            LenthFFTDrawThread = new Thread(LenthFFTDrawThreadFunction);
+            LenthFFTDrawThread.Start();
         }
 
         private void ComboBoxEx1_SelectedIndexChanged(object sender, EventArgs e)
@@ -219,7 +213,7 @@ namespace DataSplineShow
                         LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
                         for (int i = 0; i < iPointNum; i++)
                         {
-                            lenthFFT1DrawData.InDataArray[i] = (Int32)((lenthFFT1Data[2 + i * 2]) | (Int32)(lenthFFT1Data[2 + i * 2 + 1] << 8));
+                            lenthFFT1DrawData.InDataArray[i] = (UInt16)((lenthFFT1Data[2 + i * 2]) | (UInt16)(lenthFFT1Data[2 + i * 2 + 1] << 8));
                         }
                         AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
                         
@@ -261,7 +255,7 @@ namespace DataSplineShow
                         LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
                         for (int i = 0; i < iPointNum; i++)
                         {
-                            lenthFFT2DrawData.InDataArray[i] = (Int32)((lenthFFT2Data[2 + i * 2]) | (Int32)(lenthFFT2Data[2 + i * 2 + 1] << 8));
+                            lenthFFT2DrawData.InDataArray[i] = (UInt16)((lenthFFT2Data[2 + i * 2]) | (UInt16)(lenthFFT2Data[2 + i * 2 + 1] << 8));
                         }
                         AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
 
@@ -341,7 +335,7 @@ namespace DataSplineShow
                         DistancePosSpeedPacket DistanceSpeedDrawData = new DistancePosSpeedPacket();
                         for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
                         {
-                            DistanceSpeedDrawData.InDataArray[i] = (Int32)((lenthSpeedData[2 + i * 2]) | (Int32)(lenthSpeedData[2 + i * 2 + 1] << 8));
+                            DistanceSpeedDrawData.InDataArray[i] = (byte)((lenthSpeedData[2 + i * 2]) | (byte)(lenthSpeedData[2 + i * 2 + 1] << 8));
 
                         }
                         AllInDataProcess.EnQueueLenthSpeedPkt(DistanceSpeedDrawData);
@@ -382,7 +376,7 @@ namespace DataSplineShow
                         DistancePosSpeedPacket DistancePosDrawData = new DistancePosSpeedPacket();
                         for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
                         {
-                            DistancePosDrawData.InDataArray[i] = (Int32)((lenthPosData[2 + i * 2]) | (Int32)(lenthPosData[2 + i * 2 + 1] << 8));
+                            DistancePosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
 
                         }
                         AllInDataProcess.EnQueueLenthPosPkt(DistancePosDrawData);
@@ -391,7 +385,7 @@ namespace DataSplineShow
                         {
                             for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
                             {
-                                AppendColorText2RichBox(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
+                                AppendColorText2RichBox(lenthPosData[i * 2].ToString("X2") + " " +lenthPosData[i * 2 + 1].ToString("X2") + " ");
                             }
                             AppendColorText2RichBox("\r\n\r\n");
                         }
@@ -441,7 +435,7 @@ namespace DataSplineShow
             lenthSpeedData[LeastLenthSpeedPosPktLenth - 2] = lenthSpeedPacketTail[0];
             lenthSpeedData[LeastLenthSpeedPosPktLenth - 1] = lenthSpeedPacketTail[1];
 
-            Random lenthPosDataRandom = new Random(DateTime.Now.Millisecond + 100);
+            Random lenthPosDataRandom = new Random(DateTime.Now.Millisecond + 200);
             lenthPosDataRandom.NextBytes(lenthPosData);
             lenthPosData[0] = lenthPosPacketHead[0];
             lenthPosData[1] = lenthPosPacketHead[1];
@@ -452,8 +446,8 @@ namespace DataSplineShow
             LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
             for (int i = 0; i < iPointNum; i++)
             {
-                lenthFFT1DrawData.InDataArray[i] = (Int32)((lenthFFT1Data[2 + i * 2]) | (Int32)(lenthFFT1Data[2 + i * 2 + 1] << 8));
-                lenthFFT2DrawData.InDataArray[i] = (Int32)((lenthFFT2Data[2 + i * 2]) | (Int32)(lenthFFT2Data[2 + i * 2 + 1] << 8));
+                lenthFFT1DrawData.InDataArray[i] = (UInt16)((lenthFFT1Data[2 + i * 2]) | (UInt16)(lenthFFT1Data[2 + i * 2 + 1] << 8));
+                lenthFFT2DrawData.InDataArray[i] = (UInt16)((lenthFFT2Data[2 + i * 2]) | (UInt16)(lenthFFT2Data[2 + i * 2 + 1] << 8));
             }
 
             TargetPosPacket targetPosDrawData = new TargetPosPacket();
@@ -466,15 +460,9 @@ namespace DataSplineShow
             DistancePosSpeedPacket lenthPosDrawData = new DistancePosSpeedPacket();
             for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
             {
-                lenthSpeedDrawData.InDataArray[i] = (Int32)((lenthSpeedData[2 + i * 2]) | (Int32)(lenthSpeedData[2 + i * 2 + 1] << 8));
-                lenthPosDrawData.InDataArray[i] = (Int32)((lenthPosData[2 + i * 2]) | (Int32)(lenthPosData[2 + i * 2 + 1] << 8));
+                lenthSpeedDrawData.InDataArray[i] = (Int16)((lenthSpeedData[2 + i * 2]) | (UInt16)(lenthSpeedData[2 + i * 2 + 1] << 8));
+                lenthPosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
             }
-
-            AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
-            AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
-            AllInDataProcess.EnQueueTargetPosPkt(targetPosDrawData);
-            AllInDataProcess.EnQueueLenthSpeedPkt(lenthSpeedDrawData);
-            AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
 
             for (int i = 0; i < iPointNum + 2; i++)
             {
@@ -505,6 +493,12 @@ namespace DataSplineShow
                 AppendColorText2RichBox(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
             }
             AppendColorText2RichBox("\r\n\r\n");
+
+            AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
+            AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
+            AllInDataProcess.EnQueueTargetPosPkt(targetPosDrawData);
+            AllInDataProcess.EnQueueLenthSpeedPkt(lenthSpeedDrawData);
+            AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
         }
 
         public void AppendColorText2RichBox(string text, bool useDefaultColorFlag = true)
@@ -530,185 +524,198 @@ namespace DataSplineShow
             }));
         }
 
-        public void DrawSplineBaseRcvData(Int16 type)
+        public void DrawSplineBaseRcvData()
         {
-            ChartXy drawChartXy = null;
+            ChartXy LenthFFTdrawChartXy = LenthFFTChartControlDisplay.LenthFFTChartControl.ChartPanel.ChartContainers[0] as ChartXy;
+            ChartXy lenthPosdrawChartXy = LenthPosChartControlDisplay.LenthPosChartControl.ChartPanel.ChartContainers[0] as ChartXy;
+            ChartXy lenthSpeeddrawChartXy = LenthSpeedChartControlDisplay.LenthSpeedChartControl.ChartPanel.ChartContainers[0] as ChartXy;
 
-            if (type == InDataProcess.DATATYPE_LENTH_FFT1)
+            TargetPosPacket outTargetPosPoint = null;
+            LenthFFTPacket outLenthFFT1Pkt = null;
+            LenthFFTPacket outLenthFFT2Pkt = null;
+            DistancePosSpeedPacket outLenthSpeedPkt = null;
+            DistancePosSpeedPacket outLenthPosPkt = null;
+
+            //if (TargetPosContainer.targetPosContainer.Count == LenthFFT1Container.lenthFFT1DataContainer.Count &&
+            //    TargetPosContainer.targetPosContainer.Count == LenthFFT2Container.lenthFFT2DataContainer.Count &&
+            //    TargetPosContainer.targetPosContainer.Count == DistanceSpeedContainer.distanceSpeedContainer.Count &&
+            //    TargetPosContainer.targetPosContainer.Count == DistancePosContainer.distancePosContainer.Count &&
+            //    TargetPosContainer.targetPosContainer.Count != 0)
+
+            if (TargetPosContainer.targetPosContainer.Count > 0 &&
+                LenthFFT1Container.lenthFFT1DataContainer.Count > 0 &&
+                LenthFFT2Container.lenthFFT2DataContainer.Count > 0 &&
+                DistanceSpeedContainer.distanceSpeedContainer.Count > 0 &&
+                DistancePosContainer.distancePosContainer.Count > 0)
             {
-                drawChartXy = LenthFFTChartControlDisplay.LenthFFTChartControl.ChartPanel.ChartContainers[0] as ChartXy;
-            }
-            else if (type == InDataProcess.DATATYPE_LENTH_POS)
-            {
-                drawChartXy = LenthPosChartControlDisplay.LenthPosChartControl.ChartPanel.ChartContainers[0] as ChartXy;
-            }
-            else if (type == InDataProcess.DATATYPE_LENTH_SPEED)
-            {
-                drawChartXy = LenthSpeedChartControlDisplay.LenthSpeedChartControl.ChartPanel.ChartContainers[0] as ChartXy;
+                outTargetPosPoint = AllInDataProcess.DeQueueTargetPosPkt();
+                outLenthFFT1Pkt = AllInDataProcess.DeQueueLenthFFT1Pkt();
+                outLenthFFT2Pkt = AllInDataProcess.DeQueueLenthFFT2Pkt();
+                outLenthSpeedPkt = AllInDataProcess.DeQueueLenthSpeedPkt();
+                outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
             }
 
-            if (null == drawChartXy)
+            if (outLenthFFT1Pkt != null)
             {
-                Console.WriteLine("drawChartXy is null");
-                return;
-            }
-
-            if(TargetPosContainer.targetPosContainer.Count == LenthFFT1Container.lenthFFT1DataContainer.Count &&
-                TargetPosContainer.targetPosContainer.Count == LenthFFT2Container.lenthFFT2DataContainer.Count &&
-                TargetPosContainer.targetPosContainer.Count == DistanceSpeedContainer.distanceSpeedContainer.Count &&
-                TargetPosContainer.targetPosContainer.Count == DistancePosContainer.distancePosContainer.Count &&
-                TargetPosContainer.targetPosContainer.Count != 0 )
-            {
-                TargetPosPacket outTargetPosPoint = AllInDataProcess.DeQueueTargetPosPkt();
-                LenthFFTPacket outLenthFFT1Pkt = AllInDataProcess.DeQueueLenthFFT1Pkt();
-                DistancePosSpeedPacket outLenthSpeedPkt = AllInDataProcess.DeQueueLenthSpeedPkt();
-                DistancePosSpeedPacket outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
-                if (outLenthFFT1Pkt != null)
+                SeriesPoint[] lenthFFT1DrawData = new SeriesPoint[iPointNum - 1];
+                SeriesPoint[] lenthFFT1AverageDrawData = new SeriesPoint[iPointNum - 1];
+                SeriesPoint[] lenthFFT1LabelSeriesPoint = new SeriesPoint[TargetPosPacket.iPointCnt];
+                for (int i = 0; i < iPointNum - 1; i++)
                 {
-                    SeriesPoint[] lenthFFT1DrawData = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT1AverageDrawData = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT1LabelSeriesPoint = new SeriesPoint[TargetPosPacket.iPointCnt];
-                    for (int i = 0; i < iPointNum - 1; i++)
-                    {
-                        double xPointValue = (300000 / iPointNum) * i;
-                        lenthFFT1DrawData[i] = new SeriesPoint(xPointValue, outLenthFFT1Pkt.InDataArray[i]);
-                        lenthFFT1AverageDrawData[i] = new SeriesPoint(xPointValue, outLenthFFT1Pkt.InDataArray[iPointNum - 1]);
-                    }
-
-                    for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-                    {
-                        lenthFFT1LabelSeriesPoint[i] = new SeriesPoint((300000 / iPointNum) * outTargetPosPoint.InDataArray[i],
-                            outLenthFFT1Pkt.InDataArray[outTargetPosPoint.InDataArray[i]]);
-                    }
-
-                    Console.WriteLine("lenthFFT1 draw, data[0] = " + outLenthFFT1Pkt.InDataArray[iPointNum - 1]);
-
-                    if (type == InDataProcess.DATATYPE_LENTH_FFT1)
-                    {
-                        ChartSeries lenthFF1ChartSeries = drawChartXy.ChartSeries["lenthFFT1"];
-                        ChartSeries lenthFFT1AverageChartSeries = drawChartXy.ChartSeries["lenthFFT1Average"];
-                        this.Invoke((EventHandler)(delegate
-                        {
-                            lenthFF1ChartSeries.SeriesPoints.Clear();
-                            lenthFFT1AverageChartSeries.SeriesPoints.Clear();
-
-                            lenthFF1ChartSeries.SeriesPoints.AddRange(lenthFFT1DrawData);
-                            lenthFFT1AverageChartSeries.SeriesPoints.AddRange(lenthFFT1AverageDrawData);
-
-                            AddSeriesPointLabel(lenthFF1ChartSeries, lenthFFT1LabelSeriesPoint, Color.Green, outLenthPosPkt, outLenthSpeedPkt);
-                        }));
-                    }
+                    double xPointValue = (300000 / iPointNum) * i;
+                    lenthFFT1DrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT1Pkt.InDataArray[i]));
+                    lenthFFT1AverageDrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT1Pkt.InDataArray[iPointNum - 1]));
                 }
 
-                LenthFFTPacket outLenthFFT2Pkt = AllInDataProcess.DeQueueLenthFFT2Pkt();
-                if (outLenthFFT2Pkt != null)
+                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
                 {
-                    SeriesPoint[] lenthFFT2DrawData = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT2AverageDrawData = new SeriesPoint[iPointNum - 1];
-                    SeriesPoint[] lenthFFT2LabelSeriesPoint = new SeriesPoint[TargetPosPacket.iPointCnt];
-                    for (int i = 0; i < iPointNum - 1; i++)
-                    {
-                        double xPointValue = (300000 / iPointNum) * i;
-                        lenthFFT2DrawData[i] = new SeriesPoint(xPointValue, outLenthFFT2Pkt.InDataArray[i]);
-                        lenthFFT2AverageDrawData[i] = new SeriesPoint(xPointValue, outLenthFFT2Pkt.InDataArray[iPointNum - 1]);
-                    }
-                    Console.WriteLine("lenthFFT2 draw, data[0] = " + outLenthFFT2Pkt.InDataArray[iPointNum - 1]);
-
-                    for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-                    {
-                        lenthFFT2LabelSeriesPoint[i] = new SeriesPoint((300000 / iPointNum) * outTargetPosPoint.InDataArray[i],
-                            outLenthFFT2Pkt.InDataArray[outTargetPosPoint.InDataArray[i]]);
-                    }
-
-                    if (type == InDataProcess.DATATYPE_LENTH_FFT1)
-                    {
-                        ChartSeries lenthFF2ChartSeries = drawChartXy.ChartSeries["lenthFFT2"];
-                        ChartSeries lenthFFT2AverageChartSeries = drawChartXy.ChartSeries["lenthFFT2Average"];
-                        this.Invoke((EventHandler)(delegate
-                        {
-                            lenthFF2ChartSeries.SeriesPoints.Clear();
-                            lenthFFT2AverageChartSeries.SeriesPoints.Clear();
-
-                            lenthFF2ChartSeries.SeriesPoints.AddRange(lenthFFT2DrawData);
-                            lenthFFT2AverageChartSeries.SeriesPoints.AddRange(lenthFFT2AverageDrawData);
-                            AddSeriesPointLabel(lenthFF2ChartSeries, lenthFFT2LabelSeriesPoint, Color.Orange, outLenthPosPkt, outLenthSpeedPkt);
-                        }));
-                    }
+                    lenthFFT1LabelSeriesPoint[i] = new SeriesPoint((300000 / iPointNum) * outTargetPosPoint.InDataArray[i],
+                        Convert.ToDouble(outLenthFFT1Pkt.InDataArray[outTargetPosPoint.InDataArray[i]]));
                 }
 
-                if (outLenthSpeedPkt != null)
+                Console.WriteLine("lenthFFT1 draw, data[0] = " + outLenthFFT1Pkt.InDataArray[iPointNum - 1]);
+
+                ChartSeries lenthFF1ChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT1"];
+                ChartSeries lenthFFT1AverageChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT1Average"];
+                this.Invoke((EventHandler)(delegate
                 {
-                    List<SeriesPoint> lenthSpeedDrawData = new List<SeriesPoint>();
-                    for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
-                    {
-                        lenthSpeedDrawData.Add(new SeriesPoint(outLenthPosPkt.InDataArray[i], outLenthPosPkt.InDataArray[i + 1]));
-                    }
-                    IEnumerable<SeriesPoint> sortedSeriesPoint =
-                            from singlePoint in lenthSpeedDrawData
-                            orderby singlePoint.ValueX
-                            select singlePoint;
+                    lenthFF1ChartSeries.SeriesPoints.Clear();
+                    lenthFFT1AverageChartSeries.SeriesPoints.Clear();
 
-                    for ( int i = 0; i < lenthSpeedDrawData.Count; i++)
-                    {
-                        if(lenthSpeedDrawData.ElementAt(i).ValueX != sortedSeriesPoint.ElementAt(i).ValueX )
-                        {
-                            MessageBox.Show("rcv Distance Speed data not sorted");
-                            break;
-                        }
-                    }
+                    lenthFF1ChartSeries.SeriesPoints.AddRange(lenthFFT1DrawData);
+                    lenthFFT1AverageChartSeries.SeriesPoints.AddRange(lenthFFT1AverageDrawData);
 
-                    if (type == InDataProcess.DATATYPE_LENTH_SPEED )
-                    {
-                        ChartSeries lenthSpeedChartSeries = drawChartXy.ChartSeries["DistanceSpeed"];
-                        this.Invoke((EventHandler)(delegate
-                        {
-                            lenthSpeedChartSeries.SeriesPoints.Clear();
-                            lenthSpeedChartSeries.SeriesPoints.AddRange(sortedSeriesPoint);
-                        }));
-                    }
+                    AddSeriesPointLabel(lenthFF1ChartSeries, lenthFFT1LabelSeriesPoint, Color.Green, outLenthPosPkt, outLenthSpeedPkt);
+                }));
+            }
+
+            if (outLenthFFT2Pkt != null)
+            {
+                SeriesPoint[] lenthFFT2DrawData = new SeriesPoint[iPointNum - 1];
+                SeriesPoint[] lenthFFT2AverageDrawData = new SeriesPoint[iPointNum - 1];
+                SeriesPoint[] lenthFFT2LabelSeriesPoint = new SeriesPoint[TargetPosPacket.iPointCnt];
+                for (int i = 0; i < iPointNum - 1; i++)
+                {
+                    double xPointValue = (300000 / iPointNum) * i;
+                    lenthFFT2DrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT2Pkt.InDataArray[i]));
+                    lenthFFT2AverageDrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT2Pkt.InDataArray[iPointNum - 1]));
+                }
+                Console.WriteLine("lenthFFT2 draw, data[0] = " + outLenthFFT2Pkt.InDataArray[iPointNum - 1]);
+
+                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
+                {
+                    lenthFFT2LabelSeriesPoint[i] = new SeriesPoint((300000 / iPointNum) * outTargetPosPoint.InDataArray[i],
+                        Convert.ToDouble((outLenthFFT2Pkt.InDataArray[outTargetPosPoint.InDataArray[i]])));
                 }
 
-                if (outLenthPosPkt != null)
+                ChartSeries lenthFF2ChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT2"];
+                ChartSeries lenthFFT2AverageChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT2Average"];
+                this.Invoke((EventHandler)(delegate
                 {
-                    List<SeriesPoint> lenthPosDrawPoint = new List<SeriesPoint>();
-                    for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
-                    {
-                        lenthPosDrawPoint.Add(new SeriesPoint(outLenthPosPkt.InDataArray[i], outLenthPosPkt.InDataArray[i + 1]));
-                    }
-                    IEnumerable<SeriesPoint> sortedSeriesPoint = 
-                        from singlePoint in lenthPosDrawPoint
+                    lenthFF2ChartSeries.SeriesPoints.Clear();
+                    lenthFFT2AverageChartSeries.SeriesPoints.Clear();
+
+                    lenthFF2ChartSeries.SeriesPoints.AddRange(lenthFFT2DrawData);
+                    lenthFFT2AverageChartSeries.SeriesPoints.AddRange(lenthFFT2AverageDrawData);
+                    AddSeriesPointLabel(lenthFF2ChartSeries, lenthFFT2LabelSeriesPoint, Color.Orange, outLenthPosPkt, outLenthSpeedPkt);
+                }));
+            }
+
+            bool lenthSpeedPosDataNotSorted = false;
+            StringBuilder displayLenthSpeedstring = null;
+
+            if (outLenthSpeedPkt != null)
+            {
+                List<SeriesPoint> lenthSpeedDrawPointList = new List<SeriesPoint>();
+                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
+                {
+                    lenthSpeedDrawPointList.Add(new SeriesPoint(Convert.ToDouble( outLenthSpeedPkt.InDataArray[i])/100, Convert.ToDouble(outLenthSpeedPkt.InDataArray[i + 1])/100));
+                }
+
+                displayLenthSpeedstring = new StringBuilder();
+                displayLenthSpeedstring.Append("speed data start:");
+                foreach (SeriesPoint point in lenthSpeedDrawPointList)
+                {
+                    displayLenthSpeedstring.Append("(" + point.ValueX + "," + point.ValueY[0] + ")");
+                }
+                displayLenthSpeedstring.Append("speed data end\r\n");
+
+                IEnumerable<SeriesPoint> sortedSpeedSeriesPointList =
+                        from singlePoint in lenthSpeedDrawPointList
                         orderby singlePoint.ValueX
                         select singlePoint;
 
-                    foreach ( SeriesPoint point in sortedSeriesPoint)
+
+                for (int i = 0; i < lenthSpeedDrawPointList.Count; i++)
+                {
+                    if (lenthSpeedDrawPointList.ElementAt(i).ValueX != sortedSpeedSeriesPointList.ElementAt(i).ValueX)
                     {
-                        Console.WriteLine("(" + point.ValueX + "," + point.ValueY[0] + ")");
-                    }
-                    
-                    for (int i = 0; i < lenthPosDrawPoint.Count; i++)
-                    {
-                        if (lenthPosDrawPoint.ElementAt(i).ValueX != sortedSeriesPoint.ElementAt(i).ValueX)
-                        {
-                            MessageBox.Show("rcv DistanceAzimuth data not sorted");
-                            break;
-                        }
-                    }
-                    
-                    if (type == InDataProcess.DATATYPE_LENTH_POS)
-                    {
-                        ChartSeries lenthPosChartSeries = drawChartXy.ChartSeries["DistanceAzimuth"];
-                        if (lenthPosChartSeries != null)
-                        {
-                            this.Invoke((EventHandler)(delegate
-                            {
-                                lenthPosChartSeries.SeriesPoints.Clear();
-                                lenthPosChartSeries.SeriesPoints.AddRange(sortedSeriesPoint);
-                            }));
-                        }
+                        lenthSpeedPosDataNotSorted = true;
+                        break;
                     }
                 }
+
+                ChartSeries lenthSpeedChartSeries = lenthSpeeddrawChartXy.ChartSeries["DistanceSpeed"];
+                lenthSpeedChartSeries.PointLabelDisplayMode |= PointLabelDisplayMode.AllSeriesPoints;
+                this.Invoke((EventHandler)(delegate
+                {
+                    lenthSpeedChartSeries.SeriesPoints.Clear();
+                    lenthSpeedChartSeries.SeriesPoints.AddRange(sortedSpeedSeriesPointList);
+                }));
             }
-            
+
+            if (outLenthPosPkt != null)
+            {
+                List<SeriesPoint> lenthPosDrawPointList = new List<SeriesPoint>();
+                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
+                {
+                    lenthPosDrawPointList.Add(new SeriesPoint(Convert.ToDouble(outLenthPosPkt.InDataArray[i])/100, Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1])/100));
+                }
+
+                if (displayLenthSpeedstring == null)
+                {
+                    displayLenthSpeedstring = new StringBuilder();
+                }
+                displayLenthSpeedstring.Append("DistanceAzimuth data start:");
+                foreach (SeriesPoint point in lenthPosDrawPointList)
+                {
+                    displayLenthSpeedstring.Append("(" + point.ValueX + "," + point.ValueY[0] + ")");
+                }
+                displayLenthSpeedstring.Append("DistanceAzimuth data end\r\n");
+
+                IEnumerable<SeriesPoint> sortedPosSeriesPointList =
+                    from singlePoint in lenthPosDrawPointList
+                    orderby singlePoint.ValueX
+                    select singlePoint;
+
+                for (int i = 0; i < lenthPosDrawPointList.Count; i++)
+                {
+                    if (lenthPosDrawPointList.ElementAt(i).ValueX != sortedPosSeriesPointList.ElementAt(i).ValueX)
+                    {
+                        lenthSpeedPosDataNotSorted = true;
+                        break;
+                    }
+                }
+
+                ChartSeries lenthPosChartSeries = lenthPosdrawChartXy.ChartSeries["DistanceAzimuth"];
+                lenthPosChartSeries.PointLabelDisplayMode |= PointLabelDisplayMode.AllSeriesPoints;
+                if (lenthPosChartSeries != null)
+                {
+                    this.Invoke((EventHandler)(delegate
+                    {
+                        lenthPosChartSeries.SeriesPoints.Clear();
+                        lenthPosChartSeries.SeriesPoints.AddRange(sortedPosSeriesPointList);
+                    }));
+                }
+            }
+
+            if ( no_debug_output == false )
+            {
+                if( displayLenthSpeedstring != null )
+                    AppendColorText2RichBox(displayLenthSpeedstring.ToString());
+                if(lenthSpeedPosDataNotSorted == true)
+                    MessageBox.Show("收到的方位或速度数据不是按照距离升序的","提示");
+            }
         }
 
         private void LenthFFTDrawThreadFunction()
@@ -716,30 +723,14 @@ namespace DataSplineShow
             while (true)
             {
                 Thread.Sleep(10);
-                DrawSplineBaseRcvData(InDataProcess.DATATYPE_LENTH_FFT1);
-            }
-        }
-
-        private void LenthSpeedDrawThreadFunction()
-        {
-            while (true)
-            {
-                Thread.Sleep(10);
-                DrawSplineBaseRcvData(InDataProcess.DATATYPE_LENTH_SPEED);
-            }
-        }
-
-        private void LenthPosDrawThreadFunction()
-        {
-            while (true)
-            {
-                Thread.Sleep(50);
-                DrawSplineBaseRcvData(InDataProcess.DATATYPE_LENTH_POS);
+                DrawSplineBaseRcvData();
             }
         }
 
         protected override void OnClosed(EventArgs e)
         {
+            LenthFFTDrawThread.Abort();
+            LenthFFTDrawThread.Join();
             Dispose();
             Application.Exit();
             System.Environment.Exit(0);
@@ -805,71 +796,15 @@ namespace DataSplineShow
                 DataLabel dl = new DataLabel(pointLabel[i]);
 
                 double distance = lenthSpeedValue.InDataArray[PosSpeedPointIndex];
-                double speed = lenthSpeedValue.InDataArray[PosSpeedPointIndex + 1];
-                double pos = lenthPosValue.InDataArray[PosSpeedPointIndex + 1];
+                double speed = Convert.ToDouble(lenthSpeedValue.InDataArray[PosSpeedPointIndex + 1])/100;
+                double pos = Convert.ToDouble(lenthPosValue.InDataArray[PosSpeedPointIndex + 1])/100;
 
-                dl.Text = "x:" + pointLabel[i].ValueX.ToString() + "\nY:" + pointLabel[i].ValueY[0].ToString()
-                    + "\nDistance: " + distance.ToString() + "\nspeed: " + speed.ToString() + "\npos" + pos.ToString();
+                dl.Text = "X:" + pointLabel[i].ValueX.ToString() + "\nY:" + pointLabel[i].ValueY[0].ToString()
+                    + "\nDistance: " + distance.ToString() + "\nSpeed: " + speed.ToString() + "\nAzimuth:" + pos.ToString();
                 dl.DataLabelVisualStyle = SetupDataLabelStyle(90, color); ;
 
                 drawSeries.DataLabels.Add(dl);
             }
         }
-
-
-        #region LenthSpeedNav_CheckedChanged
-
-        void LenthSpeedNav_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if(lenthSpeedNav.Checked == true)
-            {
-                Console.WriteLine("LenthSpeedNav_CheckedChanged checked");
-                LenthSpeedDrawThread = new Thread(LenthSpeedDrawThreadFunction);
-                LenthSpeedDrawThread.Start();
-            }
-            else
-            {
-                LenthSpeedDrawThread.Abort();
-                LenthSpeedDrawThread.Join();
-                Console.WriteLine("LenthSpeedNav_CheckedChanged Abort");
-            }
-        }
-        #endregion
-
-        #region LenthPosNav_CheckedChanged
-        void LenthPosNav_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if (LenthPosNav.Checked == true)
-            {
-                Console.WriteLine("LenthPosNav_CheckedChanged checked");
-                LenthPosDrawThread = new Thread(LenthPosDrawThreadFunction);
-                LenthPosDrawThread.Start();
-            }
-            else
-            {
-                LenthPosDrawThread.Abort();
-                LenthPosDrawThread.Join();
-                Console.WriteLine("LenthPosNav_CheckedChanged Abort");
-            }
-        }
-        #endregion
-
-        #region LenthFFTNav_CheckedChanged
-        void LenthFFTNav_CheckedChanged(object sender, System.EventArgs e)
-        {
-            if(LenthFFTNav.Checked == true)
-            {
-                Console.WriteLine("LenthFFTNav_CheckedChanged checked");
-                LenthFFTDrawThread = new Thread(LenthFFTDrawThreadFunction);
-                LenthFFTDrawThread.Start();
-            }
-            else
-            {
-                LenthFFTDrawThread.Abort();
-                LenthFFTDrawThread.Join();
-                Console.WriteLine("LenthFFTNav_CheckedChanged Abort");
-            }
-        }
-        #endregion
     }
 }

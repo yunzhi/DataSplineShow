@@ -28,7 +28,7 @@ namespace DataSplineShow
             LenthSpeedChartControlDisplay.LenthSpeedChartControl = new ChartControl();
             LenthSpeedChartControlDisplay.LenthSpeedChartControl.Name = "LenthSpeedChartControl";
             LenthSpeedChartControlDisplay.LenthSpeedChartControl.Location = new System.Drawing.Point(10, 15);
-            LenthSpeedChartControlDisplay.LenthSpeedChartControl.Size = new System.Drawing.Size(700, 500);
+            LenthSpeedChartControlDisplay.LenthSpeedChartControl.Size = new System.Drawing.Size(680, 500);
             LenthSpeedChartControlDisplay.LenthSpeedChartControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             LenthSpeedChartControlDisplay.LenthSpeedChartControl.MinimumSize = new System.Drawing.Size(480, 320);
 
@@ -138,8 +138,8 @@ namespace DataSplineShow
             axis.AxisFarMargin = 30;
             axis.AxisNearMargin = 10;
 
-            axis.GridSpacing = 20;
-            axis.MinGridInterval = 50;
+            axis.GridSpacing = 5;
+            axis.MinGridInterval = 20;
 
             axis.AxisAlignment = AxisAlignment.Far;
             axis.MinorTickmarks.TickmarkCount = 0;
@@ -297,8 +297,37 @@ namespace DataSplineShow
             DistanceSpeedChartSeries.ChartSeriesVisualStyle.MarkerVisualStyle.BorderColor = Color.Green;
             DistanceSpeedChartSeries.ChartSeriesVisualStyle.MarkerVisualStyle.Background = new Background(Color.Blue);
             DistanceSpeedChartSeries.ChartSeriesVisualStyle.SplineStyle.LineColor = Color.Green;
+            //DistanceSpeedChartSeries.PointLabelDisplayMode |= PointLabelDisplayMode.AllSeriesPoints;
+            SetupDataLabelStyle(DistanceSpeedChartSeries);
             chartXy.ChartSeries.Add(DistanceSpeedChartSeries);
         }
+
+        #region SetupDataLabelStyle
+
+        /// <summary>
+        /// Creates a DataLabelStyle from the given connector angle and color.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        private void SetupDataLabelStyle(ChartSeries series)
+        {
+            DataLabelVisualStyle dtStyle = series.DataLabelVisualStyle;
+
+            dtStyle.Background = new Background(Color.FromArgb(170, Color.Green));
+            dtStyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(3);
+            dtStyle.Font = new System.Drawing.Font("Arial", 8, FontStyle.Italic);
+            dtStyle.TextAlignment = LineAlignment.Center;
+            dtStyle.DropShadow.ShadowColor = Color.Crimson;
+
+            dtStyle.DrawConnector = Tbool.True;
+
+            dtStyle.ApplyDefaults();
+
+
+        }
+
+        #endregion
 
         #endregion
     }

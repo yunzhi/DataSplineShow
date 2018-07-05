@@ -43,8 +43,8 @@
             this.rcvRichTextBox = new DevComponents.DotNetBar.Controls.RichTextBoxEx();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.sideNav1 = new DevComponents.DotNetBar.Controls.SideNav();
-            this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
+            this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.lenthSpeedNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.fullChartNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.sideNavPanel5 = new DevComponents.DotNetBar.Controls.SideNavPanel();
@@ -302,6 +302,15 @@
             this.sideNav1.TabIndex = 9;
             this.sideNav1.Text = "sideNav1";
             // 
+            // lenthFFTNavPanel
+            // 
+            this.lenthFFTNavPanel.AllowDrop = true;
+            this.lenthFFTNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lenthFFTNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.lenthFFTNavPanel.Name = "lenthFFTNavPanel";
+            this.lenthFFTNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.lenthFFTNavPanel.TabIndex = 6;
+            // 
             // lenthPosNavPanel
             // 
             this.lenthPosNavPanel.AllowDrop = true;
@@ -311,15 +320,6 @@
             this.lenthPosNavPanel.Size = new System.Drawing.Size(707, 527);
             this.lenthPosNavPanel.TabIndex = 10;
             this.lenthPosNavPanel.Visible = false;
-            // 
-            // lenthFFTNavPanel
-            // 
-            this.lenthFFTNavPanel.AllowDrop = true;
-            this.lenthFFTNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lenthFFTNavPanel.Location = new System.Drawing.Point(122, 39);
-            this.lenthFFTNavPanel.Name = "lenthFFTNavPanel";
-            this.lenthFFTNavPanel.Size = new System.Drawing.Size(707, 527);
-            this.lenthFFTNavPanel.TabIndex = 6;
             // 
             // lenthSpeedNavPanel
             // 

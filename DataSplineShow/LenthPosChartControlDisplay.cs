@@ -295,9 +295,36 @@ namespace DataSplineShow
             DistanceAzimuthChartSeries.ChartSeriesVisualStyle.MarkerVisualStyle.BorderColor = Color.Green;
             DistanceAzimuthChartSeries.ChartSeriesVisualStyle.MarkerVisualStyle.Background = new Background(Color.Blue);
             DistanceAzimuthChartSeries.ChartSeriesVisualStyle.SplineStyle.LineColor = Color.Green;
+            //DistanceAzimuthChartSeries.PointLabelDisplayMode |= PointLabelDisplayMode.AllSeriesPoints;
+            SetupDataLabelStyle(DistanceAzimuthChartSeries);
             chartXy.ChartSeries.Add(DistanceAzimuthChartSeries);
         }
 
         #endregion
+
+        #region SetupDataLabelStyle
+
+        /// <summary>
+        /// Creates a DataLabelStyle from the given connector angle and color.
+        /// </summary>
+        /// <param name="series"></param>
+        /// <returns></returns>
+        private void SetupDataLabelStyle(ChartSeries series)
+        {
+            DataLabelVisualStyle dtStyle = series.DataLabelVisualStyle;
+
+            dtStyle.Background = new Background(Color.FromArgb(170, Color.Green));
+            dtStyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(3);
+            dtStyle.Font = new System.Drawing.Font("Arial", 8, FontStyle.Italic);
+            dtStyle.TextAlignment = LineAlignment.Center;
+            dtStyle.DropShadow.ShadowColor = Color.Crimson;
+
+            dtStyle.DrawConnector = Tbool.True;
+
+            dtStyle.ApplyDefaults();
+        }
+
+        #endregion
+
     }
 }
