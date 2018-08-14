@@ -55,7 +55,7 @@ namespace DataSplineShow
         {
             ChartXy LenthFFTChartXy = new ChartXy("LenthFFTChart");
             LenthFFTChartXy.MinContentSize = new Size(480, 320);
-            LenthFFTChartXy.ChartLineDisplayMode = ChartLineDisplayMode.DisplaySpline;
+            LenthFFTChartXy.ChartLineDisplayMode = ChartLineDisplayMode.DisplayPoints;
 
             // Setup our Crosshair display.
             LenthFFTChartXy.ChartCrosshair.HighlightPoints = true;

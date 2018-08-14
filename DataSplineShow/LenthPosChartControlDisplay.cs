@@ -26,10 +26,10 @@ namespace DataSplineShow
         {
             LenthPosChartControlDisplay.LenthPosChartControl = new ChartControl();
             LenthPosChartControlDisplay.LenthPosChartControl.Name = "LenthPosChartControl";
-            LenthPosChartControlDisplay.LenthPosChartControl.Location = new System.Drawing.Point(10, 15);
-            LenthPosChartControlDisplay.LenthPosChartControl.Size = new System.Drawing.Size(680, 500);
+            LenthPosChartControlDisplay.LenthPosChartControl.Location = new System.Drawing.Point(80, 15);
+            LenthPosChartControlDisplay.LenthPosChartControl.Size = new System.Drawing.Size(510, 510);
             LenthPosChartControlDisplay.LenthPosChartControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            LenthPosChartControlDisplay.LenthPosChartControl.MinimumSize = new System.Drawing.Size(480, 320);
+            LenthPosChartControlDisplay.LenthPosChartControl.MinimumSize = new System.Drawing.Size(480, 480);
 
             LenthPosChartControlDisplay.LenthPosChartControl.DefaultVisualStyles.HScrollBarVisualStyles.MouseOver.ArrowBackground = new Background(Color.AliceBlue);
             LenthPosChartControlDisplay.LenthPosChartControl.DefaultVisualStyles.HScrollBarVisualStyles.MouseOver.ThumbBackground = new Background(Color.AliceBlue);
@@ -53,20 +53,28 @@ namespace DataSplineShow
         private void LenthPosChartXyInit()
         {
             ChartXy LenthPosChartXy = new ChartXy("LenthPosChart");
-            LenthPosChartXy.MinContentSize = new Size(480, 320);
-            LenthPosChartXy.ChartLineDisplayMode = ChartLineDisplayMode.DisplaySpline;
+            LenthPosChartXy.MinContentSize = new Size(480, 480);
 
             // Setup our Crosshair display.
             LenthPosChartXy.ChartCrosshair.HighlightPoints = true;
             LenthPosChartXy.ChartCrosshair.AxisOrientation = AxisOrientation.X;
+
             LenthPosChartXy.ChartCrosshair.ShowValueXLine = true;
             LenthPosChartXy.ChartCrosshair.ShowValueYLine = true;
+            LenthPosChartXy.ChartCrosshair.ShowValueXLabels = true;
+            LenthPosChartXy.ChartCrosshair.ShowValueYLabels = true;
             LenthPosChartXy.ChartCrosshair.ShowCrosshairLabels = true;
 
             // Let's only display the point nearest to the mouse cursor
             // that intersects with the crosshair line.
             LenthPosChartXy.ChartCrosshair.CrosshairLabelMode = CrosshairLabelMode.NearestSeries;
-            LenthPosChartXy.ChartCrosshair.CrosshairVisualStyle.Background = new Background(Color.White);
+            LenthPosChartXy.ChartCrosshair.CrosshairVisualStyle.Background = new Background(Color.LightYellow);
+
+            LenthPosChartXy.ChartCrosshair.CrosshairVisualStyle.ValueXLineStyle.LineColor = Color.Crimson;
+            LenthPosChartXy.ChartCrosshair.CrosshairVisualStyle.ValueYLineStyle.LineColor = Color.Crimson;
+
+            LenthPosChartXy.ChartLineDisplayMode = ChartLineDisplayMode.DisplayPoints | ChartLineDisplayMode.DisplayUnsorted;
+
 
             // Setup various styles for the chart...
             SetupChartStyle(LenthPosChartXy);
@@ -76,13 +84,15 @@ namespace DataSplineShow
 
             // Add a chart title and associated series.
 
-            AddChartTitle(LenthPosChartXy);
-            InitChartSeries(LenthPosChartXy);
+            //AddChartTitle(LenthPosChartXy);
+            //InitChartSeries(LenthPosChartXy);
 
             // And finally, add the chart to the ChartContainers
             // collection of chart elements.
 
             LenthPosChartControlDisplay.LenthPosChartControl.ChartPanel.ChartContainers.Add(LenthPosChartXy);
+
+            CreateChartSeries();
         }
 
         #endregion
@@ -95,64 +105,98 @@ namespace DataSplineShow
         /// <param name="chartXy"></param>
         private void SetupChartAxes(ChartXy chartXy)
         {
+            Color color = Color.FromArgb(180, 213, 255);
+
             // X Axis
 
             ChartAxis axis = chartXy.AxisX;
 
-            //axis.GridSpacing = 10;
-            axis.MinGridInterval = 20;
-
-            axis.AxisMargins = 5;
-            axis.AxisFarMargin = 5;
-            axis.AxisNearMargin = 5;
-
-            // Set our axis title appropriately.
-
-            axis.Title.Text = "距离（m）";
-            axis.Title.ChartTitleVisualStyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(4, 0, 4, 0);
-            axis.Title.ChartTitleVisualStyle.Font = new Font("微软雅黑", 10);
-            axis.Title.ChartTitleVisualStyle.TextColor = Color.Navy;
-            axis.Title.ChartTitleVisualStyle.Alignment = Alignment.BottomCenter;
-
-            axis.MinorTickmarks.TickmarkCount = 0;
-            axis.MajorTickmarks.StaggerLabels = true;
-            axis.MajorTickmarks.LabelSkip = 2;
+            axis.AxisMargins = 20;
+            axis.MinorTickmarks.TickmarkCount = 5;
 
             axis.MajorGridLines.GridLinesVisualStyle.LineColor = Color.Gainsboro;
             axis.MinorGridLines.GridLinesVisualStyle.LineColor = Color.WhiteSmoke;
 
-            // Set our alternate background to a nice MidnightBlue.
+            axis.CrosshairLabelVisualStyle.Background = new Background(color);
 
-            axis.ChartAxisVisualStyle.AlternateBackground = new Background(Color.FromArgb(20, Color.MidnightBlue));
-
-            axis.UseAlternateBackground = true;
+            axis.MajorTickmarks.LabelVisualStyle.TextFormat = "0.###";
 
             // Y Axis
 
             axis = chartXy.AxisY;
 
-            //axis.AxisMargins = 5;
-            axis.AxisFarMargin = 30;
-            axis.AxisNearMargin = 10;
-
-            axis.GridSpacing = 20;
-            axis.MinGridInterval = 50;
-
             axis.AxisAlignment = AxisAlignment.Far;
-            axis.MinorTickmarks.TickmarkCount = 0;
 
-            // Set our axis title appropriately.
-
-            axis.Title.Text = "方位（°）";
-            axis.Title.ChartTitleVisualStyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(4, 0, 4, 0);
-            axis.Title.ChartTitleVisualStyle.Font = new Font("微软雅黑", 10);
-            axis.Title.ChartTitleVisualStyle.TextColor = Color.Navy;
-            axis.Title.ChartTitleVisualStyle.Alignment = Alignment.MiddleCenter;
+            axis.AxisMargins = 20;
+            axis.MinorTickmarks.TickmarkCount = 5;
 
             axis.MajorGridLines.GridLinesVisualStyle.LineColor = Color.Gainsboro;
             axis.MinorGridLines.GridLinesVisualStyle.LineColor = Color.WhiteSmoke;
 
-            axis.ChartAxisVisualStyle.AlternateBackground = new Background(Color.FromArgb(30, Color.DarkKhaki));
+            axis.CrosshairLabelVisualStyle.Background = new Background(color);
+            axis.CrosshairLabelVisualStyle.TextFormat = "0.###";
+
+            axis.MajorTickmarks.LabelVisualStyle.TextFormat = "0.###";
+
+
+            //// X Axis
+
+            //ChartAxis axis = chartXy.AxisX;
+
+            ////axis.GridSpacing = 10;
+            //axis.MinGridInterval = 20;
+
+            //axis.AxisMargins = 5;
+            //axis.AxisFarMargin = 5;
+            //axis.AxisNearMargin = 5;
+
+            //// Set our axis title appropriately.
+
+            //axis.Title.Text = "距离（m）";
+            //axis.Title.ChartTitleVisualStyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(4, 0, 4, 0);
+            //axis.Title.ChartTitleVisualStyle.Font = new Font("微软雅黑", 10);
+            //axis.Title.ChartTitleVisualStyle.TextColor = Color.Navy;
+            //axis.Title.ChartTitleVisualStyle.Alignment = Alignment.BottomCenter;
+
+            //axis.MinorTickmarks.TickmarkCount = 0;
+            //axis.MajorTickmarks.StaggerLabels = true;
+            //axis.MajorTickmarks.LabelSkip = 2;
+
+            //axis.MajorGridLines.GridLinesVisualStyle.LineColor = Color.Gainsboro;
+            //axis.MinorGridLines.GridLinesVisualStyle.LineColor = Color.WhiteSmoke;
+
+            //// Set our alternate background to a nice MidnightBlue.
+
+            //axis.ChartAxisVisualStyle.AlternateBackground = new Background(Color.FromArgb(20, Color.MidnightBlue));
+
+            //axis.UseAlternateBackground = true;
+
+            //// Y Axis
+
+            //axis = chartXy.AxisY;
+
+            ////axis.AxisMargins = 5;
+            //axis.AxisFarMargin = 30;
+            //axis.AxisNearMargin = 10;
+
+            //axis.GridSpacing = 20;
+            //axis.MinGridInterval = 50;
+
+            //axis.AxisAlignment = AxisAlignment.Far;
+            //axis.MinorTickmarks.TickmarkCount = 0;
+
+            //// Set our axis title appropriately.
+
+            //axis.Title.Text = "方位（°）";
+            //axis.Title.ChartTitleVisualStyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(4, 0, 4, 0);
+            //axis.Title.ChartTitleVisualStyle.Font = new Font("微软雅黑", 10);
+            //axis.Title.ChartTitleVisualStyle.TextColor = Color.Navy;
+            //axis.Title.ChartTitleVisualStyle.Alignment = Alignment.MiddleCenter;
+
+            //axis.MajorGridLines.GridLinesVisualStyle.LineColor = Color.Gainsboro;
+            //axis.MinorGridLines.GridLinesVisualStyle.LineColor = Color.WhiteSmoke;
+
+            //axis.ChartAxisVisualStyle.AlternateBackground = new Background(Color.FromArgb(30, Color.DarkKhaki));
         }
 
         #endregion
@@ -165,28 +209,34 @@ namespace DataSplineShow
         /// <param name="chartXy"></param>
         private void SetupChartStyle(ChartXy chartXy)
         {
-            ChartXyVisualStyle cstyle = chartXy.ChartVisualStyle;
+            ChartXyVisualStyle xystyle = chartXy.ChartVisualStyle;
 
-            cstyle.Background = new Background(Color.White);
-            cstyle.BorderThickness = new Thickness(1);
-            cstyle.BorderColor = new BorderColor(Color.Navy);
+            xystyle.Background = new Background(Color.White);
+            xystyle.BorderThickness = new Thickness(1);
+            xystyle.BorderColor = new BorderColor(Color.Black);
 
-            cstyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(6);
+            //ChartXyVisualStyle cstyle = chartXy.ChartVisualStyle;
 
-            ChartSeriesVisualStyle sstyle = chartXy.ChartSeriesVisualStyle;
-            PointMarkerVisualStyle pstyle = sstyle.MarkerHighlightVisualStyle;
+            //cstyle.Background = new Background(Color.White);
+            //cstyle.BorderThickness = new Thickness(1);
+            //cstyle.BorderColor = new BorderColor(Color.Navy);
 
-            pstyle.Background = new Background(Color.Yellow);
-            pstyle.Type = PointMarkerType.Ellipse;
-            pstyle.Size = new Size(15, 15);
+            //cstyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(6);
 
-            CrosshairVisualStyle chstyle = chartXy.ChartCrosshair.CrosshairVisualStyle;
+            //ChartSeriesVisualStyle sstyle = chartXy.ChartSeriesVisualStyle;
+            //PointMarkerVisualStyle pstyle = sstyle.MarkerHighlightVisualStyle;
 
-            chstyle.ValueXLineStyle.LineColor = Color.Navy;
-            chstyle.ValueXLineStyle.LinePattern = LinePattern.Dot;
+            //pstyle.Background = new Background(Color.Yellow);
+            //pstyle.Type = PointMarkerType.Ellipse;
+            //pstyle.Size = new Size(15, 15);
 
-            chstyle.ValueYLineStyle.LineColor = Color.Navy;
-            chstyle.ValueYLineStyle.LinePattern = LinePattern.Dot;
+            //CrosshairVisualStyle chstyle = chartXy.ChartCrosshair.CrosshairVisualStyle;
+
+            //chstyle.ValueXLineStyle.LineColor = Color.Navy;
+            //chstyle.ValueXLineStyle.LinePattern = LinePattern.Dot;
+
+            //chstyle.ValueYLineStyle.LineColor = Color.Navy;
+            //chstyle.ValueYLineStyle.LinePattern = LinePattern.Dot;
         }
 
         #endregion
@@ -206,7 +256,7 @@ namespace DataSplineShow
             dstyle.BorderThickness = new Thickness(1);
 
             dstyle.DropShadow.Enabled = Tbool.True;
-            dstyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(1);
+            dstyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(2);
         }
 
         #endregion
@@ -220,28 +270,22 @@ namespace DataSplineShow
         private void SetupChartLegend(ChartXy chartXy)
         {
             ChartLegend legend = chartXy.Legend;
-
-            legend.ShowCheckBoxes = true;
+            legend.Visible = false;
 
             legend.Placement = Placement.Inside;
-            legend.Alignment = Alignment.TopRight;
-            legend.Direction = Direction.LeftToRight;
-
-            // Align vertical items, and permit the legend to only use
-            // up to 50% of the available chart width;
-
+            legend.Alignment = Alignment.TopCenter;
             legend.AlignVerticalItems = true;
-            legend.MaxHorizontalPct = 50;
+            legend.Direction = Direction.LeftToRight;
 
             ChartLegendVisualStyle lstyle = legend.ChartLegendVisualStyles.Default;
 
-            lstyle.BorderThickness = new Thickness(0);
-            lstyle.BorderColor = new BorderColor(Color.White);
+            lstyle.BorderThickness = new Thickness(1);
+            lstyle.BorderColor = new BorderColor(Color.Crimson);
 
             lstyle.Margin = new DevComponents.DotNetBar.Charts.Style.Padding(8);
             lstyle.Padding = new DevComponents.DotNetBar.Charts.Style.Padding(4);
 
-            //lstyle.Background = new Background(Color.FromArgb(200, Color.White));
+            lstyle.Background = new Background(Color.FromArgb(200, Color.White));
         }
 
         #endregion
@@ -322,6 +366,49 @@ namespace DataSplineShow
             dtStyle.DrawConnector = Tbool.True;
 
             dtStyle.ApplyDefaults();
+        }
+
+        #endregion
+
+        #region CreateChartSeries
+
+        /// <summary>
+        /// Create a new chart series based upon the given data.
+        /// </summary>
+        private void CreateChartSeries()
+        {
+            ChartXy chartXy = LenthPosChartControlDisplay.LenthPosChartControl.ChartPanel.ChartContainers[0] as ChartXy;
+
+            chartXy.ChartSeries.Clear();
+            
+
+            ChartSeries series = new ChartSeries("DistanceAzimuth", SeriesType.Line);
+
+            
+
+            chartXy.ChartSeries.Add(series);
+
+            // x^2 + y^2 = R^2;
+
+            for (double x = -20.0; x < 20.0; x += .01)
+            {
+                double y = (double)Math.Sqrt(400 - Math.Pow(x,2));
+
+                SeriesPoint sp = new SeriesPoint(x, y);
+
+                series.SeriesPoints.Add(sp);
+            }
+
+            for (double x = 20.0; x > -20.0; x -= .01)
+            {
+                double y = -(double)Math.Sqrt(400 - Math.Pow(x, 2));
+
+                SeriesPoint sp = new SeriesPoint(x, y);
+
+                series.SeriesPoints.Add(sp);
+            }
+            
+
         }
 
         #endregion

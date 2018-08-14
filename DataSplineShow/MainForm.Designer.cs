@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(30D, 50D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
             this.oriDataPanel = new DevComponents.DotNetBar.PanelEx();
@@ -43,10 +48,12 @@
             this.rcvRichTextBox = new DevComponents.DotNetBar.Controls.RichTextBoxEx();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.sideNav1 = new DevComponents.DotNetBar.Controls.SideNav();
-            this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
-            this.lenthSpeedNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
+            this.ShowPath = new System.Windows.Forms.CheckBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.fullChartNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
+            this.lenthSpeedNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.sideNavPanel5 = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.labelX4 = new DevComponents.DotNetBar.LabelX();
             this.comboBoxEx1 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
@@ -64,6 +71,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ipTextBox)).BeginInit();
             this.groupPanel1.SuspendLayout();
             this.sideNav1.SuspendLayout();
+            this.lenthPosNavPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.sideNavPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -280,9 +289,9 @@
             // 
             // sideNav1
             // 
-            this.sideNav1.Controls.Add(this.lenthFFTNavPanel);
             this.sideNav1.Controls.Add(this.lenthPosNavPanel);
             this.sideNav1.Controls.Add(this.lenthSpeedNavPanel);
+            this.sideNav1.Controls.Add(this.lenthFFTNavPanel);
             this.sideNav1.Controls.Add(this.fullChartNavPanel);
             this.sideNav1.Controls.Add(this.sideNavPanel5);
             this.sideNav1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -302,6 +311,91 @@
             this.sideNav1.TabIndex = 9;
             this.sideNav1.Text = "sideNav1";
             // 
+            // lenthPosNavPanel
+            // 
+            this.lenthPosNavPanel.AllowDrop = true;
+            this.lenthPosNavPanel.Controls.Add(this.ShowPath);
+            this.lenthPosNavPanel.Controls.Add(this.chart1);
+            this.lenthPosNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lenthPosNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.lenthPosNavPanel.Name = "lenthPosNavPanel";
+            this.lenthPosNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.lenthPosNavPanel.TabIndex = 10;
+            // 
+            // ShowPath
+            // 
+            this.ShowPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ShowPath.AutoSize = true;
+            this.ShowPath.Location = new System.Drawing.Point(612, 488);
+            this.ShowPath.Name = "ShowPath";
+            this.ShowPath.Size = new System.Drawing.Size(72, 16);
+            this.ShowPath.TabIndex = 1;
+            this.ShowPath.Text = "显示路径";
+            this.ShowPath.UseVisualStyleBackColor = true;
+            this.ShowPath.CheckedChanged += new System.EventHandler(this.ShowPath_CheckedChanged);
+            // 
+            // chart1
+            // 
+            chartArea1.AxisX.ScaleBreakStyle.BreakLineStyle = System.Windows.Forms.DataVisualization.Charting.BreakLineStyle.Wave;
+            chartArea1.AxisX.ScaleBreakStyle.Enabled = true;
+            chartArea1.AxisY.Interval = 10D;
+            chartArea1.AxisY.Maximum = 80D;
+            chartArea1.AxisY.Minimum = 0D;
+            chartArea1.CursorX.IsUserEnabled = true;
+            chartArea1.CursorY.IsUserEnabled = true;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.DockedToChartArea = "ChartArea1";
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
+            legend1.ForeColor = System.Drawing.Color.Blue;
+            legend1.IsDockedInsideChartArea = false;
+            legend1.ItemColumnSpacing = 20;
+            legend1.MaximumAutoSize = 20F;
+            legend1.Name = "DALegend";
+            legend1.Position.Auto = false;
+            legend1.Position.Height = 9.278351F;
+            legend1.Position.Width = 15.22491F;
+            legend1.Position.X = 3F;
+            legend1.Position.Y = 5.82F;
+            legend1.Title = "距离方位图";
+            legend1.TitleBackColor = System.Drawing.Color.Transparent;
+            legend1.TitleFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            legend1.TitleForeColor = System.Drawing.Color.RoyalBlue;
+            legend1.TitleSeparator = System.Windows.Forms.DataVisualization.Charting.LegendSeparatorStyle.GradientLine;
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            this.chart1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            series1.BorderColor = System.Drawing.Color.Red;
+            series1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Polar;
+            series1.Color = System.Drawing.Color.Red;
+            series1.CustomProperties = "PolarDrawingStyle=Marker, LabelStyle=Top";
+            series1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            series1.IsValueShownAsLabel = true;
+            series1.Label = "#VAL, #VALX";
+            series1.LabelForeColor = System.Drawing.Color.Red;
+            series1.Legend = "DALegend";
+            series1.MarkerBorderColor = System.Drawing.Color.Red;
+            series1.MarkerBorderWidth = 2;
+            series1.MarkerColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            series1.MarkerSize = 6;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series1.Name = "DistanceAzimuth";
+            series1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            dataPoint1.LabelForeColor = System.Drawing.Color.Red;
+            series1.Points.Add(dataPoint1);
+            series1.Points.Add(dataPoint2);
+            series1.SmartLabelStyle.CalloutLineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(707, 527);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "LenthAzimuth";
+            // 
             // lenthFFTNavPanel
             // 
             this.lenthFFTNavPanel.AllowDrop = true;
@@ -310,16 +404,16 @@
             this.lenthFFTNavPanel.Name = "lenthFFTNavPanel";
             this.lenthFFTNavPanel.Size = new System.Drawing.Size(707, 527);
             this.lenthFFTNavPanel.TabIndex = 6;
+            this.lenthFFTNavPanel.Visible = false;
             // 
-            // lenthPosNavPanel
+            // fullChartNavPanel
             // 
-            this.lenthPosNavPanel.AllowDrop = true;
-            this.lenthPosNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lenthPosNavPanel.Location = new System.Drawing.Point(122, 39);
-            this.lenthPosNavPanel.Name = "lenthPosNavPanel";
-            this.lenthPosNavPanel.Size = new System.Drawing.Size(707, 527);
-            this.lenthPosNavPanel.TabIndex = 10;
-            this.lenthPosNavPanel.Visible = false;
+            this.fullChartNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fullChartNavPanel.Location = new System.Drawing.Point(122, 39);
+            this.fullChartNavPanel.Name = "fullChartNavPanel";
+            this.fullChartNavPanel.Size = new System.Drawing.Size(707, 527);
+            this.fullChartNavPanel.TabIndex = 2;
+            this.fullChartNavPanel.Visible = false;
             // 
             // lenthSpeedNavPanel
             // 
@@ -330,15 +424,6 @@
             this.lenthSpeedNavPanel.Size = new System.Drawing.Size(707, 527);
             this.lenthSpeedNavPanel.TabIndex = 14;
             this.lenthSpeedNavPanel.Visible = false;
-            // 
-            // fullChartNavPanel
-            // 
-            this.fullChartNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fullChartNavPanel.Location = new System.Drawing.Point(122, 39);
-            this.fullChartNavPanel.Name = "fullChartNavPanel";
-            this.fullChartNavPanel.Size = new System.Drawing.Size(707, 527);
-            this.fullChartNavPanel.TabIndex = 2;
-            this.fullChartNavPanel.Visible = false;
             // 
             // sideNavPanel5
             // 
@@ -416,18 +501,20 @@
             // 
             // LenthFFTNav
             // 
-            this.LenthFFTNav.Checked = true;
             this.LenthFFTNav.Name = "LenthFFTNav";
             this.LenthFFTNav.Panel = this.lenthFFTNavPanel;
             this.LenthFFTNav.Symbol = "";
             this.LenthFFTNav.Text = "距离FFT图";
+            this.LenthFFTNav.Click += new System.EventHandler(this.LenthFFTNav_Click);
             // 
             // LenthPosNav
             // 
+            this.LenthPosNav.Checked = true;
             this.LenthPosNav.Name = "LenthPosNav";
             this.LenthPosNav.Panel = this.lenthPosNavPanel;
             this.LenthPosNav.Symbol = "";
             this.LenthPosNav.Text = "距离方位图";
+            this.LenthPosNav.Click += new System.EventHandler(this.LenthPosNav_Click);
             // 
             // lenthSpeedNav
             // 
@@ -435,6 +522,7 @@
             this.lenthSpeedNav.Panel = this.lenthSpeedNavPanel;
             this.lenthSpeedNav.Symbol = "";
             this.lenthSpeedNav.Text = "距离速度图";
+            this.lenthSpeedNav.Click += new System.EventHandler(this.lenthSpeedNav_Click);
             // 
             // setMentNav
             // 
@@ -499,6 +587,9 @@
             this.groupPanel1.ResumeLayout(false);
             this.sideNav1.ResumeLayout(false);
             this.sideNav1.PerformLayout();
+            this.lenthPosNavPanel.ResumeLayout(false);
+            this.lenthPosNavPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.sideNavPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -534,6 +625,8 @@
         private DevComponents.DotNetBar.Controls.SideNavItem setMentNav;
         private DevComponents.DotNetBar.LabelX labelX4;
         private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
+        public System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.CheckBox ShowPath;
     }
 }
 
