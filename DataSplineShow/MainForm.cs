@@ -124,23 +124,11 @@ namespace DataSplineShow
                 {
                     if (dataSocket != null && dataSocket.Connected)
                     {
-                        //dataSocket.BeginReceive(arrRecvmsg, 0, arrRecvmsg.Length, SocketFlags.None, new AsyncCallback((ar) =>
-                        //{
-                        //    //方法参考：http://msdn.microsoft.com/zh-cn/library/system.net.sockets.socket.endreceive.aspx
-                        //    int lenth = dataSocket.EndReceive(ar);
-                        //    CheckAnalysisRcvPacket(arrRecvmsg, lenth);
-
-                        //}), null);
-
                         //将客户端套接字接收到的数据存入内存缓冲区，并获取长度  
                         int length = dataSocket.Receive(arrRecvmsg);
                         if (length != 0)
                         {
-                            //DateTime begin = DateTime.Now;
                             CheckAnalysisRcvPacket(arrRecvmsg, length);
-                            //DateTime end = DateTime.Now;
-                            //Console.WriteLine("period secs: " + ExecDateDiff(begin, end));
-                            ////Console.WriteLine("rcv: " + length);
                         }
 
                     }
@@ -217,8 +205,6 @@ namespace DataSplineShow
                 
                 for (index = 0; index < arrRecvmsglist.Count; index++)
                 {
-
-#if TTTT
                     if(justProcessSomeData == 1)
                     {
 
@@ -407,10 +393,8 @@ namespace DataSplineShow
                         }
                     }
 
-#endif
                     if(justProcessSomeData == 2 || justProcessSomeData == 0)
                     {
-                        //Console.WriteLine("justProcessSomeData : " + justProcessSomeData.ToString());
                         int lenthPosHeadIndex = arrRecvmsglist.IndexOf(lenthPosPacketHead[0]);
                         if (lenthPosHeadIndex == -1 || lenthPosHeadIndex + LeastLenthSpeedPosPktLenth > arrRecvmsglist.Count)
                         {
@@ -442,13 +426,13 @@ namespace DataSplineShow
                                     displayRcvBytesString.Append("\r\n\r\n");
                                 }
 
-                                Console.WriteLine(DateTime.Now.Millisecond.ToString() + " arrRecvmsglist.Count before : " + arrRecvmsglist.Count.ToString());
+                                //Console.WriteLine(DateTime.Now.Millisecond.ToString() + " arrRecvmsglist.Count before : " + arrRecvmsglist.Count.ToString());
                                 arrRecvmsglist.RemoveRange(0, lenthPosHeadIndex + LeastLenthSpeedPosPktLenth);
-                                Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count after : " + arrRecvmsglist.Count.ToString());
+                                //Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count after : " + arrRecvmsglist.Count.ToString());
                             }
                             else
                             {
-                                Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count : " + arrRecvmsglist.Count.ToString());
+                                //Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count : " + arrRecvmsglist.Count.ToString());
                                 if (lenthPosHeadIndex == 0)
                                     arrRecvmsglist.RemoveAt(0);
                                 else
@@ -470,114 +454,130 @@ namespace DataSplineShow
 
         private void TestBtn_Click(object sender, EventArgs e)
         {
-            Random lenthFFT1DataRandom = new Random(DateTime.Now.Millisecond);
-
-            lenthFFT1DataRandom.NextBytes(lenthFFT1Data);
-            lenthFFT1Data[0] = lenthFFT1PacketHead[0];
-            lenthFFT1Data[1] = lenthFFT1PacketHead[1];
-            lenthFFT1Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
-            lenthFFT1Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
-
-            Random lenthFFT2DataRandom = new Random(DateTime.Now.Millisecond + 100);
-            lenthFFT2DataRandom.NextBytes(lenthFFT2Data);
-            lenthFFT2Data[0] = lenthFFT2PacketHead[0];
-            lenthFFT2Data[1] = lenthFFT2PacketHead[1];
-            lenthFFT2Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
-            lenthFFT2Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
-
-            Random targetPosDataRandom = new Random(DateTime.Now.Millisecond + 100);
-            targetPosDataRandom.NextBytes(targetPosData);
-            targetPosData[0] = targetPosPacketHead[0];
-            targetPosData[1] = targetPosPacketHead[1];
-            targetPosData[LeastTargetPosPktLenth - 2] = targetPosPacketTail[0];
-            targetPosData[LeastTargetPosPktLenth - 1] = targetPosPacketTail[1];
-
-            Random lenthSpeedDataRandom = new Random(DateTime.Now.Millisecond + 100);
-            lenthSpeedDataRandom.NextBytes(lenthSpeedData);
-            lenthSpeedData[0] = lenthSpeedPacketHead[0];
-            lenthSpeedData[1] = lenthSpeedPacketHead[1];
-            lenthSpeedData[LeastLenthSpeedPosPktLenth - 2] = lenthSpeedPacketTail[0];
-            lenthSpeedData[LeastLenthSpeedPosPktLenth - 1] = lenthSpeedPacketTail[1];
-
-            Random lenthPosDataRandom = new Random(DateTime.Now.Millisecond + 200);
-            lenthPosDataRandom.NextBytes(lenthPosData);
-
-            lenthPosData[0] = lenthPosPacketHead[0];
-            lenthPosData[1] = lenthPosPacketHead[1];
-
-            for( int i = 2; i < LeastLenthSpeedPosPktLenth - 2; i += 4 )
-            {
-                lenthPosData[i] = (byte)lenthPosDataRandom.Next(255);
-                lenthPosData[i+1] = (byte)lenthPosDataRandom.Next(30);
-                lenthPosData[i+2] = (byte)lenthPosDataRandom.Next(255);
-                lenthPosData[i+3] = (byte)lenthPosDataRandom.Next(13);
-            }
-
-            lenthPosData[LeastLenthSpeedPosPktLenth - 2] = lenthPosPacketTail[0];
-            lenthPosData[LeastLenthSpeedPosPktLenth - 1] = lenthPosPacketTail[1];
-
-            LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
-            LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
-            for (int i = 0; i < iPointNum; i++)
-            {
-                lenthFFT1DrawData.InDataArray[i] = (UInt16)((lenthFFT1Data[2 + i * 2]) | (UInt16)(lenthFFT1Data[2 + i * 2 + 1] << 8));
-                lenthFFT2DrawData.InDataArray[i] = (UInt16)((lenthFFT2Data[2 + i * 2]) | (UInt16)(lenthFFT2Data[2 + i * 2 + 1] << 8));
-            }
-
-            TargetPosPacket targetPosDrawData = new TargetPosPacket();
-            for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-            {
-                targetPosDrawData.InDataArray[i] = targetPosData[2 + i];
-            }
-
-            DistancePosSpeedPacket lenthSpeedDrawData = new DistancePosSpeedPacket();
-            DistancePosSpeedPacket lenthPosDrawData = new DistancePosSpeedPacket();
-            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
-            {
-                lenthSpeedDrawData.InDataArray[i] = (Int16)((lenthSpeedData[2 + i * 2]) | (UInt16)(lenthSpeedData[2 + i * 2 + 1] << 8));
-                lenthPosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
-            }
-
-            AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
-            AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
-            AllInDataProcess.EnQueueTargetPosPkt(targetPosDrawData);
-            AllInDataProcess.EnQueueLenthSpeedPkt(lenthSpeedDrawData);
-            AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
-
             StringBuilder testBytesBuilder = new StringBuilder();
-
-            for (int i = 0; i < iPointNum + 2; i++)
+            if (justProcessSomeData == 1)
             {
-                testBytesBuilder.Append(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
-            }
-            testBytesBuilder.Append("\r\n\r\n");
+                Random lenthFFT1DataRandom = new Random(DateTime.Now.Millisecond);
 
-            for (int i = 0; i < iPointNum + 2; i++)
+                lenthFFT1DataRandom.NextBytes(lenthFFT1Data);
+                lenthFFT1Data[0] = lenthFFT1PacketHead[0];
+                lenthFFT1Data[1] = lenthFFT1PacketHead[1];
+                lenthFFT1Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
+                lenthFFT1Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
+
+                Random lenthFFT2DataRandom = new Random(DateTime.Now.Millisecond + 100);
+                lenthFFT2DataRandom.NextBytes(lenthFFT2Data);
+                lenthFFT2Data[0] = lenthFFT2PacketHead[0];
+                lenthFFT2Data[1] = lenthFFT2PacketHead[1];
+                lenthFFT2Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
+                lenthFFT2Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
+
+                Random targetPosDataRandom = new Random(DateTime.Now.Millisecond + 100);
+                targetPosDataRandom.NextBytes(targetPosData);
+                targetPosData[0] = targetPosPacketHead[0];
+                targetPosData[1] = targetPosPacketHead[1];
+                targetPosData[LeastTargetPosPktLenth - 2] = targetPosPacketTail[0];
+                targetPosData[LeastTargetPosPktLenth - 1] = targetPosPacketTail[1];
+
+                LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
+                LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
+                for (int i = 0; i < iPointNum; i++)
+                {
+                    lenthFFT1DrawData.InDataArray[i] = (UInt16)((lenthFFT1Data[2 + i * 2]) | (UInt16)(lenthFFT1Data[2 + i * 2 + 1] << 8));
+                    lenthFFT2DrawData.InDataArray[i] = (UInt16)((lenthFFT2Data[2 + i * 2]) | (UInt16)(lenthFFT2Data[2 + i * 2 + 1] << 8));
+                }
+
+                TargetPosPacket targetPosDrawData = new TargetPosPacket();
+                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
+                {
+                    targetPosDrawData.InDataArray[i] = targetPosData[2 + i];
+                }
+
+                AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
+                AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
+                AllInDataProcess.EnQueueTargetPosPkt(targetPosDrawData);
+
+                for (int i = 0; i < iPointNum + 2; i++)
+                {
+                    testBytesBuilder.Append(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
+                }
+                testBytesBuilder.Append("\r\n\r\n");
+
+                for (int i = 0; i < iPointNum + 2; i++)
+                {
+                    testBytesBuilder.Append(lenthFFT2Data[i * 2].ToString("X2") + " " + lenthFFT2Data[i * 2 + 1].ToString("X2") + " ");
+                }
+                testBytesBuilder.Append("\r\n\r\n");
+
+                for (int i = 0; i < TargetPosPacket.iPointCnt + 4; i++)
+                {
+                    testBytesBuilder.Append(targetPosData[i].ToString("X2") + " ");
+                }
+                testBytesBuilder.Append("\r\n\r\n");
+            }
+            else if (justProcessSomeData == 3)
             {
-                testBytesBuilder.Append(lenthFFT2Data[i * 2].ToString("X2") + " " + lenthFFT2Data[i * 2 + 1].ToString("X2") + " ");
-            }
-            testBytesBuilder.Append("\r\n\r\n");
 
-            for (int i = 0; i < TargetPosPacket.iPointCnt + 4; i++)
+                Random lenthSpeedDataRandom = new Random(DateTime.Now.Millisecond + 100);
+                lenthSpeedDataRandom.NextBytes(lenthSpeedData);
+                lenthSpeedData[0] = lenthSpeedPacketHead[0];
+                lenthSpeedData[1] = lenthSpeedPacketHead[1];
+                lenthSpeedData[LeastLenthSpeedPosPktLenth - 2] = lenthSpeedPacketTail[0];
+                lenthSpeedData[LeastLenthSpeedPosPktLenth - 1] = lenthSpeedPacketTail[1];
+
+                DistancePosSpeedPacket lenthSpeedDrawData = new DistancePosSpeedPacket();
+                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
+                {
+                    lenthSpeedDrawData.InDataArray[i] = (Int16)((lenthSpeedData[2 + i * 2]) | (UInt16)(lenthSpeedData[2 + i * 2 + 1] << 8));
+                }
+                AllInDataProcess.EnQueueLenthSpeedPkt(lenthSpeedDrawData);
+
+                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
+                {
+                    testBytesBuilder.Append(lenthSpeedData[i * 2].ToString("X2") + " " + lenthSpeedData[i * 2 + 1].ToString("X2") + " ");
+                }
+                testBytesBuilder.Append("\r\n\r\n");
+
+            }
+            else if (justProcessSomeData == 2 || justProcessSomeData == 0)
             {
-                testBytesBuilder.Append(targetPosData[i].ToString("X2") + " ");
-            }
-            testBytesBuilder.Append("\r\n\r\n");
 
-            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
-            {
-                testBytesBuilder.Append(lenthSpeedData[i * 2].ToString("X2") + " " + lenthSpeedData[i * 2 + 1].ToString("X2") + " ");
-            }
-            testBytesBuilder.Append("\r\n\r\n");
+                Random lenthPosDataRandom = new Random(DateTime.Now.Millisecond + 200);
+                lenthPosDataRandom.NextBytes(lenthPosData);
 
-            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
-            {
-                testBytesBuilder.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
-            }
-            testBytesBuilder.Append("\r\n\r\n");
+                lenthPosData[0] = lenthPosPacketHead[0];
+                lenthPosData[1] = lenthPosPacketHead[1];
 
+                for (int i = 2; i < LeastLenthSpeedPosPktLenth - 2; i += 4)
+                {
+                    lenthPosData[i] = (byte)lenthPosDataRandom.Next(255);
+                    lenthPosData[i + 1] = (byte)lenthPosDataRandom.Next(255);
+                    lenthPosData[i + 2] = (byte)lenthPosDataRandom.Next(255);
+                    lenthPosData[i + 3] = (byte)lenthPosDataRandom.Next(255);
+                }
+
+                lenthPosData[LeastLenthSpeedPosPktLenth - 2] = lenthPosPacketTail[0];
+                lenthPosData[LeastLenthSpeedPosPktLenth - 1] = lenthPosPacketTail[1];
+
+                DistancePosSpeedPacket lenthPosDrawData = new DistancePosSpeedPacket();
+                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
+                {
+                    lenthPosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
+                }
+
+                AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
+
+                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
+                {
+                    testBytesBuilder.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
+                }
+                testBytesBuilder.Append("\r\n\r\n");
+            }
+            
             if( testBytesBuilder != null)
-                AppendColorText2RichBox(testBytesBuilder.ToString());
+            {
+                rcvRichTextBox.AppendText(testBytesBuilder.ToString());
+            }
         }
 
         public void AppendColorText2RichBox(string text, bool useDefaultColorFlag = true)
@@ -769,105 +769,63 @@ namespace DataSplineShow
             }
 
 #endif
-
-            DistancePosSpeedPacket outLenthPosPkt = null;
-            if (DistancePosContainer.distancePosContainer.Count > 0)
+            if(justProcessSomeData == 1)
             {
-                //Console.WriteLine("distanceAzimuth count: " + DistancePosContainer.distancePosContainer.Count);
-                outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
+
             }
-
-            if (outLenthPosPkt != null)
+            else if (justProcessSomeData == 2 || justProcessSomeData == 0)
             {
-                List<SeriesPoint> lenthPosDrawPointList = new List<SeriesPoint>();
-                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
+                DistancePosSpeedPacket outLenthPosPkt = null;
+                if (DistancePosContainer.distancePosContainer.Count > 0)
                 {
-                    lenthPosDrawPointList.Add(new SeriesPoint(Convert.ToDouble(outLenthPosPkt.InDataArray[i])/100.0, Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1])/100.0));
+                    //Console.WriteLine("distanceAzimuth count: " + DistancePosContainer.distancePosContainer.Count);
+                    outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
                 }
 
-                if (displayLenthSpeedstring == null)
+                if (outLenthPosPkt != null)
                 {
-                    displayLenthSpeedstring = new StringBuilder();
-                }
-
-                //IEnumerable<SeriesPoint> sortedPosSeriesPointList =
-                //    from singlePoint in lenthPosDrawPointList
-                //    orderby singlePoint.ValueX
-                //    select singlePoint;
-
-                //for (int i = 0; i < lenthPosDrawPointList.Count; i++)
-                //{
-                //    if (lenthPosDrawPointList.ElementAt(i).ValueX != sortedPosSeriesPointList.ElementAt(i).ValueX)
-                //    {
-                //        lenthSpeedPosDataNotSorted = true;
-                //        break;
-                //    }
-                //}
-
-                Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
-                
-                if (distanceAzimuthSeries != null)
-                {
-                    if(distanceAzimuthSeries.Points.Count != 0)
+                    List<SeriesPoint> lenthPosDrawPointList = new List<SeriesPoint>();
+                    for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
                     {
-                        this.Invoke((EventHandler)(delegate
-                        {
-                            distanceAzimuthSeries.Points.Clear();
-                        }));
-                        
+                        lenthPosDrawPointList.Add(new SeriesPoint(Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0, Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0));
                     }
-                    if (no_debug_output == false)
-                        displayLenthSpeedstring.Append("\r\nDistanceAzimuth data start:\r\n");
 
-                    bool show_once = true;
-                    foreach (SeriesPoint lenthPosPoint in lenthPosDrawPointList)
+                    if (displayLenthSpeedstring == null)
                     {
-                        double lenthPosPointY = (double)lenthPosPoint.ValueX; // distance
-                        double lenthPosPointX = (double)lenthPosPoint.ValueY[0]; //azimuth
-                        
+                        displayLenthSpeedstring = new StringBuilder();
+                    }
 
-                        if (no_debug_output == false)
-                            displayLenthSpeedstring.Append("(" + lenthPosPoint.ValueX + "," + lenthPosPoint.ValueY[0] + ")");
+                    Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
 
-                        if (lenthPosPointY == 0 && lenthPosPointX == 0)
+                    if (distanceAzimuthSeries != null)
+                    {
+                        if (distanceAzimuthSeries.Points.Count != 0)
                         {
-                            if (show_once == true)
+                            this.Invoke((EventHandler)(delegate
                             {
-                                show_once = false;
-                            }
-                            else
-                            {
-                                continue;
-                            }
+                                distanceAzimuthSeries.Points.Clear();
+                                
+                                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
+                                {
+                                    double lenthPosPointY = Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0; // distance
+                                    double lenthPosPointX = Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0; //azimuth
+
+                                    if (lenthPosPointY == 0 && lenthPosPointX == 0)
+                                    {
+                                        continue;
+                                    }
+                                    distanceAzimuthSeries.Points.AddXY(lenthPosPointX, lenthPosPointY);
+                                }
+                            }));
                         }
-
-                        this.Invoke((EventHandler)(delegate
-                        {
-                            distanceAzimuthSeries.Points.AddXY(lenthPosPointX, lenthPosPointY);
-                        }));
                     }
-                    if (no_debug_output == false)
-                        displayLenthSpeedstring.Append("\r\nDistanceAzimuth data end\r\n");
                 }
-
-                //ChartSeries lenthPosChartSeries = lenthPosdrawChartXy.ChartSeries["DistanceAzimuth"];
-                //lenthPosChartSeries.PointLabelDisplayMode |= PointLabelDisplayMode.AllSeriesPoints;
-                //if (lenthPosChartSeries != null)
-                //{
-                //    this.Invoke((EventHandler)(delegate
-                //    {
-                //        lenthPosChartSeries.SeriesPoints.Clear();
-                //        lenthPosChartSeries.SeriesPoints.AddRange(lenthPosDrawPointList);
-                //    }));
-                //}
             }
 
             if ( no_debug_output == false )
             {
                 if( displayLenthSpeedstring != null )
                     AppendColorText2RichBox(displayLenthSpeedstring.ToString());
-                //if(lenthSpeedPosDataNotSorted == true)
-                //    MessageBox.Show("收到的方位或速度数据不是按照距离升序的","提示");
             }
         }
 
