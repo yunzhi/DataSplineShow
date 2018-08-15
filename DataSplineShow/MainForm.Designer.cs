@@ -326,7 +326,7 @@
             // ShowAllPointsCheckBox
             // 
             this.ShowAllPointsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ShowAllPointsCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.ShowAllPointsCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(73)))), ((int)(((byte)(73)))));
             // 
             // 
             // 
@@ -338,12 +338,13 @@
             this.ShowAllPointsCheckBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ShowAllPointsCheckBox.TabIndex = 3;
             this.ShowAllPointsCheckBox.Text = "显示所有数据";
+            this.ShowAllPointsCheckBox.TextColor = System.Drawing.Color.White;
             this.ShowAllPointsCheckBox.CheckedChanged += new System.EventHandler(this.ShowAllPointsCheckBox_CheckedChanged);
             // 
             // ShowLabelCheckBox
             // 
             this.ShowLabelCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ShowLabelCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.ShowLabelCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             // 
             // 
             // 
@@ -358,31 +359,53 @@
             this.ShowLabelCheckBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ShowLabelCheckBox.TabIndex = 2;
             this.ShowLabelCheckBox.Text = "显示标签";
+            this.ShowLabelCheckBox.TextColor = System.Drawing.Color.White;
             this.ShowLabelCheckBox.CheckedChanged += new System.EventHandler(this.ShowLabelCheckBox_CheckedChanged);
             // 
             // chart1
             // 
-            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(4)))), ((int)(((byte)(4)))));
+            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            this.chart1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
             chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea1.AxisX.Interval = 45D;
+            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(221)))), ((int)(((byte)(221)))));
+            chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(46)))), ((int)(((byte)(23)))));
+            chartArea1.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(30)))));
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             chartArea1.AxisX.ScaleBreakStyle.BreakLineStyle = System.Windows.Forms.DataVisualization.Charting.BreakLineStyle.Wave;
             chartArea1.AxisX.ScaleBreakStyle.Enabled = true;
             chartArea1.AxisX2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
             chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea1.AxisY.Interval = 10D;
+            chartArea1.AxisY.Interval = 15D;
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(221)))), ((int)(((byte)(221)))));
+            chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(140)))), ((int)(((byte)(20)))));
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(30)))));
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.MajorTickMark.Interval = 15D;
+            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(200)))), ((int)(((byte)(30)))));
+            chartArea1.AxisY.MajorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             chartArea1.AxisY.Maximum = 80D;
             chartArea1.AxisY.Minimum = 0D;
             chartArea1.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(20)))), ((int)(((byte)(10)))));
+            chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.VerticalCenter;
+            chartArea1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(110)))), ((int)(((byte)(10)))));
+            chartArea1.BorderColor = System.Drawing.Color.Empty;
             chartArea1.CursorX.IsUserEnabled = true;
             chartArea1.CursorY.IsUserEnabled = true;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
+            legend1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             legend1.DockedToChartArea = "ChartArea1";
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
-            legend1.ForeColor = System.Drawing.Color.Blue;
+            legend1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(221)))), ((int)(((byte)(221)))));
             legend1.IsDockedInsideChartArea = false;
             legend1.ItemColumnSpacing = 20;
+            legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Row;
             legend1.MaximumAutoSize = 20F;
             legend1.Name = "DALegend";
             legend1.Position.Auto = false;
@@ -390,10 +413,11 @@
             legend1.Position.Width = 15.22491F;
             legend1.Position.X = 3F;
             legend1.Position.Y = 5.82F;
+            legend1.ShadowColor = System.Drawing.Color.Gray;
             legend1.Title = "距离方位图";
             legend1.TitleBackColor = System.Drawing.Color.Transparent;
             legend1.TitleFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            legend1.TitleForeColor = System.Drawing.Color.RoyalBlue;
+            legend1.TitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(221)))), ((int)(((byte)(221)))));
             legend1.TitleSeparator = System.Windows.Forms.DataVisualization.Charting.LegendSeparatorStyle.GradientLine;
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
@@ -409,15 +433,18 @@
             series1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series1.IsValueShownAsLabel = true;
             series1.Label = "#VALX{N2},#VAL{N2}";
-            series1.LabelForeColor = System.Drawing.Color.Red;
+            series1.LabelBackColor = System.Drawing.Color.Transparent;
+            series1.LabelBorderColor = System.Drawing.Color.Transparent;
+            series1.LabelBorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            series1.LabelForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(235)))), ((int)(((byte)(232)))));
             series1.Legend = "DALegend";
-            series1.MarkerBorderColor = System.Drawing.Color.Red;
+            series1.MarkerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             series1.MarkerBorderWidth = 2;
-            series1.MarkerColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            series1.MarkerSize = 6;
+            series1.MarkerColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(235)))), ((int)(((byte)(232)))));
+            series1.MarkerSize = 8;
             series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series1.Name = "DistanceAzimuth";
-            series1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            series1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.EarthTones;
             dataPoint1.Label = "";
             series1.Points.Add(dataPoint1);
             series1.SmartLabelStyle.AllowOutsidePlotArea = System.Windows.Forms.DataVisualization.Charting.LabelOutsidePlotAreaStyle.No;
@@ -594,9 +621,9 @@
             this.expandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
             this.expandableSplitter1.HotGripLightColor = System.Drawing.Color.White;
             this.expandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
-            this.expandableSplitter1.Location = new System.Drawing.Point(828, 0);
+            this.expandableSplitter1.Location = new System.Drawing.Point(824, 0);
             this.expandableSplitter1.Name = "expandableSplitter1";
-            this.expandableSplitter1.Size = new System.Drawing.Size(6, 567);
+            this.expandableSplitter1.Size = new System.Drawing.Size(10, 567);
             this.expandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007;
             this.expandableSplitter1.TabIndex = 10;
             this.expandableSplitter1.TabStop = false;
