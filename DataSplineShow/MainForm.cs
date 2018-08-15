@@ -801,7 +801,7 @@ namespace DataSplineShow
                                     double lenthPosPointY = Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0; // distance
                                     double lenthPosPointX = Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0; //azimuth
                                     
-                                    rcvRichTextBox.AppendText("(" + lenthPosPointX + "," + lenthPosPointY + ")");
+                                    //rcvRichTextBox.AppendText("(" + lenthPosPointX + "," + lenthPosPointY + ")");
                                     //rcvRichTextBox.Select(rcvRichTextBox.TextLength, 0);
                                     //rcvRichTextBox.ScrollToCaret();
 
