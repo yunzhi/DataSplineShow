@@ -567,6 +567,7 @@ namespace DataSplineShow
 
                 AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
 
+                testBytesBuilder.Append("\r\n\r\n");
                 for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
                 {
                     testBytesBuilder.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
@@ -605,8 +606,6 @@ namespace DataSplineShow
 
         public void DrawSplineBaseRcvData()
         {
-
-            StringBuilder displayLenthSpeedstring = null;
 #if TTTTT
             ChartXy LenthFFTdrawChartXy = LenthFFTChartControlDisplay.LenthFFTChartControl.ChartPanel.ChartContainers[0] as ChartXy;
             //ChartXy lenthPosdrawChartXy = LenthPosChartControlDisplay.LenthPosChartControl.ChartPanel.ChartContainers[0] as ChartXy;
@@ -769,7 +768,7 @@ namespace DataSplineShow
             }
 
 #endif
-            if(justProcessSomeData == 1)
+            if (justProcessSomeData == 1)
             {
 
             }
@@ -784,17 +783,6 @@ namespace DataSplineShow
 
                 if (outLenthPosPkt != null)
                 {
-                    List<SeriesPoint> lenthPosDrawPointList = new List<SeriesPoint>();
-                    for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
-                    {
-                        lenthPosDrawPointList.Add(new SeriesPoint(Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0, Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0));
-                    }
-
-                    if (displayLenthSpeedstring == null)
-                    {
-                        displayLenthSpeedstring = new StringBuilder();
-                    }
-
                     Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
 
                     if (distanceAzimuthSeries != null)
@@ -809,23 +797,20 @@ namespace DataSplineShow
                                 {
                                     double lenthPosPointY = Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0; // distance
                                     double lenthPosPointX = Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0; //azimuth
+                                    
+                                    rcvRichTextBox.AppendText("(" + lenthPosPointX + "," + lenthPosPointY + ")");
 
                                     if (lenthPosPointY == 0 && lenthPosPointX == 0)
                                     {
                                         continue;
                                     }
                                     distanceAzimuthSeries.Points.AddXY(lenthPosPointX, lenthPosPointY);
+
                                 }
                             }));
                         }
                     }
                 }
-            }
-
-            if ( no_debug_output == false )
-            {
-                if( displayLenthSpeedstring != null )
-                    AppendColorText2RichBox(displayLenthSpeedstring.ToString());
             }
         }
 
