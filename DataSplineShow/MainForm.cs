@@ -65,6 +65,8 @@ namespace DataSplineShow
 
         private int justProcessSomeData = 0; // 2-- distanceAzimuth 数据
 
+        private object noClearOldDataObjact = new object();
+        private bool notClearHistoryDataFlag = false;
         #endregion
 
         public MainForm()
@@ -791,7 +793,8 @@ namespace DataSplineShow
                         {
                             this.Invoke((EventHandler)(delegate
                             {
-                                distanceAzimuthSeries.Points.Clear();
+                                if(notClearHistoryDataFlag == false)
+                                    distanceAzimuthSeries.Points.Clear();
                                 
                                 for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
                                 {
@@ -799,6 +802,8 @@ namespace DataSplineShow
                                     double lenthPosPointX = Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0; //azimuth
                                     
                                     rcvRichTextBox.AppendText("(" + lenthPosPointX + "," + lenthPosPointY + ")");
+                                    //rcvRichTextBox.Select(rcvRichTextBox.TextLength, 0);
+                                    //rcvRichTextBox.ScrollToCaret();
 
                                     if (lenthPosPointY == 0 && lenthPosPointX == 0)
                                     {
@@ -806,6 +811,7 @@ namespace DataSplineShow
                                     }
                                     distanceAzimuthSeries.Points.AddXY(lenthPosPointX, lenthPosPointY);
 
+                                    //allPoint.Add(new DrawPoint(lenthPosPointX, lenthPosPointY));
                                 }
                             }));
                         }
@@ -903,15 +909,7 @@ namespace DataSplineShow
                 drawSeries.DataLabels.Add(dl);
             }
         }
-
-        private void ShowPath_CheckedChanged(object sender, EventArgs e)
-        {
-            if(ShowPath.Checked)
-                this.chart1.Series["DistanceAzimuth"].BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            else
-                this.chart1.Series["DistanceAzimuth"].BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
-        }
-
+        
         private void LenthFFTNav_Click(object sender, EventArgs e)
         {
             lock (showDataFlag)
@@ -933,6 +931,31 @@ namespace DataSplineShow
             lock (showDataFlag)
             {
                 justProcessSomeData = 3;
+            }
+        }
+
+        private void ShowAllPointsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            lock (noClearOldDataObjact)
+            {
+                notClearHistoryDataFlag = ShowAllPointsCheckBox.Checked;
+            }
+        }
+
+        private void ShowLabelCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
+
+            distanceAzimuthSeries.IsValueShownAsLabel = ShowLabelCheckBox.Checked;
+            distanceAzimuthSeries.SmartLabelStyle.Enabled = ShowLabelCheckBox.Checked;
+
+            if(distanceAzimuthSeries.IsValueShownAsLabel == true)
+            {
+                distanceAzimuthSeries.Label = "#VALX{N2},#VAL{N2}";
+            }
+            else
+            {
+                distanceAzimuthSeries.Label = "";
             }
         }
     }

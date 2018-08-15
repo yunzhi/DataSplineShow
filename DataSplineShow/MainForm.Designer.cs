@@ -48,7 +48,8 @@
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.sideNav1 = new DevComponents.DotNetBar.Controls.SideNav();
             this.lenthPosNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
-            this.ShowPath = new System.Windows.Forms.CheckBox();
+            this.ShowAllPointsCheckBox = new DevComponents.DotNetBar.Controls.CheckBoxX();
+            this.ShowLabelCheckBox = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lenthSpeedNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
             this.lenthFFTNavPanel = new DevComponents.DotNetBar.Controls.SideNavPanel();
@@ -313,7 +314,8 @@
             // lenthPosNavPanel
             // 
             this.lenthPosNavPanel.AllowDrop = true;
-            this.lenthPosNavPanel.Controls.Add(this.ShowPath);
+            this.lenthPosNavPanel.Controls.Add(this.ShowAllPointsCheckBox);
+            this.lenthPosNavPanel.Controls.Add(this.ShowLabelCheckBox);
             this.lenthPosNavPanel.Controls.Add(this.chart1);
             this.lenthPosNavPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lenthPosNavPanel.Location = new System.Drawing.Point(122, 39);
@@ -321,20 +323,48 @@
             this.lenthPosNavPanel.Size = new System.Drawing.Size(707, 527);
             this.lenthPosNavPanel.TabIndex = 10;
             // 
-            // ShowPath
+            // ShowAllPointsCheckBox
             // 
-            this.ShowPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ShowPath.AutoSize = true;
-            this.ShowPath.Location = new System.Drawing.Point(612, 488);
-            this.ShowPath.Name = "ShowPath";
-            this.ShowPath.Size = new System.Drawing.Size(72, 16);
-            this.ShowPath.TabIndex = 1;
-            this.ShowPath.Text = "显示路径";
-            this.ShowPath.UseVisualStyleBackColor = true;
-            this.ShowPath.CheckedChanged += new System.EventHandler(this.ShowPath_CheckedChanged);
+            this.ShowAllPointsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ShowAllPointsCheckBox.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.ShowAllPointsCheckBox.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ShowAllPointsCheckBox.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ShowAllPointsCheckBox.Location = new System.Drawing.Point(589, 494);
+            this.ShowAllPointsCheckBox.Name = "ShowAllPointsCheckBox";
+            this.ShowAllPointsCheckBox.Size = new System.Drawing.Size(115, 23);
+            this.ShowAllPointsCheckBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ShowAllPointsCheckBox.TabIndex = 3;
+            this.ShowAllPointsCheckBox.Text = "显示所有数据";
+            this.ShowAllPointsCheckBox.CheckedChanged += new System.EventHandler(this.ShowAllPointsCheckBox_CheckedChanged);
+            // 
+            // ShowLabelCheckBox
+            // 
+            this.ShowLabelCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ShowLabelCheckBox.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.ShowLabelCheckBox.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.ShowLabelCheckBox.Checked = true;
+            this.ShowLabelCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShowLabelCheckBox.CheckValue = "Y";
+            this.ShowLabelCheckBox.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ShowLabelCheckBox.Location = new System.Drawing.Point(589, 472);
+            this.ShowLabelCheckBox.Name = "ShowLabelCheckBox";
+            this.ShowLabelCheckBox.Size = new System.Drawing.Size(100, 23);
+            this.ShowLabelCheckBox.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.ShowLabelCheckBox.TabIndex = 2;
+            this.ShowLabelCheckBox.Text = "显示标签";
+            this.ShowLabelCheckBox.CheckedChanged += new System.EventHandler(this.ShowLabelCheckBox_CheckedChanged);
             // 
             // chart1
             // 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
             chartArea1.AxisX.ScaleBreakStyle.BreakLineStyle = System.Windows.Forms.DataVisualization.Charting.BreakLineStyle.Wave;
             chartArea1.AxisX.ScaleBreakStyle.Enabled = true;
@@ -348,7 +378,6 @@
             chartArea1.CursorY.IsUserEnabled = true;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.DockedToChartArea = "ChartArea1";
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Left;
             legend1.ForeColor = System.Drawing.Color.Blue;
@@ -369,6 +398,7 @@
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
+            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
             this.chart1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             series1.BorderColor = System.Drawing.Color.Red;
             series1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
@@ -378,7 +408,7 @@
             series1.CustomProperties = "PolarDrawingStyle=Marker, LabelStyle=Top";
             series1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series1.IsValueShownAsLabel = true;
-            series1.Label = "#VAL, #VALX";
+            series1.Label = "#VALX{N2},#VAL{N2}";
             series1.LabelForeColor = System.Drawing.Color.Red;
             series1.Legend = "DALegend";
             series1.MarkerBorderColor = System.Drawing.Color.Red;
@@ -388,7 +418,9 @@
             series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series1.Name = "DistanceAzimuth";
             series1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            dataPoint1.Label = "";
             series1.Points.Add(dataPoint1);
+            series1.SmartLabelStyle.AllowOutsidePlotArea = System.Windows.Forms.DataVisualization.Charting.LabelOutsidePlotAreaStyle.No;
             series1.SmartLabelStyle.CalloutLineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
@@ -589,7 +621,6 @@
             this.sideNav1.ResumeLayout(false);
             this.sideNav1.PerformLayout();
             this.lenthPosNavPanel.ResumeLayout(false);
-            this.lenthPosNavPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.sideNavPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -626,8 +657,9 @@
         private DevComponents.DotNetBar.Controls.SideNavItem setMentNav;
         private DevComponents.DotNetBar.LabelX labelX4;
         private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
-        private System.Windows.Forms.CheckBox ShowPath;
         public System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private DevComponents.DotNetBar.Controls.CheckBoxX ShowAllPointsCheckBox;
+        private DevComponents.DotNetBar.Controls.CheckBoxX ShowLabelCheckBox;
     }
 }
 
