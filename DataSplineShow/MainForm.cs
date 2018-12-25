@@ -414,8 +414,7 @@ namespace DataSplineShow
                                 DistancePosSpeedPacket DistancePosDrawData = new DistancePosSpeedPacket();
                                 for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
                                 {
-                                    DistancePosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
-
+                                    DistancePosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (lenthPosData[2 + i * 2 + 1] << 8));
                                 }
                                 AllInDataProcess.EnQueueLenthPosPkt(DistancePosDrawData);
 
@@ -793,9 +792,12 @@ namespace DataSplineShow
                         {
                             this.Invoke((EventHandler)(delegate
                             {
-                                if(notClearHistoryDataFlag == false)
+                                if (notClearHistoryDataFlag == false)
+                                {
                                     distanceAzimuthSeries.Points.Clear();
-                                
+                                    distanceAzimuthSeries.Points.AddXY(0, 0);
+                                }
+
                                 for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
                                 {
                                     double lenthPosPointY = Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0; // distance
@@ -805,7 +807,7 @@ namespace DataSplineShow
                                     //rcvRichTextBox.Select(rcvRichTextBox.TextLength, 0);
                                     //rcvRichTextBox.ScrollToCaret();
 
-                                    if (lenthPosPointY == 0 && lenthPosPointX == 0)
+                                    if ( lenthPosPointY == 0 && lenthPosPointX == 0 )
                                     {
                                         continue;
                                     }
@@ -957,6 +959,13 @@ namespace DataSplineShow
             {
                 distanceAzimuthSeries.Label = "";
             }
+        }
+
+        private void TargetSize_ValueChanged(object sender, EventArgs e)
+        {
+            Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
+
+            distanceAzimuthSeries.MarkerSize = TargetSize.Value;
         }
     }
 }
