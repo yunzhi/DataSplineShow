@@ -83,8 +83,6 @@ namespace DataSplineShow
             sideNav1.EnableMaximize = false;
             sideNav1.EnableClose = false;
 
-            LenthFFTPosSpeedNavInit();
-            
             ResumeLayout(false);
             
             AllInDataProcess = new InDataProcess();
@@ -100,21 +98,6 @@ namespace DataSplineShow
             if (styleManager1.ManagerStyle != style)
                 styleManager1.ManagerStyle = style;
         }
-
-        #region LenthFFTPosSpeedNavInit
-        private void LenthFFTPosSpeedNavInit()
-        {
-            LenthFFTChartControlDisplay LenthFFTChartControlInstance = new LenthFFTChartControlDisplay();
-            //LenthPosChartControlDisplay LenthPosChartControlInstance = new LenthPosChartControlDisplay();
-            LenthSpeedChartControlDisplay LenthSpeedChartControlInstance = new LenthSpeedChartControlDisplay();
-
-            this.lenthFFTNavPanel.Controls.Add(LenthFFTChartControlDisplay.LenthFFTChartControl);
-            //this.lenthPosNavPanel.Controls.Add(LenthPosChartControlDisplay.LenthPosChartControl);
-            this.lenthSpeedNavPanel.Controls.Add(LenthSpeedChartControlDisplay.LenthSpeedChartControl);
-
-            //DistanceAzimuth distanceAzimuthDraw = new DistanceAzimuth(this.chart1);
-        }
-        #endregion
 
         private void SocketRecvProcess()
         {
@@ -200,245 +183,55 @@ namespace DataSplineShow
             //    return false;
             //}
 
-            int index, head_index, lenthFFT2HeadIndex, targetPosHeadIndex, lenthSpeedHeadIndex;
+            int index;
 
             lock (showDataFlag)
             {
                 
                 for (index = 0; index < arrRecvmsglist.Count; index++)
                 {
-                    if(justProcessSomeData == 1)
+
+                    int lenthPosHeadIndex = arrRecvmsglist.IndexOf(lenthPosPacketHead[0]);
+                    if (lenthPosHeadIndex == -1 || lenthPosHeadIndex + LeastLenthSpeedPosPktLenth > arrRecvmsglist.Count)
                     {
-
-
-                        //Console.WriteLine("justProcessSomeData : " + justProcessSomeData.ToString());
-                        head_index = arrRecvmsglist.IndexOf(lenthFFT1PacketHead[0]);
-                        if (head_index == -1 || head_index + LeastPacketLenth > arrRecvmsglist.Count)
-                        {
-                            Console.WriteLine("data lenth is too short, head_index = " + len + ", Count = " + arrRecvmsglist.Count);
-                            //AppendColorText2RichBox("effective data is too short, count: " + (arrRecvmsglist.Count - head_index) + "\r\n", false);
-                            return false;
-                        }
-                        else
-                        {
-                            arrRecvmsglist.CopyTo(head_index, lenthFFT1Data, 0, LeastPacketLenth);
-
-                            if (lenthFFT1Data[0] == lenthFFT1PacketHead[0] && lenthFFT1Data[1] == lenthFFT1PacketHead[1] &&
-                                 lenthFFT1Data[LeastPacketLenth - 2] == lenthFFTPacketTail[0] &&
-                                 lenthFFT1Data[LeastPacketLenth - 1] == lenthFFTPacketTail[1])
-                            {
-                                LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
-                                for (int i = 0; i < iPointNum; i++)
-                                {
-                                    lenthFFT1DrawData.InDataArray[i] = (UInt16)((lenthFFT1Data[2 + i * 2]) | (UInt16)(lenthFFT1Data[2 + i * 2 + 1] << 8));
-                                }
-                                AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
-
-                                if (no_debug_output == false)
-                                {
-                                    for (int i = 0; i < iPointNum + 2; i++)
-                                    {
-                                        displayRcvBytesString.Append(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
-                                    }
-                                    displayRcvBytesString.Append("\r\n\r\n");
-                                }
-
-                                if (arrRecvmsglist.Count < (LeastPacketLenth * 2 + LeastTargetPosPktLenth))
-                                {
-                                    Console.WriteLine("rcv bytes not enough");
-                                    return false;
-                                }
-
-                                arrRecvmsglist.RemoveRange(0, head_index + LeastPacketLenth);
-                                Console.WriteLine("fft1 remove: " + (head_index + LeastPacketLenth).ToString());
-                            }
-                            else
-                            {
-                                Console.WriteLine("fft1 remove head_index: " + (head_index).ToString());
-                                if (head_index == 0)
-                                    arrRecvmsglist.RemoveAt(0);
-                                else
-                                    arrRecvmsglist.RemoveRange(0, head_index);
-
-                                return false;
-                            }
-                        }
-
-
-                        lenthFFT2HeadIndex = arrRecvmsglist.IndexOf(lenthFFT2PacketHead[0]);
-                        if (lenthFFT2HeadIndex == -1 || lenthFFT2HeadIndex + LeastPacketLenth > arrRecvmsglist.Count)
-                        {
-                            Console.WriteLine("data lenth is too short, lenthFFT2HeadIndex = " + len + ", Count = " + arrRecvmsglist.Count);
-                            //AppendColorText2RichBox("effective data is too short, count: " + (arrRecvmsglist.Count - lenthFFT2HeadIndex) + "\r\n", false);
-                            return false;
-                        }
-                        else
-                        {
-                            arrRecvmsglist.CopyTo(lenthFFT2HeadIndex, lenthFFT2Data, 0, LeastPacketLenth);
-
-                            if (lenthFFT2Data[0] == lenthFFT2PacketHead[0] && lenthFFT2Data[1] == lenthFFT2PacketHead[1] &&
-                                 lenthFFT2Data[LeastPacketLenth - 2] == lenthFFTPacketTail[0] &&
-                                 lenthFFT2Data[LeastPacketLenth - 1] == lenthFFTPacketTail[1])
-                            {
-                                LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
-                                for (int i = 0; i < iPointNum; i++)
-                                {
-                                    lenthFFT2DrawData.InDataArray[i] = (UInt16)((lenthFFT2Data[2 + i * 2]) | (UInt16)(lenthFFT2Data[2 + i * 2 + 1] << 8));
-                                }
-                                AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
-
-                                if (no_debug_output == false)
-                                {
-                                    for (int i = 0; i < iPointNum + 2; i++)
-                                    {
-                                        displayRcvBytesString.Append(lenthFFT2Data[i * 2].ToString("X2") + " " + lenthFFT2Data[i * 2 + 1].ToString("X2") + " ");
-                                    }
-                                    displayRcvBytesString.Append("\r\n\r\n");
-                                }
-
-                                arrRecvmsglist.RemoveRange(0, lenthFFT2HeadIndex + LeastPacketLenth);
-                            }
-                            else
-                            {
-                                if (lenthFFT2HeadIndex == 0)
-                                    arrRecvmsglist.RemoveAt(0);
-                                else
-                                    arrRecvmsglist.RemoveRange(0, lenthFFT2HeadIndex);
-                            }
-                        }
-
-
-                        targetPosHeadIndex = arrRecvmsglist.IndexOf(targetPosPacketHead[0]);
-                        if (targetPosHeadIndex == -1 || targetPosHeadIndex + LeastTargetPosPktLenth > arrRecvmsglist.Count)
-                        {
-                            Console.WriteLine("too short, targetPosHeadIndex = " + targetPosHeadIndex);
-                        }
-                        else
-                        {
-                            arrRecvmsglist.CopyTo(targetPosHeadIndex, targetPosData, 0, LeastTargetPosPktLenth);
-
-                            if (targetPosData[0] == targetPosPacketHead[0] && targetPosData[1] == targetPosPacketHead[1] &&
-                                 targetPosData[LeastTargetPosPktLenth - 2] == targetPosPacketTail[0] &&
-                                 targetPosData[LeastTargetPosPktLenth - 1] == targetPosPacketTail[1])
-                            {
-                                TargetPosPacket targetPosDrawData = new TargetPosPacket();
-                                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-                                {
-                                    targetPosDrawData.InDataArray[i] = targetPosData[2 + i];
-                                }
-                                AllInDataProcess.EnQueueTargetPosPkt(targetPosDrawData);
-
-                                if (no_debug_output == false)
-                                {
-                                    for (int i = 0; i < iPointNum + 4; i++)
-                                    {
-                                        displayRcvBytesString.Append(targetPosData[i].ToString("X2") + " ");
-                                    }
-                                    displayRcvBytesString.Append("\r\n\r\n");
-                                }
-
-                                arrRecvmsglist.RemoveRange(0, targetPosHeadIndex + LeastTargetPosPktLenth);
-                            }
-                            else
-                            {
-                                if (targetPosHeadIndex == 0)
-                                    arrRecvmsglist.RemoveAt(0);
-                                else
-                                    arrRecvmsglist.RemoveRange(0, targetPosHeadIndex);
-                            }
-                        }
-
+                        Console.WriteLine("too short, lenthPosHeadIndex = " + lenthPosHeadIndex);
+                        return false;
                     }
-                    else if( justProcessSomeData == 3)
+                    else
                     {
-                        //Console.WriteLine("justProcessSomeData : " + justProcessSomeData.ToString());
-                        lenthSpeedHeadIndex = arrRecvmsglist.IndexOf(lenthSpeedPacketHead[0]);
-                        if (lenthSpeedHeadIndex == -1 || lenthSpeedHeadIndex + LeastLenthSpeedPosPktLenth > arrRecvmsglist.Count)
+                        arrRecvmsglist.CopyTo(lenthPosHeadIndex, lenthPosData, 0, LeastLenthSpeedPosPktLenth);
+
+                        if (lenthPosData[0] == lenthPosPacketHead[0] && lenthPosData[1] == lenthPosPacketHead[1] &&
+                             lenthPosData[LeastLenthSpeedPosPktLenth - 2] == lenthPosPacketTail[0] &&
+                             lenthPosData[LeastLenthSpeedPosPktLenth - 1] == lenthPosPacketTail[1])
                         {
-                            Console.WriteLine("too short, lenthSpeedHeadIndex = " + lenthSpeedHeadIndex);
-                            return false;
+                            DistancePosSpeedPacket DistancePosDrawData = new DistancePosSpeedPacket();
+                            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
+                            {
+                                DistancePosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (lenthPosData[2 + i * 2 + 1] << 8));
+                            }
+                            AllInDataProcess.EnQueueLenthPosPkt(DistancePosDrawData);
+
+                            if (no_debug_output == false)
+                            {
+                                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
+                                {
+                                    displayRcvBytesString.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
+                                }
+                                displayRcvBytesString.Append("\r\n\r\n");
+                            }
+
+                            //Console.WriteLine(DateTime.Now.Millisecond.ToString() + " arrRecvmsglist.Count before : " + arrRecvmsglist.Count.ToString());
+                            arrRecvmsglist.RemoveRange(0, lenthPosHeadIndex + LeastLenthSpeedPosPktLenth);
+                            //Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count after : " + arrRecvmsglist.Count.ToString());
                         }
                         else
                         {
-                            arrRecvmsglist.CopyTo(lenthSpeedHeadIndex, lenthSpeedData, 0, LeastLenthSpeedPosPktLenth);
-
-                            if (lenthSpeedData[0] == lenthSpeedPacketHead[0] && lenthSpeedData[1] == lenthSpeedPacketHead[1] &&
-                                 lenthSpeedData[LeastLenthSpeedPosPktLenth - 2] == lenthSpeedPacketTail[0] &&
-                                 lenthSpeedData[LeastLenthSpeedPosPktLenth - 1] == lenthSpeedPacketTail[1])
-                            {
-                                DistancePosSpeedPacket DistanceSpeedDrawData = new DistancePosSpeedPacket();
-                                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
-                                {
-                                    DistanceSpeedDrawData.InDataArray[i] = (byte)((lenthSpeedData[2 + i * 2]) | (byte)(lenthSpeedData[2 + i * 2 + 1] << 8));
-
-                                }
-                                AllInDataProcess.EnQueueLenthSpeedPkt(DistanceSpeedDrawData);
-
-                                if (no_debug_output == false)
-                                {
-                                    for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
-                                    {
-                                        displayRcvBytesString.Append(lenthSpeedData[i * 2].ToString("X2") + " " + lenthSpeedData[i * 2 + 1].ToString("X2") + " ");
-                                    }
-                                    displayRcvBytesString.Append("\r\n\r\n");
-                                }
-
-                                arrRecvmsglist.RemoveRange(0, lenthSpeedHeadIndex + LeastLenthSpeedPosPktLenth);
-                            }
+                            //Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count : " + arrRecvmsglist.Count.ToString());
+                            if (lenthPosHeadIndex == 0)
+                                arrRecvmsglist.RemoveAt(0);
                             else
-                            {
-                                if (lenthSpeedHeadIndex == 0)
-                                    arrRecvmsglist.RemoveAt(0);
-                                else
-                                    arrRecvmsglist.RemoveRange(0, lenthSpeedHeadIndex);
-                            }
-                        }
-                    }
-
-                    if(justProcessSomeData == 2 || justProcessSomeData == 0)
-                    {
-                        int lenthPosHeadIndex = arrRecvmsglist.IndexOf(lenthPosPacketHead[0]);
-                        if (lenthPosHeadIndex == -1 || lenthPosHeadIndex + LeastLenthSpeedPosPktLenth > arrRecvmsglist.Count)
-                        {
-                            Console.WriteLine("too short, lenthPosHeadIndex = " + lenthPosHeadIndex);
-                            return false;
-                        }
-                        else
-                        {
-                            arrRecvmsglist.CopyTo(lenthPosHeadIndex, lenthPosData, 0, LeastLenthSpeedPosPktLenth);
-
-                            if (lenthPosData[0] == lenthPosPacketHead[0] && lenthPosData[1] == lenthPosPacketHead[1] &&
-                                 lenthPosData[LeastLenthSpeedPosPktLenth - 2] == lenthPosPacketTail[0] &&
-                                 lenthPosData[LeastLenthSpeedPosPktLenth - 1] == lenthPosPacketTail[1])
-                            {
-                                DistancePosSpeedPacket DistancePosDrawData = new DistancePosSpeedPacket();
-                                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
-                                {
-                                    DistancePosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (lenthPosData[2 + i * 2 + 1] << 8));
-                                }
-                                AllInDataProcess.EnQueueLenthPosPkt(DistancePosDrawData);
-
-                                if (no_debug_output == false)
-                                {
-                                    for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
-                                    {
-                                        displayRcvBytesString.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
-                                    }
-                                    displayRcvBytesString.Append("\r\n\r\n");
-                                }
-
-                                //Console.WriteLine(DateTime.Now.Millisecond.ToString() + " arrRecvmsglist.Count before : " + arrRecvmsglist.Count.ToString());
-                                arrRecvmsglist.RemoveRange(0, lenthPosHeadIndex + LeastLenthSpeedPosPktLenth);
-                                //Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count after : " + arrRecvmsglist.Count.ToString());
-                            }
-                            else
-                            {
-                                //Console.WriteLine(DateTime.Now.Millisecond.ToString() + "arrRecvmsglist.Count : " + arrRecvmsglist.Count.ToString());
-                                if (lenthPosHeadIndex == 0)
-                                    arrRecvmsglist.RemoveAt(0);
-                                else
-                                    arrRecvmsglist.RemoveRange(0, lenthPosHeadIndex);
-                            }
+                                arrRecvmsglist.RemoveRange(0, lenthPosHeadIndex);
                         }
                     }
                 }
@@ -456,130 +249,57 @@ namespace DataSplineShow
         private void TestBtn_Click(object sender, EventArgs e)
         {
             StringBuilder testBytesBuilder = new StringBuilder();
-            if (justProcessSomeData == 1)
+
+            Random lenthPosDataRandom = new Random(DateTime.Now.Millisecond + 200);
+            lenthPosDataRandom.NextBytes(lenthPosData);
+
+            lenthPosData[0] = lenthPosPacketHead[0];
+            lenthPosData[1] = lenthPosPacketHead[1];
+
+            /*
+            for (int i = 2; i < LeastLenthSpeedPosPktLenth - 2; i += 4)
             {
-                Random lenthFFT1DataRandom = new Random(DateTime.Now.Millisecond);
-
-                lenthFFT1DataRandom.NextBytes(lenthFFT1Data);
-                lenthFFT1Data[0] = lenthFFT1PacketHead[0];
-                lenthFFT1Data[1] = lenthFFT1PacketHead[1];
-                lenthFFT1Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
-                lenthFFT1Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
-
-                Random lenthFFT2DataRandom = new Random(DateTime.Now.Millisecond + 100);
-                lenthFFT2DataRandom.NextBytes(lenthFFT2Data);
-                lenthFFT2Data[0] = lenthFFT2PacketHead[0];
-                lenthFFT2Data[1] = lenthFFT2PacketHead[1];
-                lenthFFT2Data[LeastPacketLenth - 2] = lenthFFTPacketTail[0];
-                lenthFFT2Data[LeastPacketLenth - 1] = lenthFFTPacketTail[1];
-
-                Random targetPosDataRandom = new Random(DateTime.Now.Millisecond + 100);
-                targetPosDataRandom.NextBytes(targetPosData);
-                targetPosData[0] = targetPosPacketHead[0];
-                targetPosData[1] = targetPosPacketHead[1];
-                targetPosData[LeastTargetPosPktLenth - 2] = targetPosPacketTail[0];
-                targetPosData[LeastTargetPosPktLenth - 1] = targetPosPacketTail[1];
-
-                LenthFFTPacket lenthFFT1DrawData = new LenthFFTPacket();
-                LenthFFTPacket lenthFFT2DrawData = new LenthFFTPacket();
-                for (int i = 0; i < iPointNum; i++)
-                {
-                    lenthFFT1DrawData.InDataArray[i] = (UInt16)((lenthFFT1Data[2 + i * 2]) | (UInt16)(lenthFFT1Data[2 + i * 2 + 1] << 8));
-                    lenthFFT2DrawData.InDataArray[i] = (UInt16)((lenthFFT2Data[2 + i * 2]) | (UInt16)(lenthFFT2Data[2 + i * 2 + 1] << 8));
-                }
-
-                TargetPosPacket targetPosDrawData = new TargetPosPacket();
-                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-                {
-                    targetPosDrawData.InDataArray[i] = targetPosData[2 + i];
-                }
-
-                AllInDataProcess.EnQueueLenthFFT1Pkt(lenthFFT1DrawData);
-                AllInDataProcess.EnQueueLenthFFT2Pkt(lenthFFT2DrawData);
-                AllInDataProcess.EnQueueTargetPosPkt(targetPosDrawData);
-
-                for (int i = 0; i < iPointNum + 2; i++)
-                {
-                    testBytesBuilder.Append(lenthFFT1Data[i * 2].ToString("X2") + " " + lenthFFT1Data[i * 2 + 1].ToString("X2") + " ");
-                }
-                testBytesBuilder.Append("\r\n\r\n");
-
-                for (int i = 0; i < iPointNum + 2; i++)
-                {
-                    testBytesBuilder.Append(lenthFFT2Data[i * 2].ToString("X2") + " " + lenthFFT2Data[i * 2 + 1].ToString("X2") + " ");
-                }
-                testBytesBuilder.Append("\r\n\r\n");
-
-                for (int i = 0; i < TargetPosPacket.iPointCnt + 4; i++)
-                {
-                    testBytesBuilder.Append(targetPosData[i].ToString("X2") + " ");
-                }
-                testBytesBuilder.Append("\r\n\r\n");
+                lenthPosData[i] = (byte)lenthPosDataRandom.Next(255);
+                lenthPosData[i + 1] = (byte)lenthPosDataRandom.Next(255);
+                lenthPosData[i + 2] = (byte)lenthPosDataRandom.Next(255);
+                lenthPosData[i + 3] = (byte)lenthPosDataRandom.Next(255);
             }
-            else if (justProcessSomeData == 3)
+            */
+
+            lenthPosData[2] = 0x0a;
+            lenthPosData[3] = 0x02;
+            lenthPosData[4] = 0x18;
+            lenthPosData[5] = 0xfc;
+
+            lenthPosData[LeastLenthSpeedPosPktLenth - 2] = lenthPosPacketTail[0];
+            lenthPosData[LeastLenthSpeedPosPktLenth - 1] = lenthPosPacketTail[1];
+
+            CheckAnalysisRcvPacket(lenthPosData, LeastLenthSpeedPosPktLenth);
+
+            /*
+
+            DistancePosSpeedPacket lenthPosDrawData = new DistancePosSpeedPacket();
+            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
             {
-
-                Random lenthSpeedDataRandom = new Random(DateTime.Now.Millisecond + 100);
-                lenthSpeedDataRandom.NextBytes(lenthSpeedData);
-                lenthSpeedData[0] = lenthSpeedPacketHead[0];
-                lenthSpeedData[1] = lenthSpeedPacketHead[1];
-                lenthSpeedData[LeastLenthSpeedPosPktLenth - 2] = lenthSpeedPacketTail[0];
-                lenthSpeedData[LeastLenthSpeedPosPktLenth - 1] = lenthSpeedPacketTail[1];
-
-                DistancePosSpeedPacket lenthSpeedDrawData = new DistancePosSpeedPacket();
-                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
-                {
-                    lenthSpeedDrawData.InDataArray[i] = (Int16)((lenthSpeedData[2 + i * 2]) | (UInt16)(lenthSpeedData[2 + i * 2 + 1] << 8));
-                }
-                AllInDataProcess.EnQueueLenthSpeedPkt(lenthSpeedDrawData);
-
-                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
-                {
-                    testBytesBuilder.Append(lenthSpeedData[i * 2].ToString("X2") + " " + lenthSpeedData[i * 2 + 1].ToString("X2") + " ");
-                }
-                testBytesBuilder.Append("\r\n\r\n");
-
+                lenthPosDrawData.InDataArray[i] = (Int16)( (lenthPosData[2 + i * 2] ) | (lenthPosData[2 + i * 2 + 1] << 8) );
             }
-            else if (justProcessSomeData == 2 || justProcessSomeData == 0)
+
+            AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
+
+            testBytesBuilder.Append("\r\n\r\n");
+            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
             {
-
-                Random lenthPosDataRandom = new Random(DateTime.Now.Millisecond + 200);
-                lenthPosDataRandom.NextBytes(lenthPosData);
-
-                lenthPosData[0] = lenthPosPacketHead[0];
-                lenthPosData[1] = lenthPosPacketHead[1];
-
-                for (int i = 2; i < LeastLenthSpeedPosPktLenth - 2; i += 4)
-                {
-                    lenthPosData[i] = (byte)lenthPosDataRandom.Next(255);
-                    lenthPosData[i + 1] = (byte)lenthPosDataRandom.Next(255);
-                    lenthPosData[i + 2] = (byte)lenthPosDataRandom.Next(255);
-                    lenthPosData[i + 3] = (byte)lenthPosDataRandom.Next(255);
-                }
-
-                lenthPosData[LeastLenthSpeedPosPktLenth - 2] = lenthPosPacketTail[0];
-                lenthPosData[LeastLenthSpeedPosPktLenth - 1] = lenthPosPacketTail[1];
-
-                DistancePosSpeedPacket lenthPosDrawData = new DistancePosSpeedPacket();
-                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i++)
-                {
-                    lenthPosDrawData.InDataArray[i] = (Int16)((lenthPosData[2 + i * 2]) | (UInt16)(lenthPosData[2 + i * 2 + 1] << 8));
-                }
-
-                AllInDataProcess.EnQueueLenthPosPkt(lenthPosDrawData);
-
-                testBytesBuilder.Append("\r\n\r\n");
-                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt + 2; i++)
-                {
-                    testBytesBuilder.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
-                }
-                testBytesBuilder.Append("\r\n\r\n");
+                testBytesBuilder.Append(lenthPosData[i * 2].ToString("X2") + " " + lenthPosData[i * 2 + 1].ToString("X2") + " ");
             }
-            
-            if( testBytesBuilder != null)
+            testBytesBuilder.Append("\r\n\r\n");
+
+
+            if ( testBytesBuilder != null)
             {
                 rcvRichTextBox.AppendText(testBytesBuilder.ToString());
             }
+
+            */
         }
 
         public void AppendColorText2RichBox(string text, bool useDefaultColorFlag = true)
@@ -607,216 +327,47 @@ namespace DataSplineShow
 
         public void DrawSplineBaseRcvData()
         {
-#if TTTTT
-            ChartXy LenthFFTdrawChartXy = LenthFFTChartControlDisplay.LenthFFTChartControl.ChartPanel.ChartContainers[0] as ChartXy;
-            //ChartXy lenthPosdrawChartXy = LenthPosChartControlDisplay.LenthPosChartControl.ChartPanel.ChartContainers[0] as ChartXy;
-            ChartXy lenthSpeeddrawChartXy = LenthSpeedChartControlDisplay.LenthSpeedChartControl.ChartPanel.ChartContainers[0] as ChartXy;
-
-            TargetPosPacket outTargetPosPoint = null;
-            LenthFFTPacket outLenthFFT1Pkt = null;
-            LenthFFTPacket outLenthFFT2Pkt = null;
-            DistancePosSpeedPacket outLenthSpeedPkt = null;
-
-            //if (TargetPosContainer.targetPosContainer.Count == LenthFFT1Container.lenthFFT1DataContainer.Count &&
-            //    TargetPosContainer.targetPosContainer.Count == LenthFFT2Container.lenthFFT2DataContainer.Count &&
-            //    TargetPosContainer.targetPosContainer.Count == DistanceSpeedContainer.distanceSpeedContainer.Count &&
-            //    TargetPosContainer.targetPosContainer.Count == DistancePosContainer.distancePosContainer.Count &&
-            //    TargetPosContainer.targetPosContainer.Count != 0)
-
-            //if (TargetPosContainer.targetPosContainer.Count > 0 &&
-            //    LenthFFT1Container.lenthFFT1DataContainer.Count > 0 &&
-            //    LenthFFT2Container.lenthFFT2DataContainer.Count > 0 &&
-            //    DistanceSpeedContainer.distanceSpeedContainer.Count > 0 &&
-            //    DistancePosContainer.distancePosContainer.Count > 0)
-            //{
-            //    outTargetPosPoint = AllInDataProcess.DeQueueTargetPosPkt();
-            //    outLenthFFT1Pkt = AllInDataProcess.DeQueueLenthFFT1Pkt();
-            //    outLenthFFT2Pkt = AllInDataProcess.DeQueueLenthFFT2Pkt();
-            //    outLenthSpeedPkt = AllInDataProcess.DeQueueLenthSpeedPkt();
-            //    outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
-            //}
-
-            if (TargetPosContainer.targetPosContainer.Count > 0 &&
-                LenthFFT1Container.lenthFFT1DataContainer.Count > 0 &&
-                LenthFFT2Container.lenthFFT2DataContainer.Count > 0)
-            {
-                outTargetPosPoint = AllInDataProcess.DeQueueTargetPosPkt();
-                outLenthFFT1Pkt = AllInDataProcess.DeQueueLenthFFT1Pkt();
-                outLenthFFT2Pkt = AllInDataProcess.DeQueueLenthFFT2Pkt();
-            }
-
-            if (DistanceSpeedContainer.distanceSpeedContainer.Count > 0)
-            {
-                outLenthSpeedPkt = AllInDataProcess.DeQueueLenthSpeedPkt();
-            }
-
+            DistancePosSpeedPacket outLenthPosPkt = null;
             if (DistancePosContainer.distancePosContainer.Count > 0)
             {
-
                 //Console.WriteLine("distanceAzimuth count: " + DistancePosContainer.distancePosContainer.Count);
                 outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
             }
 
-
-            if (outLenthFFT1Pkt != null)
+            if (outLenthPosPkt != null)
             {
-                SeriesPoint[] lenthFFT1DrawData = new SeriesPoint[iPointNum - 1];
-                SeriesPoint[] lenthFFT1AverageDrawData = new SeriesPoint[iPointNum - 1];
-                SeriesPoint[] lenthFFT1LabelSeriesPoint = new SeriesPoint[TargetPosPacket.iPointCnt];
-                for (int i = 0; i < iPointNum - 1; i++)
+                Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
+
+                if (distanceAzimuthSeries != null)
                 {
-                    double xPointValue = (300000 / iPointNum) * i;
-                    lenthFFT1DrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT1Pkt.InDataArray[i]));
-                    lenthFFT1AverageDrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT1Pkt.InDataArray[iPointNum - 1]));
-                }
-
-                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-                {
-                    lenthFFT1LabelSeriesPoint[i] = new SeriesPoint((300000 / iPointNum) * outTargetPosPoint.InDataArray[i],
-                        Convert.ToDouble(outLenthFFT1Pkt.InDataArray[outTargetPosPoint.InDataArray[i]]));
-                }
-
-                Console.WriteLine("lenthFFT1 draw, data[0] = " + outLenthFFT1Pkt.InDataArray[iPointNum - 1]);
-
-                ChartSeries lenthFF1ChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT1"];
-                ChartSeries lenthFFT1AverageChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT1Average"];
-                this.Invoke((EventHandler)(delegate
-                {
-                    lenthFF1ChartSeries.SeriesPoints.Clear();
-                    lenthFFT1AverageChartSeries.SeriesPoints.Clear();
-
-                    lenthFF1ChartSeries.SeriesPoints.AddRange(lenthFFT1DrawData);
-                    lenthFFT1AverageChartSeries.SeriesPoints.AddRange(lenthFFT1AverageDrawData);
-
-                    AddSeriesPointLabel(lenthFF1ChartSeries, lenthFFT1LabelSeriesPoint, Color.Green, outLenthPosPkt, outLenthSpeedPkt);
-                }));
-            }
-
-            if (outLenthFFT2Pkt != null)
-            {
-                SeriesPoint[] lenthFFT2DrawData = new SeriesPoint[iPointNum - 1];
-                SeriesPoint[] lenthFFT2AverageDrawData = new SeriesPoint[iPointNum - 1];
-                SeriesPoint[] lenthFFT2LabelSeriesPoint = new SeriesPoint[TargetPosPacket.iPointCnt];
-                for (int i = 0; i < iPointNum - 1; i++)
-                {
-                    double xPointValue = (300000 / iPointNum) * i;
-                    lenthFFT2DrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT2Pkt.InDataArray[i]));
-                    lenthFFT2AverageDrawData[i] = new SeriesPoint(xPointValue, Convert.ToDouble(outLenthFFT2Pkt.InDataArray[iPointNum - 1]));
-                }
-                Console.WriteLine("lenthFFT2 draw, data[0] = " + outLenthFFT2Pkt.InDataArray[iPointNum - 1]);
-
-                for (int i = 0; i < TargetPosPacket.iPointCnt; i++)
-                {
-                    lenthFFT2LabelSeriesPoint[i] = new SeriesPoint((300000 / iPointNum) * outTargetPosPoint.InDataArray[i],
-                        Convert.ToDouble((outLenthFFT2Pkt.InDataArray[outTargetPosPoint.InDataArray[i]])));
-                }
-
-                ChartSeries lenthFF2ChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT2"];
-                ChartSeries lenthFFT2AverageChartSeries = LenthFFTdrawChartXy.ChartSeries["lenthFFT2Average"];
-                this.Invoke((EventHandler)(delegate
-                {
-                    lenthFF2ChartSeries.SeriesPoints.Clear();
-                    lenthFFT2AverageChartSeries.SeriesPoints.Clear();
-
-                    lenthFF2ChartSeries.SeriesPoints.AddRange(lenthFFT2DrawData);
-                    lenthFFT2AverageChartSeries.SeriesPoints.AddRange(lenthFFT2AverageDrawData);
-                    AddSeriesPointLabel(lenthFF2ChartSeries, lenthFFT2LabelSeriesPoint, Color.Orange, outLenthPosPkt, outLenthSpeedPkt);
-                }));
-            }
-
-            bool lenthSpeedPosDataNotSorted = false;
-            StringBuilder displayLenthSpeedstring = null;
-
-            if (outLenthSpeedPkt != null)
-            {
-                List<SeriesPoint> lenthSpeedDrawPointList = new List<SeriesPoint>();
-                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
-                {
-                    lenthSpeedDrawPointList.Add(new SeriesPoint(Convert.ToDouble( outLenthSpeedPkt.InDataArray[i]) / 100, Convert.ToDouble(outLenthSpeedPkt.InDataArray[i + 1]) / 100));
-                }
-                Console.WriteLine("outLenthSpeedPkt is not null");
-
-                displayLenthSpeedstring = new StringBuilder();
-                displayLenthSpeedstring.Append("speed data start:");
-                foreach (SeriesPoint point in lenthSpeedDrawPointList)
-                {
-                    displayLenthSpeedstring.Append("(" + point.ValueX + "," + point.ValueY[0] + ")");
-                }
-                displayLenthSpeedstring.Append("speed data end\r\n");
-
-                IEnumerable<SeriesPoint> sortedSpeedSeriesPointList =
-                        from singlePoint in lenthSpeedDrawPointList
-                        orderby singlePoint.ValueX
-                        select singlePoint;
-
-
-                for (int i = 0; i < lenthSpeedDrawPointList.Count; i++)
-                {
-                    if (lenthSpeedDrawPointList.ElementAt(i).ValueX != sortedSpeedSeriesPointList.ElementAt(i).ValueX)
+                    if (distanceAzimuthSeries.Points.Count != 0)
                     {
-                        lenthSpeedPosDataNotSorted = true;
-                        break;
-                    }
-                }
-
-                ChartSeries lenthSpeedChartSeries = lenthSpeeddrawChartXy.ChartSeries["DistanceSpeed"];
-                lenthSpeedChartSeries.PointLabelDisplayMode |= PointLabelDisplayMode.AllSeriesPoints;
-                this.Invoke((EventHandler)(delegate
-                {
-                    lenthSpeedChartSeries.SeriesPoints.Clear();
-                    lenthSpeedChartSeries.SeriesPoints.AddRange(sortedSpeedSeriesPointList);
-                }));
-            }
-
-#endif
-            if (justProcessSomeData == 1)
-            {
-
-            }
-            else if (justProcessSomeData == 2 || justProcessSomeData == 0)
-            {
-                DistancePosSpeedPacket outLenthPosPkt = null;
-                if (DistancePosContainer.distancePosContainer.Count > 0)
-                {
-                    //Console.WriteLine("distanceAzimuth count: " + DistancePosContainer.distancePosContainer.Count);
-                    outLenthPosPkt = AllInDataProcess.DeQueueLenthPosPkt();
-                }
-
-                if (outLenthPosPkt != null)
-                {
-                    Series distanceAzimuthSeries = this.chart1.Series["DistanceAzimuth"];
-
-                    if (distanceAzimuthSeries != null)
-                    {
-                        if (distanceAzimuthSeries.Points.Count != 0)
+                        this.Invoke((EventHandler)(delegate
                         {
-                            this.Invoke((EventHandler)(delegate
+                            if (notClearHistoryDataFlag == false)
                             {
-                                if (notClearHistoryDataFlag == false)
+                                distanceAzimuthSeries.Points.Clear();
+                                distanceAzimuthSeries.Points.AddXY(0, 0);
+                            }
+
+                            for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
+                            {
+                                double lenthPosPointY = Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0; // distance
+                                double lenthPosPointX = Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0; //azimuth
+
+                                //rcvRichTextBox.AppendText("(" + lenthPosPointX + "," + lenthPosPointY + ")");
+                                //rcvRichTextBox.Select(rcvRichTextBox.TextLength, 0);
+                                //rcvRichTextBox.ScrollToCaret();
+
+                                if (lenthPosPointY == 0 && lenthPosPointX == 0)
                                 {
-                                    distanceAzimuthSeries.Points.Clear();
-                                    distanceAzimuthSeries.Points.AddXY(0, 0);
+                                    continue;
                                 }
+                                distanceAzimuthSeries.Points.AddXY(lenthPosPointX, lenthPosPointY);
 
-                                for (int i = 0; i < DistancePosSpeedPacket.iPointCnt; i += 2)
-                                {
-                                    double lenthPosPointY = Convert.ToDouble(outLenthPosPkt.InDataArray[i]) / 100.0; // distance
-                                    double lenthPosPointX = Convert.ToDouble(outLenthPosPkt.InDataArray[i + 1]) / 100.0; //azimuth
-                                    
-                                    //rcvRichTextBox.AppendText("(" + lenthPosPointX + "," + lenthPosPointY + ")");
-                                    //rcvRichTextBox.Select(rcvRichTextBox.TextLength, 0);
-                                    //rcvRichTextBox.ScrollToCaret();
-
-                                    if ( lenthPosPointY == 0 && lenthPosPointX == 0 )
-                                    {
-                                        continue;
-                                    }
-                                    distanceAzimuthSeries.Points.AddXY(lenthPosPointX, lenthPosPointY);
-
-                                    //allPoint.Add(new DrawPoint(lenthPosPointX, lenthPosPointY));
-                                }
-                            }));
-                        }
+                                //allPoint.Add(new DrawPoint(lenthPosPointX, lenthPosPointY));
+                            }
+                        }));
                     }
                 }
             }
@@ -838,21 +389,6 @@ namespace DataSplineShow
             Dispose();
             Application.Exit();
             System.Environment.Exit(0);
-        }
-
-        /// <summary>
-        /// 程序执行时间测试
-        /// </summary>
-        /// <param name="dateBegin">开始时间</param>
-        /// <param name="dateEnd">结束时间</param>
-        /// <returns>返回(秒)单位，比如: 0.00239秒</returns>
-        public static string ExecDateDiff(DateTime dateBegin, DateTime dateEnd)
-        {
-            TimeSpan ts1 = new TimeSpan(dateBegin.Ticks);
-            TimeSpan ts2 = new TimeSpan(dateEnd.Ticks);
-            TimeSpan ts3 = ts1.Subtract(ts2).Duration();
-            //你想转的格式
-            return ts3.TotalMilliseconds.ToString();
         }
 
         private void ExpandableSplitter1_ExpandedChanged(object sender, ExpandedChangeEventArgs e)
